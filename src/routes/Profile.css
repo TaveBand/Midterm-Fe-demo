@@ -1,0 +1,106 @@
+.Profile {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.Profile-container {
+  display: flex;
+  flex: 1;
+  background-color: #f8f9fa;
+  margin-top: 60px; /* 헤더 높이만큼 여백 추가 */
+}
+
+.Profile-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  margin: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 600px;
+  margin: 60px auto;
+}
+
+.Profile-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.Profile-picture-large {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #ddd;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 20px auto;
+}
+
+.Profile-picture-large img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.InputField {
+  margin-bottom: 15px;
+  text-align: left;
+}
+
+.InputField label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.InputField input {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.CheckboxGroup {
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.CheckboxGroup label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.CheckboxOptions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.CheckboxOptions label {
+  display: flex;
+  align-items: center;
+}
+
+.CheckboxOptions input {
+  margin-right: 5px;
+}
+
+.UpdateButton {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.UpdateButton:hover {
+  background-color: #0056b3;
+}

@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gothic+A1&display=swap');
+
+* {
+  font-family: "Gothic A1", sans-serif;
+}
+
+.SignupSuccessPage {
+  margin: auto;
+  background-color: white;
+  margin-top: 80px;
+  width: 500px;
+  height: 400px; /* 높이 조정 */
+  border-radius: 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ClapImage {
+  width: 100px; /* 이미지 크기 조정 */
+  margin-bottom: 20px; /* 이미지와 텍스트 사이의 여백 조정 */
+}
+
+.Title {
+  line-height: 50px; /* 타이틀의 줄 간격 조정 */
+  font-size: 25px;
+  font-weight: 700;
+  margin-bottom: 20px; /* 타이틀과 버튼 사이의 여백 조정 */
+}
+
+.LoginButton button {
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  height: 35px;
+  width: 100px;
+  margin: 10px 20px;
+  background-color: rgb(121, 186, 242);
+  cursor: pointer;
+}
+
+.Background img {
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  opacity: 0.5;
+}

@@ -1,0 +1,100 @@
+@import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gothic+A1&display=swap");
+* {
+    font-family: "Gothic A1", sans-serif;
+}
+.Signuppage {
+  margin: auto;
+  background-color: white;
+  margin-top: 50px;
+  width: 500px;
+  height: 500px;
+  border-radius: 10px;
+  text-align: center;
+}
+.BackBtn{
+    margin-right: 440px;
+    margin-top: 10px;
+    width: 22px;
+    height: 20px;
+    border: none;
+    background-color: white;
+    cursor: pointer;
+}
+.TitleSignup {
+  line-height: 70px;
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
+}
+.InputSignup {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+}
+.InputSignup p {
+    margin-right: auto;
+    font-size: 18px;
+    font-weight: 600;
+    color: black;
+}
+
+.InputSignup input {
+  border-color: rgb(216, 216, 216);
+  border-radius: 5px;
+  height: 35px;
+  margin: 8px 0;
+  border-width: 1px;
+}
+.InputSignup input::placeholder {
+  color: rgb(192, 192, 192);
+}
+.InputSignup input:focus {
+  outline: none;
+  border-width: 1px;
+  border-color: black;
+}
+
+.NextBtn {
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  background-color: rgb(121, 186, 242);
+  color: white;
+  height: 35px;
+  width: 100px;
+  cursor: pointer;
+}
+.Idbox,
+.Nicknamebox {
+  display: flex;
+}
+.Idbox input {
+  width: 200px;
+}
+.Nicknamebox input {
+  width: 200px;
+}
+.Idbox button {
+  width: 90px;
+  height: 35px;
+  background-color: rgb(121, 186, 242);
+  border-radius: 5px;
+  border: none;
+  color: white;
+  font-size: 700;
+  margin-left: 8px;
+  margin-top: 8px;
+}
+.Nicknamebox button {
+  width: 90px;
+  height: 35px;
+  background-color: rgb(121, 186, 242);
+  border-radius: 5px;
+  border: none;
+  color: white;
+  font-size: 700;
+  margin-left: 8px;
+  margin-top: 8px;
+}
