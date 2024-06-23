@@ -25,6 +25,10 @@ function Header() {
     navigate("/profile/edit/:user_id");
   return;
 }
+function ToPerformance() {
+  navigate("/boards/performances");
+  return;
+}
 
   return (
     <div className="Headerwidth">
@@ -32,7 +36,7 @@ function Header() {
         <div className="Category_left">
           <button onClick={ToSesseion}>세션</button>
           <button onClick={ToBoards}>모집</button>
-          <button>연합공연</button>
+          <button onClick={ToPerformance}>연합공연</button>
           <button>음악분석</button>
         </div>
         <div className="Logo" onClick={ToHome}>대일밴드</div>

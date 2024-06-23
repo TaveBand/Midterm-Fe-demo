@@ -123,6 +123,267 @@ app.get('/dailband/user/:user_id/scraps/posts', (req, res) => {
   }
 });
 
+//내가 쓴 글 데이터
+const userPosts = {
+  1: [
+    { post_id: 1, title: "첫 번째 글", content: "첫 번째 글의 내용", nickname: "yys", board_id: 1, created_at: "2024.05.17", file_url: "" },
+    { post_id: 2, title: "두 번째 글", content: "두 번째 글의 내용", nickname: "yys", board_id: 1, created_at: "2024.05.18", file_url: "" },
+  ],
+  2: [
+    { post_id: 3, title: "세 번째 글", content: "세 번째 글의 내용", nickname: "kse", board_id: 2, created_at: "2024.06.01", file_url: "" },
+    { post_id: 4, title: "네 번째 글", content: "네 번째 글의 내용", nickname: "kse", board_id: 2, created_at: "2024.06.02", file_url: "" },
+  ]
+};
+
+// 내가 쓴 글 조회 API
+app.get('/dailband/user/:user_id/posts', (req, res) => {
+  const userId = parseInt(req.params.user_id, 10);
+  const posts = userPosts[userId];
+
+  if (posts) {
+    res.status(200).json({ posts });
+  } else {
+    res.status(400).json({ message: 'Bad Request' });
+  }
+});
+
+// 내가 쓴 글 삭제 API
+app.delete('/dailband/user/:user_id/posts/:post_id', (req, res) => {
+  const userId = parseInt(req.params.user_id, 10);
+  const postId = parseInt(req.params.post_id, 10);
+  const userPostList = userPosts[userId];
+
+  if (userPostList) {
+    const postIndex = userPostList.findIndex(p => p.post_id === postId);
+    if (postIndex !== -1) {
+      userPostList.splice(postIndex, 1);
+      res.status(204).send();
+    } else {
+      res.status(404).json({ message: 'Post not found' });
+    }
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
+});
+
+
+// 공연 정보 데이터
+const userPerformances = {
+  1: [
+    {
+      performance_id: 1,
+      title: "스튜디오에이 5월 단독 공연",
+      date: "2024.05.24",
+      time: "19:00",
+      venue: "Main Hall",
+      total_seats: 200,
+      current_seats: 150,
+      image_path: "/img/performance1.jpg"
+    },
+    {
+      performance_id: 2,
+      title: "메이데이 : 2024 밴드 연합공연",
+      date: "2024.05.17",
+      time: "18:00",
+      venue: "Grand Theater",
+      total_seats: 150,
+      current_seats: 120,
+      image_path: "/img/performance2.jpg"
+    },
+    {
+      performance_id: 3,
+      title: "2024학년도 1학기 SETTLER 정기 공연",
+      date: "2024.05.25",
+      time: "17:30",
+      venue: "Lecture Art Center",
+      total_seats: 300,
+      current_seats: 300,
+      image_path: "/img/performance3.jpg"
+    }
+  ],
+  2: [
+    // 다른 사용자 데이터 kse 혹은 kmj
+  ]
+};
+
+// 내가 작성한 공연 조회 API
+app.get('/dailband/user/:user_id/myperformances', (req, res) => {
+  const userId = parseInt(req.params.user_id, 10);
+  const performances = userPerformances[userId];
+
+  if (performances) {
+    res.status(200).json({ performances });
+  } else {
+    res.status(400).json({ message: 'Bad Request' });
+  }
+});
+
+// 예약된 공연 정보 데이터
+const userReservations = {
+  1: [
+    {
+      reservation_id: 1,
+      title: "스튜디오에이 5월 단독 공연",
+      date: "2024.05.24",
+      venue: "001 클럽 서울 마포구 와우산로 18길 20",
+      tickets: 5
+    },
+    {
+      reservation_id: 2,
+      title: "홍대밴드 5월 단독 공연",
+      date: "2024.05.24",
+      venue: "001 클럽 서울 마포구 와우산로 18길 20",
+      tickets: 2
+    },
+    {
+      reservation_id: 3,
+      title: "과기대밴드 5월 단독 공연",
+      date: "2024.05.24",
+      venue: "001 클럽 서울 마포구 와우산로 18길 20",
+      tickets: 1
+    }
+  ],
+  2: [
+    // 다른 사용자 데이터
+  ]
+};
+
+// 예약된 공연 조회 API
+app.get('/dailband/user/:user_id/reservations', (req, res) => {
+  const userId = parseInt(req.params.user_id, 10);
+  const reservations = userReservations[userId];
+
+  if (reservations) {
+    res.status(200).json({ reservations });
+  } else {
+    res.status(400).json({ message: 'Bad Request' });
+  }
+});
+
+// 예약 취소 API
+app.delete('/dailband/user/:user_id/reservations/:reservation_id', (req, res) => {
+  const userId = parseInt(req.params.user_id, 10);
+  const reservationId = parseInt(req.params.reservation_id, 10);
+  const userReservationList = userReservations[userId];
+
+  if (userReservationList) {
+    const reservationIndex = userReservationList.findIndex(r => r.reservation_id === reservationId);
+    if (reservationIndex !== -1) {
+      userReservationList.splice(reservationIndex, 1);
+      res.status(204).send();
+    } else {
+      res.status(404).json({ message: 'Reservation not found' });
+    }
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
+});
+
+
+// 공연 데이터
+const performances = [
+  {
+    performanceId: 1,
+    title: "Spring Concert",
+    date: "2024-06-01",
+    time: "19:00:00",
+    venue: "Main Hall",
+    totalSeats: 200,
+    currentSeats: 150,
+    file_url: "",
+    comments: []
+  },
+  {
+    performanceId: 2,
+    title: "Autumn Gala",
+    date: "2024-10-05",
+    time: "19:30:00",
+    venue: "Grand Theater",
+    totalSeats: 150,
+    currentSeats: 120,
+    file_url: "",
+    comments: []
+  }
+];
+
+// 공연 홍보 게시판 조회 API
+app.get('/boards/performances', (req, res) => {
+  res.status(200).json(performances);
+});
+
+// 공연 상세 정보 조회 API
+app.get('/boards/performances/:performance_id', (req, res) => {
+  const performanceId = parseInt(req.params.performance_id, 10);
+  const performance = performances.find(p => p.performanceId === performanceId);
+
+  if (performance) {
+    res.status(200).json(performance);
+  } else {
+    res.status(404).json({ message: 'Performance not found' });
+  }
+});
+
+// 공연 홍보 게시글 작성 API
+app.post('/boards/performances', (req, res) => {
+  const { title, date, time, venue, totalSeats, userId } = req.body;
+
+  const newPerformance = {
+    performanceId: performances.length + 1,
+    title,
+    date,
+    time,
+    venue,
+    totalSeats,
+    currentSeats: totalSeats,
+    file_url: "",
+    comments: []
+  };
+
+  performances.push(newPerformance);
+  res.status(200).json(newPerformance);
+});
+
+// 공연 홍보 게시글 수정 API
+app.put('/boards/performances/:performance_id', (req, res) => {
+  const performanceId = parseInt(req.params.performance_id, 10);
+  const performanceIndex = performances.findIndex(p => p.performanceId === performanceId);
+
+  if (performanceIndex !== -1) {
+    performances[performanceIndex] = {
+      ...performances[performanceIndex],
+      ...req.body,
+    };
+    res.status(200).json({ message: 'Performance updated successfully' });
+  } else {
+    res.status(404).json({ message: 'Performance not found' });
+  }
+});
+
+// 공연 홍보 게시글 삭제 API
+app.delete('/boards/performances/:performance_id', (req, res) => {
+  const performanceId = parseInt(req.params.performance_id, 10);
+  const performanceIndex = performances.findIndex(p => p.performanceId === performanceId);
+
+  if (performanceIndex !== -1) {
+    performances.splice(performanceIndex, 1);
+    res.status(204).send();
+  } else {
+    res.status(404).json({ message: 'Performance not found' });
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

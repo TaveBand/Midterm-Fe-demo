@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import instance from "./axios";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import "./MyPerformances.css";
@@ -11,9 +11,7 @@ function MyPerformances() {
   useEffect(() => {
     const fetchPerformances = async () => {
       try {
-        const response = await axios.get(`/dailband/user/${user_id}/myperformances`, {
-          withCredentials: true
-        });
+        const response = await instance.get(`/dailband/user/${user_id}/myperformances`);
         setPerformances(response.data.performances);
       } catch (error) {
         console.error("Error fetching performances:", error);
@@ -34,14 +32,11 @@ function MyPerformances() {
             {performances.length > 0 ? (
               performances.map(performance => (
                 <div key={performance.performance_id} className="MyPerformances-item">
-                  <h3>{performance.title}</h3>
-                  <p>{performance.content}</p>
-                  <p>날짜: {performance.date}</p>
-                  <p>시간: {performance.time}</p>
-                  <p>장소: {performance.venue}</p>
-                  <p>총 좌석: {performance.total_seats}</p>
-                  <p>현재 좌석: {performance.current_seats}</p>
                   <img src={performance.image_path} alt={performance.title} />
+                  <h3>{performance.title}</h3>
+                  <p>{performance.date} {performance.time}</p>
+                  <p>장소: {performance.venue}</p>
+                  <button className="DeleteButton">삭제</button>
                 </div>
               ))
             ) : (

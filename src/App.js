@@ -25,6 +25,8 @@ import Vocal from "./routes/Vocal"
 import Bass from "./routes/Bass"
 import Keyboard from "./routes/Keyboard"
 
+import UnionPerformances from "./routes/UnionPerformances";
+import UnionPerformanceDetail from "./routes/UnionPerformanceDetail";
 function App() {
   
   return (
@@ -51,6 +53,8 @@ function App() {
       <Route path="/boards/7" element={<Vocal />}></Route>
       <Route path="/boards/8" element={<Bass />}></Route>
       <Route path="/boards/9" element={<Keyboard/>}></Route>
+      <Route path="/boards/performances" element={<UnionPerformances />}></Route>
+      <Route path="/boards/performances/:performance_id" element={<UnionPerformanceDetail />}></Route>
     </Routes>
     
   );

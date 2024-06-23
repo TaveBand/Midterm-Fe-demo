@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+import instance from "./axios"; // axios instance 사용
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import "./MyPosts.css";
@@ -11,7 +11,7 @@ function MyPosts() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await axios.get(`/dailband/user/${user_id}/posts`, {
+        const response = await instance.get(`/dailband/user/${user_id}/posts`, {
           withCredentials: true
         });
         setPosts(response.data.posts);
@@ -22,6 +22,17 @@ function MyPosts() {
 
     fetchPosts();
   }, [user_id]);
+
+  const handleDelete = async (post_id) => {
+    try {
+      await instance.delete(`/dailband/user/${user_id}/posts/${post_id}`, {
+        withCredentials: true
+      });
+      setPosts(posts.filter(post => post.post_id !== post_id));
+    } catch (error) {
+      console.error("Error deleting post:", error);
+    }
+  };
 
   return (
     <div className="MyPosts">
@@ -36,7 +47,7 @@ function MyPosts() {
                 <div key={post.post_id} className="MyPosts-item">
                   <div className="MyPosts-header">
                     <h3>{post.title}</h3>
-                    <button>삭제</button>
+                    <button onClick={() => handleDelete(post.post_id)}>삭제</button>
                   </div>
                   <div className="MyPosts-body">
                     <p>{post.content}</p>
