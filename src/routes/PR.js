@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import BoardBtns from "../components/BoardBtns";
 import Pagenumber from "../components/Pagenumber";
 import Toggle from "../components/Toggle";
-import axios from 'axios';
+import instance from './axios';
 import "./PR.css";
 
 function PR() {
@@ -20,11 +20,13 @@ function PR() {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null); // 사진 미리보기
   const [email, setEmail] = useState("");
+  const [name, setName] = useState("");
+  const [session, setSession] = useState("");
 
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get("/dailband/boards/pr");
+      const res = await instance.get("/posts3");
       setPosts(res.data.posts);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -113,7 +115,7 @@ function PR() {
       file_url: imagePreview,
     };
 
-    await axios.post("/dailband/boards/pr", updatedPost);
+    await instance.post("/posts3", updatedPost);
     await fetchPosts();
     setIsWriting(false);
   };
@@ -159,7 +161,21 @@ function PR() {
                     type="text"
                     value={email}
                     onChange={handleEmailChange}
-                    placeholder="이메일 입력 : 사용자정보에서 받아오기?"
+                    placeholder="이메일 입력"
+                    required
+                  ></input>
+                  <input
+                    type="text"
+                    value={email}
+                    onChange={handleEmailChange}
+                    placeholder="이름 입력"
+                    required
+                  ></input>
+                  <input
+                    type="text"
+                    value={email}
+                    onChange={handleEmailChange}
+                    placeholder="세션 입력"
                     required
                   ></input>
                   

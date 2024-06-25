@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+// import axios from "axios";
+import instance from "./axios";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import "./Profile.css";
 import { useParams } from "react-router-dom";
 
 function Profile() {
-  const { user_id } = useParams(); // URL에서 user_id 가져오기
+  const { user_id } = useParams();
   const [formData, setFormData] = useState({
     nickname: "",
     email: "",
@@ -18,7 +19,7 @@ function Profile() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/dailband/user/${user_id}/profile`, {
+        const response = await instance.get(`/dailband/user/${user_id}/profile`, {
           withCredentials: true // 세션 쿠키를 전달
         });
         setFormData(response.data);
@@ -42,11 +43,16 @@ function Profile() {
     const { value, checked } = e.target;
     setFormData((prevData) => {
       if (checked) {
-        return { ...prevData, sessions: [...prevData.sessions, { session_info: value }] };
+        return {
+          ...prevData,
+          sessions: [...prevData.sessions, { session_info: value }],
+        };
       } else {
         return {
           ...prevData,
-          sessions: prevData.sessions.filter((session) => session.session_info !== value),
+          sessions: prevData.sessions.filter(
+            (session) => session.session_info !== value
+          ),
         };
       }
     });
@@ -59,9 +65,7 @@ function Profile() {
       return;
     }
     try {
-      await axios.put(`/dailband/user/${user_id}/profile`, formData, {
-        withCredentials: true // 세션 쿠키를 전달
-      });
+      await instance.put(`/myposts/${user_id}`, formData);
       alert("프로필이 성공적으로 업데이트되었습니다.");
     } catch (error) {
       console.error(error);
@@ -79,7 +83,7 @@ function Profile() {
           <div className="Profile-picture-large">
             <img src="/path/to/profile-image" alt="Profile" />
           </div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit} className="MypageForm">
             <div className="InputField">
               <label>닉네임</label>
               <input
@@ -125,7 +129,9 @@ function Profile() {
                       type="checkbox"
                       name="sessions"
                       value={role}
-                      checked={formData.sessions.some(session => session.session_info === role)}
+                      checked={formData.sessions.some(
+                        (session) => session.session_info === role
+                      )}
                       onChange={handleCheckboxChange}
                     />
                     {role}

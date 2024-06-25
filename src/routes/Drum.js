@@ -33,7 +33,7 @@ function Drum() {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await instance.get(`/dailband/boards/5`);
+      const res = await instance.get(`/posts5`);
       // const res = await instance.get(`/dailband/boards/${board_id}`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));

@@ -33,7 +33,7 @@ function Clubs() {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await instance.get("/dailband/boards/clubs");
+      const res = await instance.get("/posts");
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -52,7 +52,7 @@ function Clubs() {
       async function getcoverimages(post_id) {
         setLoading(true);
         try {
-          const res = await instance.get(`/dailband/boards/clubs/posts/${post_id}`);
+          const res = await instance.get(`/posts/${post_id}`);
           setCoverImages(res.data);
           setLoading(false);
         } catch (error) {
@@ -119,7 +119,7 @@ function Clubs() {
       if (isEditing) {
         await instance.put(`/posts/${editingPostId}`, updatedPost);
       } else {
-        await instance.post("/posts", updatedPost);
+        await instance.post("/posts1", updatedPost);
       }
       await fetchPosts();
     } catch (error) {

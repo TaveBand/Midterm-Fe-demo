@@ -10,7 +10,7 @@ function Login() {
   const [password, setPassword] = useState("");
 
   function ToSignup() {
-    navigate("/signup");
+    navigate("/register");
   }
 
   async function handleLogin() {

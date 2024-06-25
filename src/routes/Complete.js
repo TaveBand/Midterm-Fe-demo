@@ -24,7 +24,7 @@ function Complete() {
         </div>
       </div>
       <div className="Background">
-        <img alt="background" src="../img/배경사진.jpg" />
+        <img alt="background" src="/img/backphoto.jpg" />
       </div>
     </div>
   );
