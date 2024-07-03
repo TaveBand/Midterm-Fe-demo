@@ -1,0 +1,129 @@
+.PRBoards {
+  background-color: white;
+  height: 580px;
+  width: 1400px;
+  border-radius: 30px;
+  margin: auto;
+  margin-top: 20px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.25);
+  padding-top: 10px;
+}
+
+.PRpost {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px 10px;
+  width: 1200px;
+  margin: auto;
+  height: 440px;
+  margin-bottom: 40px;
+}
+.PRbox {
+  margin: auto;
+  background-color: rgb(204, 204, 204);
+  border-color: grey;
+  border-radius: 25px;
+  width: 23%;
+  height: 200px;
+  z-index: 1;
+  cursor: pointer;
+}
+.PRphoto {
+  width: 200px;
+  z-index: -1;
+  position: absolute;
+  margin-left: 40px;
+}
+.PRcontentbox {
+  background-color: rgb(255, 255, 255);
+  margin-top: 135px;
+  border-radius: 0 0 25px 25px;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+}
+.PRcontentbox p {
+  color: grey;
+  margin-top: 5px;
+}
+
+.Sessioninfo {
+  margin: auto;
+  background-color: rgb(249, 249, 249);
+  width: 100px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
+}
+.WriteBtn {
+  position: absolute;
+  margin-left: 1190px;
+  width: 100px;
+  height: 40px;
+  border-radius: 30px;
+  border: none;
+  background-color: rgb(121, 186, 242);
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.Backbutton {
+  border: none;
+}
+
+form {
+  display: flex;
+  width: 1200px;
+  margin: auto;
+}
+.ImgUpload {
+  display: flex;
+  flex-direction: column;
+  border-radius: 20px;
+  min-width: 300px;
+  
+}
+.ImgUpload img {
+  max-height: 350px;
+  object-fit: cover;
+}
+.TextUpload {
+  display: flex;
+  flex-direction: column;
+}
+.InputTitle {
+  width: 700px;
+  height: 40px;
+  border-width: 0 0 2px;
+  border-color: rgb(121, 186, 242);
+  font-size: 25px;
+}
+
+.InputContent {
+  margin-top: 10px;
+  width: 700px;
+  height: 350px;
+  resize: none;
+  font-size: 15px;
+  border-color: rgb(192, 217, 240);
+}
+
+.SubmitBtn {
+  margin-top: 10px;
+  width: 100px;
+  height: 40px;
+  border: none;
+  background-color: rgb(121, 186, 242);
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 10px;
+}
+
+label {
+  margin-top: 5px;
+}

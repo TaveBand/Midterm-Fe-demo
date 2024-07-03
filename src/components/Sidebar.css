@@ -1,0 +1,65 @@
+
+.sidebar {
+  width: 250px;
+  background-color: rgb(121, 186, 242);
+  padding-top: 20px;
+  text-align: center;
+}
+
+.profile-picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto 20px auto;
+}
+
+.profile-picture img.profile-image {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.sidebar h2 {
+  margin-top: 10px;
+  font-size: 20px;
+  color: white;
+}
+
+.sidebar ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.sidebar ul li {
+  /* margin: 10px 0; */
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff;
+  /* padding: 5px 0; */
+  border-bottom: 1px solid  rgb(160, 208, 251);
+}
+
+.sidebar ul li a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  padding: 20px;
+}
+
+.sidebar ul li a:hover {
+  background-color: #ffffff;
+  color:  rgb(121, 186, 242);
+}
+
+.sidebar ul li .profile-link.active,
+.sidebar ul li .scrap-link.active,
+.sidebar ul li .myposts-link.active,
+.sidebar ul li .reservations-link.active {
+  background-color:  rgb(121, 186, 242);
+  color: white;
+}

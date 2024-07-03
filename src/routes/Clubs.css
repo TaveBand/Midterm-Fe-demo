@@ -1,0 +1,113 @@
+* {
+  font-family: "Gothic A1", sans-serif;
+}
+.BoardPage {
+  background-color: rgb(249, 249, 249);
+  height: 100vh;
+}
+
+.Boards {
+  background-color: white;
+  height: 460px;
+  width: 1400px;
+  border-radius: 30px;
+  margin: auto;
+  margin-top: 20px;
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.25);
+  padding-top: 15px;
+}
+
+.Clubpost {
+  display: flex;
+  flex-direction: column;
+  height: 400px;
+  justify-content: space-evenly;
+}
+.Postbox {
+  margin: 20px;
+  display: flex;
+  cursor: pointer;
+}
+.Boardname {
+  display: flex;
+  justify-content: space-between;
+}
+.ModifyBtns button {
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 5px;
+  margin-left: 5px;
+  background-color: rgb(201, 201, 201);
+  color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.ModifyBtns :hover {
+  background-color: rgb(164, 164, 164);
+}
+.clubimg {
+  background-color: black;
+  width: 100px;
+  height: 100px;
+  border-radius: 15px;
+  margin-right: 20px;
+}
+.contentbox {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+  width: 1300px;
+}
+
+.Posttime {
+  width: 155px;
+  margin-left: auto;
+  color: grey;
+}
+.Searchbox {
+  position: absolute;
+  margin-top: 415px;
+  margin-left: 20px;
+display: flex;
+  font-size: 18px;
+}
+.Searchbox input {
+  border: 1px solid rgb(162, 162, 162);
+  border-radius: 10px 0 0 10px;
+  width: 350px;
+  height: 35px;
+  outline: none;
+  background-color: rgb(250, 251, 252);
+  border-color: rgb(223, 225, 230);
+  color: rgb(9, 30, 66);
+  cursor: text;
+  border-width: 2px;
+  border-style: solid;
+  box-sizing: border-box;
+  transition: background-color 0.2s ease-in-out 0s,
+    border-color 0.2s ease-in-out 0s;
+  line-height: 1.42857;
+  padding: 8px 6px;
+}
+
+.Searchbox input:hover {
+  background-color: rgb(235, 236, 240);
+}
+.Searchbox input:focus {
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(121, 186, 242); 
+}
+.Searchbox span{
+  background-color:rgb(121, 186, 242); 
+  border-radius: 0 10px 10px 0;
+  height: 35px;
+  padding: 0 10px;
+}
+.Searchbox span img{
+  background-color:rgb(121, 186, 242); 
+  height: 25px;
+  margin-top: 5px;
+}

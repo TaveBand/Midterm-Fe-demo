@@ -1,0 +1,41 @@
+.MyReservations {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.MyReservations-container {
+  display: flex;
+  flex: 1;
+  background-color: #f8f9fa;
+  margin-top: 60px;
+}
+
+.MyReservations-content {
+  flex: 1;
+  padding: 20px;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  margin: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.MyReservations-title {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.MyReservations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.MyReservations-item {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
