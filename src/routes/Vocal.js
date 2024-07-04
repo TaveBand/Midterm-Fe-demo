@@ -21,6 +21,7 @@ function Vocal() {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const handlePageChange = (page) => {
     setPage(page);
   };
@@ -111,6 +112,31 @@ function Vocal() {
     setIsEditing(false);
   };
 
+  // 검색어 입력 시 검색어 받아오기
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  // 돋보기 버튼 클릭 시 검색어에 따른 필터링
+  const handleSearchClick = () => {
+    if (searchTerm.trim() === "") {
+      setCurrentPosts(posts.slice(IndexFirstPost, IndexLastPost));
+    } else {
+      const filteredPosts = posts.filter(
+        (post) =>
+          post.title.includes(searchTerm) || post.content.includes(searchTerm)
+      ); // 해당 검색어를 title 또는 content에 포함한 게시물 출력
+      setCurrentPosts(filteredPosts.slice(IndexFirstPost, IndexLastPost));
+    }
+  };
+
+  // 돋보기 버튼 클릭이 아닌 엔터키를 쳐도 검색이 되도록 하는 함수
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Enter 키를 눌렀을 때 폼 제출을 방지
+      handleSearchClick();
+    }
+  };
   return (
     <div>
       <div className="BoardPage">
@@ -126,6 +152,11 @@ function Vocal() {
                 <div className="Sessionpost">
                   <h1>무대 위의 주인공 보컬 페이지!</h1>
                   {currentPosts.slice(0, 2).map((post) => (
+                    <Link
+                    to={`/boards/7/${post.post_id}`}
+                    style={{ textDecoration: "none" }}
+                    key={post.post_id}
+                  >
                     <div key={post.id} className="SessionPostbox">
                       <div className="SessionUserbox">
                         <img
@@ -146,6 +177,7 @@ function Vocal() {
                         <p className="Posttime">작성날짜 {post.created_at}</p>
                       </div>
                     </div>
+                  </Link>
                   ))}
                 </div>
                 <Pagenumber
@@ -176,13 +208,31 @@ function Vocal() {
                     <p>영상 제목</p>
                   </div>
                 </div>
-                <button
+                
+              </div><button
                   className="WriteBtn"
                   onClick={handleWriteClick}
                   style={{ cursor: "pointer" }}
                 >
                   글쓰기
-                </button>
+                </button><div
+                className="Searchbox"
+                style={{ marginTop: "0px", marginLeft: "110px" }}
+              >
+                <input
+                  placeholder=" 검색어를 입력해주세요!"
+                  value={searchTerm} // 검색어 상태 바인딩
+                  onChange={handleSearchChange} // 입력 변경 핸들러 추가
+                  onKeyDown={handleKeyPress} //Enter키 핸들러
+                ></input>
+                <span>
+                  <img
+                    src="/img/searchicon.png"
+                    alt="searchicon"
+                    onClick={handleSearchClick} // 검색 버튼 클릭 핸들러 추가
+                    style={{ cursor: "pointer" }}
+                  ></img>
+                </span>
               </div>
             </>
           ) : (

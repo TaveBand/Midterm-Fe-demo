@@ -6,9 +6,7 @@ import Header from "../components/Header";
 import SessionBtns from "../components/SessionBtns";
 import Comment from "../components/Comment";
 
-import "./DrumDetail.css";
-
-function DrumDetail() {
+function KeyboardDetail() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState({ comments: [] });
@@ -21,12 +19,12 @@ function DrumDetail() {
   const getDetail = async (post_id) => {
     setLoading(true);
     try {
-      const res = await instance.get(`/posts5/${post_id}`);
+      const res = await instance.get(`/posts9/${post_id}`);
       setDetail(res.data);
       setTitle(res.data.title);
       setContent(res.data.content);
       setImagePreview(res.data.file_url);
-      setLoading(false);
+        setLoading(false);
     } catch (error) {
       console.error("Error fetching post details:", error);
       setLoading(false);
@@ -80,7 +78,7 @@ function DrumDetail() {
     };
 
     try {
-      await instance.put(`/posts5/${post_id}`, updatedPost);
+      await instance.put(`/posts9/${post_id}`, updatedPost);
     
       await getDetail(post_id);
       setIsEditing(false);
@@ -92,12 +90,12 @@ function DrumDetail() {
   return (
     <div className="BoardPage">
       <Header />
-      <SessionBtns initialSelectedIndex={0} />
+      <SessionBtns initialSelectedIndex={4} />
       <div className="">
         <div className="Detailboard">
           <button
             type="button"
-            onClick={() => navigate("/boards/5")}
+            onClick={() => navigate("/boards/9")}
             className="Backbutton"
           >
             <img className="Backbutton" alt="Backbutton" src="/img/arrow.png" />
@@ -218,7 +216,7 @@ function DrumDetail() {
             )}
             <Comment
               post_id={post_id}
-              endpoint="/posts5"
+              endpoint="/posts9"
               refreshComments={() => getDetail(post_id)}
             />
           </div>
@@ -231,4 +229,4 @@ function DrumDetail() {
   );
 }
 
-export default DrumDetail;
+export default KeyboardDetail;

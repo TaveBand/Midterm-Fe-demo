@@ -53,8 +53,6 @@ function PR() {
               )
           );
 
- 
-
     if (Array.isArray(filteredPosts)) {
       setCurrentPosts(filteredPosts.slice(IndexFirstPost, IndexLastPost));
     } else {
@@ -233,8 +231,11 @@ function PR() {
               </form>
             </div>
           ) : (
-              <div>
-                <div className="Searchbox" style={{marginTop:"535px", marginLeft:"110px"}}>
+            <div>
+              <div
+                className="Searchbox"
+                style={{ marginTop: "535px", marginLeft: "110px" }}
+              >
                 <input
                   placeholder=" 검색어를 입력해주세요!"
                   value={searchTerm} // 검색어 상태 바인딩

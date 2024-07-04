@@ -41,10 +41,6 @@ function ToPerformance() {
         </div>
         <div className="Logo" onClick={ToHome}>대일밴드</div>
         <div className="Category_right">
-          <input
-            className="Search"
-            placeholder=" 검색어를 입력하세요 ..."
-          ></input>
           <button className="LoginBtn" onClick={ToLogin}>
             로그인
           </button>

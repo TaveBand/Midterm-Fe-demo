@@ -20,9 +20,13 @@ import PerfoDetail from "./routes/PerfoDetail";
 import Drum from "./routes/Drum"
 import DrumDetail from "./routes/DrumDetail";
 import Guitar from "./routes/Guitar"
+import GuitarDetail from "./routes/GuitarDetail";
 import Vocal from "./routes/Vocal"
+import VocalDetail from "./routes/VocalDetail";
 import Bass from "./routes/Bass"
+import BassDetail from "./routes/BassDetail";
 import Keyboard from "./routes/Keyboard"
+import KeyboardDetail from "./routes/KeyboardDetail";
 
 import UnionPerformances from "./routes/UnionPerformances";
 import UnionPerformanceDetail from "./routes/UnionPerformanceDetail";
@@ -51,10 +55,14 @@ function App() {
           <Route path="/boards/union-performances/:post_id" element={<PerfoDetail />}></Route>
           <Route path="/boards/5" element={<Drum />}></Route>
           <Route path="/boards/5/:post_id" element={<DrumDetail />}></Route>
-          <Route path="/boards/6" element={<Guitar/>}></Route>
+          <Route path="/boards/6" element={<Guitar />}></Route>
+          <Route path="/boards/6/:post_id" element={<GuitarDetail />}></Route>
           <Route path="/boards/7" element={<Vocal />}></Route>
+          <Route path="/boards/7/:post_id" element={<VocalDetail />}></Route>
           <Route path="/boards/8" element={<Bass />}></Route>
-          <Route path="/boards/9" element={<Keyboard/>}></Route>
+          <Route path="/boards/8/:post_id" element={<BassDetail />}></Route>
+          <Route path="/boards/9" element={<Keyboard />}></Route>
+          <Route path="/boards/9/:post_id" element={<KeyboardDetail />}></Route>
           <Route path="/boards/performances" element={<UnionPerformances />}></Route>
           <Route path="/boards/performances/:performance_id" element={<UnionPerformanceDetail />}></Route>
 

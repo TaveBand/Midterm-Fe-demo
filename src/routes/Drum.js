@@ -9,7 +9,7 @@ import "./Drum.css";
 function Drum() {
   const { post_id } = useParams();
   const { board_id } = useParams();
-  
+
   const [posts, setPosts] = useState([]);
   const [coverimages, setCoverImages] = useState();
   const [currentPosts, setCurrentPosts] = useState([]);
@@ -21,6 +21,7 @@ function Drum() {
   const [content, setContent] = useState("");
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const handlePageChange = (page) => {
     setPage(page);
   };
@@ -44,7 +45,6 @@ function Drum() {
     }
   };
 
-console.log(board_id)
   useEffect(() => {
     fetchPosts();
   }, [IndexFirstPost, IndexLastPost, page]);
@@ -114,6 +114,31 @@ console.log(board_id)
     setIsEditing(false);
   };
 
+  // 검색어 입력 시 검색어 받아오기
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  // 돋보기 버튼 클릭 시 검색어에 따른 필터링
+  const handleSearchClick = () => {
+    if (searchTerm.trim() === "") {
+      setCurrentPosts(posts.slice(IndexFirstPost, IndexLastPost));
+    } else {
+      const filteredPosts = posts.filter(
+        (post) =>
+          post.title.includes(searchTerm) || post.content.includes(searchTerm)
+      ); // 해당 검색어를 title 또는 content에 포함한 게시물 출력
+      setCurrentPosts(filteredPosts.slice(IndexFirstPost, IndexLastPost));
+    }
+  };
+
+  // 돋보기 버튼 클릭이 아닌 엔터키를 쳐도 검색이 되도록 하는 함수
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault(); // Enter 키를 눌렀을 때 폼 제출을 방지
+      handleSearchClick();
+    }
+  };
   return (
     <div>
       <div className="BoardPage">
@@ -130,7 +155,7 @@ console.log(board_id)
                   <h1>WHIPLASH~! 드러머들 모여라!</h1>
                   {currentPosts.slice(0, 2).map((post) => (
                     <Link
-                      to={`/boards/${board_id}/${post.post_id}`}
+                      to={`/boards/5/${post.post_id}`}
                       style={{ textDecoration: "none" }}
                       key={post.post_id}
                     >
@@ -219,13 +244,32 @@ console.log(board_id)
                     <div className="VideoTitle">영상 제목</div>
                   </figure>
                 </div>
-                <button
-                  className="WriteBtn"
-                  onClick={handleWriteClick}
-                  style={{ cursor: "pointer" }}
-                >
-                  글쓰기
-                </button>
+              </div>
+              <button
+                className="WriteBtn"
+                onClick={handleWriteClick}
+                style={{ cursor: "pointer" }}
+              >
+                글쓰기
+              </button>
+              <div
+                className="Searchbox"
+                style={{ marginTop: "0px", marginLeft: "110px" }}
+              >
+                <input
+                  placeholder=" 검색어를 입력해주세요!"
+                  value={searchTerm} // 검색어 상태 바인딩
+                  onChange={handleSearchChange} // 입력 변경 핸들러 추가
+                  onKeyDown={handleKeyPress} //Enter키 핸들러
+                ></input>
+                <span>
+                  <img
+                    src="/img/searchicon.png"
+                    alt="searchicon"
+                    onClick={handleSearchClick} // 검색 버튼 클릭 핸들러 추가
+                    style={{ cursor: "pointer" }}
+                  ></img>
+                </span>
               </div>
             </>
           ) : (
