@@ -1,10 +1,18 @@
+// import express from "express";
 const express = require("express");
+// import cors from "cors";
 const cors = require("cors");
+// import bodyParser from "body-parser";
 const bodyParser = require("body-parser");
+// import { Login } from "./src/routes/Login.js"
+// const { default: Login } = require("./src/routes/Login");
 const session = require("express-session");
 
 const app = express();
 const port = 5000;
+
+app.use(cors());
+app.use(bodyParser.json());
 
 //로그인 정보 저장
 const users = [
@@ -1679,6 +1687,86 @@ app.put("/posts5/:post_id", (req, res) => {
     posts5[post5Index].title = title;
     posts5[post5Index].content = content;
     updatedPost = posts5[post5Index];
+  }
+
+  if (updatedPost) {
+    res.json({ success: true, updatedPost });
+  } else {
+    res.status(404).json({ message: "Post not found" });
+  }
+});
+app.put("/posts6/:post_id", (req, res) => {
+  const { post_id } = req.params;
+  const { title, content, file_url } = req.body;
+  let updatedPost = null;
+
+  let post6Index = posts6.findIndex(
+    (post) => post.post_id === parseInt(post_id)
+  );
+  if (post6Index !== -1) {
+    posts6[post6Index].title = title;
+    posts6[post6Index].content = content;
+    updatedPost = posts6[post6Index];
+  }
+
+  if (updatedPost) {
+    res.json({ success: true, updatedPost });
+  } else {
+    res.status(404).json({ message: "Post not found" });
+  }
+});
+app.put("/posts7/:post_id", (req, res) => {
+  const { post_id } = req.params;
+  const { title, content, file_url } = req.body;
+  let updatedPost = null;
+
+  let post7Index = posts7.findIndex(
+    (post) => post.post_id === parseInt(post_id)
+  );
+  if (post7Index !== -1) {
+    posts7[post7Index].title = title;
+    posts7[post7Index].content = content;
+    updatedPost = posts7[post7Index];
+  }
+
+  if (updatedPost) {
+    res.json({ success: true, updatedPost });
+  } else {
+    res.status(404).json({ message: "Post not found" });
+  }
+});
+app.put("/posts8/:post_id", (req, res) => {
+  const { post_id } = req.params;
+  const { title, content, file_url } = req.body;
+  let updatedPost = null;
+
+  let post8Index = posts8.findIndex(
+    (post) => post.post_id === parseInt(post_id)
+  );
+  if (post8Index !== -1) {
+    posts8[post8Index].title = title;
+    posts8[post8Index].content = content;
+    updatedPost = posts8[post8Index];
+  }
+
+  if (updatedPost) {
+    res.json({ success: true, updatedPost });
+  } else {
+    res.status(404).json({ message: "Post not found" });
+  }
+});
+app.put("/posts9/:post_id", (req, res) => {
+  const { post_id } = req.params;
+  const { title, content, file_url } = req.body;
+  let updatedPost = null;
+
+  let post9Index = posts9.findIndex(
+    (post) => post.post_id === parseInt(post_id)
+  );
+  if (post9Index !== -1) {
+    posts9[post9Index].title = title;
+    posts9[post9Index].content = content;
+    updatedPost = posts9[post9Index];
   }
 
   if (updatedPost) {
