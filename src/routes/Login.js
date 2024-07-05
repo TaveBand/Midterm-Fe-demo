@@ -1,12 +1,8 @@
 import { useState } from "react";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
-import axios from 'axios';
-=======
 //import axios from 'axios';
 import instance from "./axios";
->>>>>>> yys
 import "./Login.css";
 
 function Login() {
@@ -18,30 +14,6 @@ function Login() {
     navigate("/register");
   }
 
-<<<<<<< HEAD
-  async function handleLogin() {
-    try {
-      const response = await axios.post("/dailband/login", {
-        username: username,
-        password: password,
-      }, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (response.status === 200) {
-        const data = response.data;
-        console.log(data.message);
-
-        // 세션에 user id를 저장합니다.
-        sessionStorage.setItem("userId", data.userId);
-
-        // 로그인 성공 시 다음 페이지로 이동
-        navigate("/");
-      }
-    } catch (error) {
-=======
   async function handleLogin(event) {
     event.preventDefault(); //로그인 폼 비동기 처리
     try {
@@ -66,7 +38,6 @@ function Login() {
       navigate("/");
     } 
     catch (error) {
->>>>>>> yys
       if (error.response && error.response.status === 401) {
         alert("Unauthorized: 아이디 또는 비밀번호가 잘못되었습니다.");
       } else {
@@ -81,32 +52,20 @@ function Login() {
       <Header />
       <div className="Loginpage">
         <div className="TitleLogin">로그인</div>
-<<<<<<< HEAD
-        <div className="InputLogin">
-=======
         <form className="InputLogin" onSubmit={handleLogin}>
->>>>>>> yys
           <input
             placeholder="아이디를 입력해주세요"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-<<<<<<< HEAD
-=======
             autocomplete="new-username"
->>>>>>> yys
           />
           <input
             type="password"
             placeholder="비밀번호를 입력해주세요"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-<<<<<<< HEAD
-          />
-        </div>
-=======
             autocomplete="new-password"
           />
->>>>>>> yys
         <div className="SubmitBtns">
           <button className="SignupBtn" onClick={ToSignup}>
             회원가입
@@ -115,16 +74,10 @@ function Login() {
             로그인
           </button>
         </div>
-<<<<<<< HEAD
-      </div>
-      <div className="Background">
-      <img alt="background" src="img/배경사진.jpg" />
-=======
       </form>
       </div>
       <div className="Background">
         <img alt="background" src="img/배경사진.jpg" />
->>>>>>> yys
       </div>
     </div>
   );
