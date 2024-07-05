@@ -1,10 +1,23 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
+<<<<<<< HEAD
 import { useNavigate } from "react-router-dom";
+=======
+import axios from "axios";
+import { useNavigate, useLocation } from "react-router-dom";
+>>>>>>> yys
 import "./Verify.css";
 
 function Verify() {
   const navigate = useNavigate();
+<<<<<<< HEAD
+=======
+  const location = useLocation();
+  const { username, nickname, password } = location.state || {};
+
+  console.log("Received data in Verify:", { username, nickname, password });
+
+>>>>>>> yys
   const [email, setEmail] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const [generatedCode, setGeneratedCode] = useState("");
@@ -39,6 +52,10 @@ function Verify() {
   };
 
   // 다음 페이지로 이동 함수
+<<<<<<< HEAD
+=======
+  /*
+>>>>>>> yys
   const handleNext = () => {
     if (verificationSuccess) {
       navigate("/register/complete");
@@ -46,7 +63,40 @@ function Verify() {
       setErrorMessage("인증을 완료해주세요.");
     }
   };
+<<<<<<< HEAD
 
+=======
+  */
+ // 최종 정보 서버로 전송 함수
+ const handleNext = async () => {
+  if (verificationSuccess) {
+    if (!username || !nickname || !password) {
+      setErrorMessage("유효한 사용자 정보가 없습니다.");
+      return;
+    }
+  
+    try {
+      const finalUserinfo = { username, nickname, password, email };
+      console.log("Final userinfo being sent to /dailband/register:", finalUserinfo);
+      // 회원가입 요청 시 JWT 토큰을 포함하지 않도록 새로운 axios 인스턴스 생성
+      const instanceWithoutToken = axios.create({
+        baseURL: "http://localhost:5000",
+        headers: { 'Content-Type': 'application/json' }
+      });
+      await instanceWithoutToken.post("/dailband/register", finalUserinfo);
+      alert("회원가입이 완료되었습니다.");
+      navigate("/register/complete");
+    } catch (error) {
+      console.error("Error submitting registration:", error);
+      alert("회원가입 중 오류가 발생했습니다.");
+    }
+  } else {
+    setErrorMessage("인증을 완료해주세요.");
+    
+  
+  }
+};
+>>>>>>> yys
  
 
   return (

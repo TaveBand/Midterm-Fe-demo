@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import instance from "./axios";
+<<<<<<< HEAD
 // import axios from 'axios';
+=======
+//import axios from 'axios';
+>>>>>>> yys
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import BoardBtns from "../components/BoardBtns";

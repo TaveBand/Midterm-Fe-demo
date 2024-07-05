@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 const express = require("express");
+=======
+/*const express = require("express");
+>>>>>>> yys
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const session = require("express-session");
@@ -1749,3 +1753,7 @@ app.delete("/posts9/:post_id", (req, res) => {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+<<<<<<< HEAD
+=======
+*/
+>>>>>>> yys

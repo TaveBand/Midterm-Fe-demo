@@ -27,6 +27,7 @@ import Keyboard from "./routes/Keyboard"
 
 import UnionPerformances from "./routes/UnionPerformances";
 import UnionPerformanceDetail from "./routes/UnionPerformanceDetail";
+<<<<<<< HEAD
 function App() {
   
   return (
@@ -56,6 +57,43 @@ function App() {
       <Route path="/boards/performances" element={<UnionPerformances />}></Route>
       <Route path="/boards/performances/:performance_id" element={<UnionPerformanceDetail />}></Route>
     </Routes>
+=======
+import { AuthProvider } from "./AuthContext";
+function App() {
+  
+  return (
+    <Router>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/register" element={<Register />}></Route>
+          <Route path="/register/verify" element={<Verify />}></Route>
+          <Route path="/register/complete" element={<Complete />}></Route>
+          <Route path="/profile/edit/:user_id" element={<Profile />}></Route>
+          <Route path="/Scrap/:user_id" element={<Scrap />}></Route>
+          <Route path="/MyPosts/:user_id" element={<MyPosts />}></Route>
+          <Route path="/MyPerformances/:user_id" element={<MyPerformances />}></Route>
+          <Route path="/MyReservations/:user_id" element={<MyReservations />}></Route>
+          <Route path="/boards/clubs" element={<Clubs />}></Route>
+          <Route path="/boards/clubs/:post_id" element={<ClubsDetail />}></Route>
+          <Route path="/boards/pr" element={<PR />}></Route>
+          <Route path="/boards/pr/:post_id" element={<PRDetail />}></Route>
+          <Route path="/boards/union/performances" element={<Performances />}></Route>
+          <Route path="/boards/union-performances/:post_id" element={<PerfoDetail />}></Route>
+          <Route path="/boards/5" element={<Drum />}></Route>
+          <Route path="/boards/5/:post_id" element={<DrumDetail />}></Route>
+          <Route path="/boards/6" element={<Guitar/>}></Route>
+          <Route path="/boards/7" element={<Vocal />}></Route>
+          <Route path="/boards/8" element={<Bass />}></Route>
+          <Route path="/boards/9" element={<Keyboard/>}></Route>
+          <Route path="/boards/performances" element={<UnionPerformances />}></Route>
+          <Route path="/boards/performances/:performance_id" element={<UnionPerformanceDetail />}></Route>
+
+        </Routes>
+      </AuthProvider>
+    </Router>
+>>>>>>> yys
     
   );
 }

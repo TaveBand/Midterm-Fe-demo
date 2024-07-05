@@ -1,7 +1,10 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import instance from "./axios";
+<<<<<<< HEAD
 
+=======
+>>>>>>> yys
 import Header from "../components/Header";
 import "./Home.css";
 
