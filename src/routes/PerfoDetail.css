@@ -1,0 +1,8 @@
+.PerfoDetailimg {
+    height: 470px;
+    margin-left: 20px;
+    margin-top: 10px;
+    border-radius: 20px;
+    background-color: rgb(210, 210, 210);
+    max-width: 500px;
+}
