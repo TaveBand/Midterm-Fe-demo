@@ -25,13 +25,25 @@ function Header() {
     navigate("/profile/edit/:user_id");
   return;
 }
+<<<<<<< HEAD
+=======
+function ToPerformance() {
+  navigate("/boards/performances");
+  return;
+}
+
+>>>>>>> origin/main
   return (
     <div className="Headerwidth">
       <div className="Container">
         <div className="Category_left">
           <button onClick={ToSesseion}>세션</button>
           <button onClick={ToBoards}>모집</button>
+<<<<<<< HEAD
           <button>연합공연</button>
+=======
+          <button onClick={ToPerformance}>연합공연</button>
+>>>>>>> origin/main
           <button>음악분석</button>
         </div>
         <div className="Logo" onClick={ToHome}>대일밴드</div>
