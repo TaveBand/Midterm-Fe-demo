@@ -1,11 +1,22 @@
 const express = require("express");
+<<<<<<< HEAD
 const cors = require("cors");
 const bodyParser = require("body-parser");
+=======
+// import express from "express";
+// import cors from "cors";
+const cors = require("cors");
+// import bodyParser from "body-parser";
+const bodyParser = require("body-parser");
+// import { Login } from "./src/routes/Login.js"
+// const { default: Login } = require("./src/routes/Login");
+>>>>>>> origin/kse
 const session = require("express-session");
 
 const app = express();
 const port = 5000;
 
+<<<<<<< HEAD
 //로그인 정보 저장
 const users = [
   {
@@ -24,10 +35,20 @@ const users = [
     email: "kse@example.com",
     sessions: [{ session_info: "기타" }],
   },
+=======
+app.use(cors());
+app.use(bodyParser.json());
+
+//로그인 정보 저장 
+const users = [
+  { id: 1, username: '윤영선', password: '0000', nickname: 'yys', email: 'yys@example.com', sessions: [{ session_info: '드럼' }] },
+  { id: 2, username: '김시은', password: '1111', nickname: 'kse', email: 'kse@example.com', sessions: [{ session_info: '기타' }] },
+>>>>>>> origin/kse
 ];
 
 app.use(cors());
 app.use(bodyParser.json());
+<<<<<<< HEAD
 app.use(
   session({
     secret: "your-secret-key",
@@ -57,10 +78,34 @@ app.post("/dailband/login", (req, res) => {
 app.get("/dailband/user/:user_id/profile", (req, res) => {
   const userId = parseInt(req.params.user_id, 10);
   const user = users.find((u) => u.id === userId);
+=======
+app.use(session({
+  secret: 'your-secret-key',
+  resave: false,
+  saveUninitialized: true,
+}));
+// 로그인 API
+app.post('/dailband/login', (req, res) => {
+  const { username, password } = req.body;
+  const user = users.find(u => u.username === username && u.password === password);
+
+  if (user) {
+    req.session.userId = user.id;
+    res.status(200).json({ message: 'Login successful', userId: user.id });
+  } else {
+    res.status(401).json({ message: 'Unauthorized: Invalid username or password' });
+  }
+});
+// 프로필 조회 API
+app.get('/dailband/user/:user_id/profile', (req, res) => {
+  const userId = parseInt(req.params.user_id, 10);
+  const user = users.find(u => u.id === userId);
+>>>>>>> origin/kse
 
   if (user) {
     res.status(200).json(user);
   } else {
+<<<<<<< HEAD
     res.status(404).json({ message: "User not found" });
   }
 });
@@ -69,6 +114,15 @@ app.get("/dailband/user/:user_id/profile", (req, res) => {
 app.put("/dailband/user/:user_id/profile", (req, res) => {
   const userId = parseInt(req.params.user_id, 10);
   const userIndex = users.findIndex((u) => u.id === userId);
+=======
+    res.status(404).json({ message: 'User not found' });
+  }
+});
+// 프로필 수정 API
+app.put('/dailband/user/:user_id/profile', (req, res) => {
+  const userId = parseInt(req.params.user_id, 10);
+  const userIndex = users.findIndex(u => u.id === userId);
+>>>>>>> origin/kse
 
   if (userIndex !== -1) {
     const updatedUser = {
@@ -76,6 +130,7 @@ app.put("/dailband/user/:user_id/profile", (req, res) => {
       ...req.body,
     };
     users[userIndex] = updatedUser;
+<<<<<<< HEAD
     res.status(200).json({ message: "Profile updated successfully" });
   } else {
     res.status(404).json({ message: "User not found" });
@@ -86,6 +141,17 @@ app.put("/dailband/user/:user_id/profile", (req, res) => {
 app.get("/dailband/user/:user_id/scraps/myperformances", (req, res) => {
   const userId = parseInt(req.params.user_id, 10);
   const user = users.find((u) => u.id === userId);
+=======
+    res.status(200).json({ message: 'Profile updated successfully' });
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
+});
+//스크랩한 공연 정보 API
+app.get('/dailband/user/:user_id/scraps/myperformances', (req, res) => {
+  const userId = parseInt(req.params.user_id, 10);
+  const user = users.find(u => u.id === userId);
+>>>>>>> origin/kse
 
   if (user) {
     // 예제 데이터
@@ -93,11 +159,16 @@ app.get("/dailband/user/:user_id/scraps/myperformances", (req, res) => {
       {
         performance_id: 1,
         title: "블랙테트라",
+<<<<<<< HEAD
         image_path: "path/to/image1.png",
+=======
+        image_path: "path/to/image1.png"
+>>>>>>> origin/kse
       },
       {
         performance_id: 2,
         title: "[서울과기대/개망나니] 개그 공연",
+<<<<<<< HEAD
         image_path: "path/to/image2.jpg",
       },
     ];
@@ -111,6 +182,22 @@ app.get("/dailband/user/:user_id/scraps/myperformances", (req, res) => {
 app.get("/dailband/user/:user_id/scraps/posts", (req, res) => {
   const userId = parseInt(req.params.user_id, 10);
   const user = users.find((u) => u.id === userId);
+=======
+        image_path: "path/to/image2.jpg"
+      }
+    ];
+    res.status(200).json({ scrap_performance: scrapPerformances });
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
+});
+
+
+//스크랩한 게시글 정보 API
+app.get('/dailband/user/:user_id/scraps/posts', (req, res) => {
+  const userId = parseInt(req.params.user_id, 10);
+  const user = users.find(u => u.id === userId);
+>>>>>>> origin/kse
 
   if (user) {
     // 예제 데이터
@@ -119,11 +206,18 @@ app.get("/dailband/user/:user_id/scraps/posts", (req, res) => {
         post: {
           post_id: 1,
           title: "세션 게시판",
+<<<<<<< HEAD
           content:
             "키보드 악보 연주하려고 하는데 중급자를 위한 곡을 추천해주세요",
           nickname: user.nickname,
           created_at: "2024.05.17",
         },
+=======
+          content: "키보드 악보 연주하려고 하는데 중급자를 위한 곡을 추천해주세요",
+          nickname: user.nickname,
+          created_at: "2024.05.17"
+        }
+>>>>>>> origin/kse
       },
       {
         post: {
@@ -131,6 +225,7 @@ app.get("/dailband/user/:user_id/scraps/posts", (req, res) => {
           title: "세션 게시판",
           content: "보컬 노래 연습 영상입니다",
           nickname: user.nickname,
+<<<<<<< HEAD
           created_at: "2024.05.18",
         },
       },
@@ -432,6 +527,23 @@ app.delete("/boards/performances/:performance_id", (req, res) => {
 });
 
 //모집 페이지 - 동아리 모집
+=======
+          created_at: "2024.05.18"
+        }
+      }
+    ];
+    res.status(200).json({ scrap_post: scrapPosts });
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
+});
+
+
+
+
+//모집 페이지 - 동아리 모집
+
+>>>>>>> origin/kse
 const posts1 = [
   {
     post_id: 1,
@@ -1082,10 +1194,17 @@ let posts5 = [
     title: "드럼 페이지 게시글1",
     content: "드럼 페이지 게시글의 내용입니다 두둥탁",
     file_url: "",
+<<<<<<< HEAD
     nickname: "김민중",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"김민중",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     board_id: 5,
@@ -1093,10 +1212,17 @@ let posts5 = [
     title: "드럼 페이지 게시글2",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "고운",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"고운",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     board_id: 5,
@@ -1104,10 +1230,17 @@ let posts5 = [
     title: "드럼 페이지 게시글3",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "정재현",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"정재현",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     board_id: 5,
@@ -1115,10 +1248,17 @@ let posts5 = [
     title: "드럼 페이지 게시글4",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "윤영선",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"윤영선",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     board_id: 5,
@@ -1126,6 +1266,7 @@ let posts5 = [
     title: "드럼 페이지 게시글5",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "김시은",
     created_at: "2024.06.16",
     modified_at: "timestamp",
@@ -1139,6 +1280,15 @@ const posts5_1 = [
     user_id:1
   },
 ]
+=======
+    nickname:"김시은",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+  },
+];
+
+>>>>>>> origin/kse
 
 //세션 페이지 - 기타
 const posts6 = [
@@ -1147,46 +1297,75 @@ const posts6 = [
     title: "기타 게시판 게시글1",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 2,
     title: "기타 게시판 게시글2",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 3,
     title: "기타 게시판 게시글3",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 4,
     title: "기타 게시판 게시글4",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 5,
     title: "기타 게시판 게시글5",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
@@ -1200,6 +1379,15 @@ const posts6_1 = [
     user_id:1
   },
 ]
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+  },
+];
+
+>>>>>>> origin/kse
 //세션 페이지 - 보컬
 const posts7 = [
   {
@@ -1207,46 +1395,75 @@ const posts7 = [
     title: "보컬 게시판 게시글1",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 2,
     title: "보컬 게시판 게시글2",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 3,
     title: "보컬 게시판 게시글3",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 4,
     title: "보컬 게시판 게시글4",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 5,
     title: "보컬 게시판 게시글5",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
@@ -1260,6 +1477,15 @@ const posts7_1 = [
     user_id:1
   },
 ]
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+  },
+];
+
+>>>>>>> origin/kse
 //세션 페이지 - 베이스
 const posts8 = [
   {
@@ -1267,46 +1493,75 @@ const posts8 = [
     title: "베이스 게시판 게시글1",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 2,
     title: "베이스 게시판 게시글2",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 3,
     title: "베이스 게시판 게시글3",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 4,
     title: "베이스 게시판 게시글4",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 5,
     title: "베이스 게시판 게시글5",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
@@ -1320,6 +1575,15 @@ const posts8_1 = [
     user_id:1
   },
 ]
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+  },
+];
+
+>>>>>>> origin/kse
 //세션 페이지 - 키보드
 const posts9 = [
   {
@@ -1327,46 +1591,75 @@ const posts9 = [
     title: "키보드 게시판 게시글1",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 2,
     title: "키보드 게시판 게시글2",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 3,
     title: "키보드 게시판 게시글3",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 4,
     title: "키보드 게시판 게시글4",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
     comments: [],
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+>>>>>>> origin/kse
   },
   {
     post_id: 5,
     title: "키보드 게시판 게시글5",
     content: "string",
     file_url: "",
+<<<<<<< HEAD
     nickname: "닉네임",
     created_at: "2024.06.16",
     modified_at: "timestamp",
@@ -1382,6 +1675,82 @@ const posts9_1 = [
 ]
 let posts = [...posts1, ...posts2, ...posts3];
 
+=======
+    nickname:"닉네임",
+    created_at: "2024.06.16",
+    modified_at:"timestamp",
+    comments: []
+  },
+];
+const Logindata = [{username:"tldms", password:"tldms"}]
+const myposts = [
+  {
+    id: 1,
+    category: "세션 게시판",
+    title: "키보드 악보 연주하라고 하는데 중급자를 위한 곡을 추천해주세요",
+    content: "안녕하세요. 루시의 개화를 연주하고 싶은데 중급자 수준의 악보는 어떤게 좋을지 추천해주세요 여러분!",
+    author: "윤영선",
+    date: "2024.05.17",
+    likes: 137,
+    comments: 2
+  },
+  {
+    id: 2,
+    category: "세션 게시판",
+    title: "보컬 노래 연습 영상입니다",
+    content: "열심히 연습했는데 어떻게 해야 더 잘 부를 수 있을까요?",
+    author: "윤영선",
+    date: "2024.05.18",
+    likes: 137,
+    comments: 2
+  },
+  {
+    id: 3,
+    category: "동아리 게시판",
+    title: "대일밴드 베이스와 기타 실력자 분들 모집합니다~!",
+    content: "저희 밴드와 함께할 베이스와 기타실력자분들을 모집합니다. 물론 열정 가득하신 분들도 언제든 환영합니다!",
+    author: "윤영선",
+    date: "2024.05.20",
+    likes: 137,
+    comments: 2
+  },
+  {
+    id: 4,
+    category: "연합 공연 모집 게시판",
+    title: "저희 밴드와 함께할 공연팀을 찾습니다!",
+    content: "저희팀과 연합할 공연팀을 찾습니다. 3팀정도 모여서 같이 재밌게 해봐요!",
+    author: "윤영선",
+    date: "2024.05.23",
+    likes: 137,
+    comments: 2
+  }
+]
+
+const scrap = [
+  {
+    id: 1,
+    title: "[서울과기대/개망나니] 개막 콘서트",
+    description: "서울과기대 개막 콘서트에 오신 것을 환영합니다!",
+    image: "/img/image 6.png"
+  },
+  {
+    id: 2,
+    title: "블랙테트라",
+    description: "블랙테트라 콘서트입니다.",
+    image:  "/img/image 7.png"
+  },
+  {
+    id: 3,
+    title: "[서울과기대/개망나니] 개막 콘서트",
+    description: "서울과기대 개막 콘서트에 오신 것을 환영합니다!",
+    image:  "/img/image 4.png"
+  }
+]
+
+// let posts = [...posts1, ...posts2, ...posts3];
+
+let posts = [...posts1, ...posts2, ...posts3, ...posts5,...Logindata, ...myposts, ...scrap];
+>>>>>>> origin/kse
 app.use(express.json());
 
 app.get("/posts", (req, res) => {
@@ -1433,6 +1802,7 @@ app.get("/posts5/:post_id", (req, res) => {
     res.status(404).json({ message: "Post not found" });
   }
 });
+<<<<<<< HEAD
 app.get("/posts6/:post_id", (req, res) => {
   const { post_id } = req.params;
   console.log(`Received request for post_id: ${post_id}`);
@@ -1479,6 +1849,11 @@ app.get("/posts9/:post_id", (req, res) => {
 });
 
 //게시판에 따른 게시물 조회
+=======
+
+//게시판에 따른 게시물 조회
+
+>>>>>>> origin/kse
 app.post("/posts", (req, res) => {
   const newPost = req.body;
   posts.push(newPost);
@@ -1495,6 +1870,7 @@ app.get("/posts3", (req, res) => {
 app.get(`/posts5`, (req, res) => {
   res.json({ posts: posts5 });
 });
+<<<<<<< HEAD
 app.get(`/posts5_1`, (req, res) => {
   res.json({ posts: posts5_1 });
 });
@@ -1521,6 +1897,27 @@ app.get(`/posts9`, (req, res) => {
 });
 app.get(`/posts9_1`, (req, res) => {
   res.json({ posts: posts6_1 });
+=======
+app.get(`/posts6`, (req, res) => {
+  res.json({ posts: posts6 });
+});
+app.get(`/posts7`, (req, res) => {
+  res.json({ posts: posts7 });
+});
+app.get(`/posts8`, (req, res) => {
+  res.json({ posts: posts8 });
+});
+app.get(`/posts9`, (req, res) => {
+  res.json({ posts: posts9 });
+});
+
+app.get(`/myposts`, (req, res) => {
+  res.json({ posts: myposts });
+});
+
+app.get(`/scrap`, (req, res) => {
+  res.json({ posts: scrap });
+>>>>>>> origin/kse
 });
 
 //댓글 추가
@@ -1577,6 +1974,7 @@ app.post("/posts5/:post_id/comments", (req, res) => {
     res.json({ success: false, message: "Post not found" });
   }
 });
+<<<<<<< HEAD
 app.post("/posts6/:post_id/comments", (req, res) => {
   const post_id = parseInt(req.params.post_id, 10);
   const post = posts6.find((post) => post.post_id === post_id);
@@ -1629,6 +2027,9 @@ app.post("/posts9/:post_id/comments", (req, res) => {
     res.json({ success: false, message: "Post not found" });
   }
 });
+=======
+
+>>>>>>> origin/kse
 
 //게시글 수정
 app.put("/posts/:post_id", (req, res) => {
@@ -1737,6 +2138,7 @@ app.put("/posts5/:post_id", (req, res) => {
 
 //게시글 작성
 const formatDate = (date) => {
+<<<<<<< HEAD
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
   return date
     .toLocaleDateString("ko-KR", options)
@@ -1755,10 +2157,28 @@ app.post("/posts1", (req, res) => {
     comments: [],
   };
   console.log("Created new post:", newPost);
+=======
+  const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+  return date.toLocaleDateString('ko-KR', options).replace(/\./g, '').replace(/ /g, '.');
+};
+app.post('/posts1', (req, res) => {
+  const newPost = {
+    post_id: posts1.length + 1, 
+    title: req.body.title,
+    content: req.body.content,
+    file_url: req.body.file_url,
+    nickname: req.body.nickname || '이름', 
+    created_at: formatDate(new Date()), 
+    modified_at: new Date().toISOString(),
+    comments: []
+  };
+  console.log('Created new post:', newPost);
+>>>>>>> origin/kse
   posts1.push(newPost);
   posts1_1.push(newPost);
   res.status(201).json(newPost);
 });
+<<<<<<< HEAD
 app.post("/posts2", (req, res) => {
   const newPost = {
     post_id: posts2.length + 1,
@@ -1769,34 +2189,64 @@ app.post("/posts2", (req, res) => {
     created_at: formatDate(new Date()),
     modified_at: new Date().toISOString(),
     comments: [],
+=======
+app.post('/posts2', (req, res) => {
+  const newPost = {
+    post_id: posts2.length + 1, 
+    title: req.body.title,
+    content: req.body.content,
+    file_url: req.body.file_url,
+    nickname: req.body.nickname || '이름', 
+    created_at: formatDate(new Date()), 
+    modified_at: new Date().toISOString(),
+    comments: []
+>>>>>>> origin/kse
   };
   posts2.push(newPost);
   posts2_1.push(newPost);
   res.status(201).json(newPost);
 });
+<<<<<<< HEAD
 app.post("/posts3", (req, res) => {
   const newPost = {
     post_id: posts3.length + 1,
+=======
+app.post('/posts3', (req, res) => {
+  const newPost = {
+    post_id: posts3.length + 1, 
+>>>>>>> origin/kse
     title: req.body.title,
     content: req.body.content,
     file_url: req.body.file_url,
     nickname: req.body.nickname || `${posts3.length + 1}번`, // Default nickname if not provided
+<<<<<<< HEAD
     email: req.body.email || "이메일",
+=======
+    email: req.body.email || '이메일',
+>>>>>>> origin/kse
     sessions: [
       {
         session_id: 0,
         session_info: req.body.session_info || "미지정",
       },
     ],
+<<<<<<< HEAD
 
     created_at: formatDate(new Date()), // Current date
     modified_at: new Date().toISOString(),
     comments: [],
+=======
+    
+    created_at: formatDate(new Date()), // Current date
+    modified_at: new Date().toISOString(),
+    comments: []
+>>>>>>> origin/kse
   };
   posts3.push(newPost);
   posts3_1.push(newPost);
   res.status(201).json(newPost);
 });
+<<<<<<< HEAD
 app.post("/posts5", (req, res) => {
   const newPost = {
     board_id: 5,
@@ -1808,10 +2258,24 @@ app.post("/posts5", (req, res) => {
     created_at: formatDate(new Date()), 
     modified_at: new Date().toISOString(),
     comments: [],
+=======
+app.post('/posts5', (req, res) => {
+  const newPost = {
+    board_id: 5,
+    post_id: posts5.length + 1, 
+    title: req.body.title,
+    content: req.body.content,
+    file_url: req.body.file_url,
+    nickname: req.body.nickname || '이름', // Default nickname if not provided
+    created_at: formatDate(new Date()), // Current date
+    modified_at: new Date().toISOString(),
+    comments: []
+>>>>>>> origin/kse
   };
   posts5.push(newPost);
   res.status(201).json(newPost);
 });
+<<<<<<< HEAD
 app.post("/posts6", (req, res) => {
   const newPost = {
     board_id: 5,
@@ -1924,10 +2388,13 @@ app.post("/posts9_1", (req, res) => {
   posts9_1.push(newPost);
   res.status(201).json(newPost);
 });
+=======
+>>>>>>> origin/kse
 
 // 게시글 삭제
 app.delete("/posts/:post_id", (req, res) => {
   const { post_id } = req.params;
+<<<<<<< HEAD
   console.log(`Received delete request for post_id: ${post_id}`);
   const postIndex = posts1.findIndex(
     (post) => post.post_id === parseInt(post_id)
@@ -1944,6 +2411,20 @@ app.delete("/posts/:post_id", (req, res) => {
   const postIndex_1 = posts1_1.findIndex(
     (post) => post.post_id === parseInt(post_id)
   );
+=======
+  console.log(`Received delete request for post_id: ${post_id}`); 
+  const postIndex = posts1.findIndex((post) => post.post_id === parseInt(post_id));
+
+  if (postIndex !== -1) {
+    posts1.splice(postIndex, 1);
+    console.log(`Post deleted: ${post_id}`); 
+    res.status(200).json({ message: "Post deleted successfully" });
+  } else {
+    console.log(`Post not found: ${post_id}`); 
+    res.status(404).json({ message: "Post not found" });
+  }
+  const postIndex_1 = posts1_1.findIndex((post) => post.post_id === parseInt(post_id));
+>>>>>>> origin/kse
 
   if (postIndex_1 !== -1) {
     posts1_1.splice(postIndex_1, 1);
@@ -1955,10 +2436,15 @@ app.delete("/posts/:post_id", (req, res) => {
 
 app.delete("/posts2/:post_id", (req, res) => {
   const { post_id } = req.params;
+<<<<<<< HEAD
   console.log(`Received delete request for post_id: ${post_id}`);
   const postIndex = posts2.findIndex(
     (post) => post.post_id === parseInt(post_id)
   );
+=======
+  console.log(`Received delete request for post_id: ${post_id}`); 
+  const postIndex = posts2.findIndex((post) => post.post_id === parseInt(post_id));
+>>>>>>> origin/kse
 
   if (postIndex !== -1) {
     posts2.splice(postIndex, 1);
@@ -1966,9 +2452,13 @@ app.delete("/posts2/:post_id", (req, res) => {
   } else {
     res.status(404).json({ message: "Post not found" });
   }
+<<<<<<< HEAD
   const postIndex_1 = posts2_1.findIndex(
     (post) => post.post_id === parseInt(post_id)
   );
+=======
+  const postIndex_1 = posts2_1.findIndex((post) => post.post_id === parseInt(post_id));
+>>>>>>> origin/kse
 
   if (postIndex_1 !== -1) {
     posts2_1.splice(postIndex_1, 1);
@@ -1980,9 +2470,13 @@ app.delete("/posts2/:post_id", (req, res) => {
 
 app.delete("/posts3/:post_id", (req, res) => {
   const { post_id } = req.params;
+<<<<<<< HEAD
   const postIndex = posts3.findIndex(
     (post) => post.post_id === parseInt(post_id)
   );
+=======
+  const postIndex = posts3.findIndex((post) => post.post_id === parseInt(post_id));
+>>>>>>> origin/kse
 
   if (postIndex !== -1) {
     posts3.splice(postIndex, 1);
@@ -1990,9 +2484,13 @@ app.delete("/posts3/:post_id", (req, res) => {
   } else {
     res.status(404).json({ message: "Post not found" });
   }
+<<<<<<< HEAD
   const postIndex_1 = posts3_1.findIndex(
     (post) => post.post_id === parseInt(post_id)
   );
+=======
+  const postIndex_1 = posts3_1.findIndex((post) => post.post_id === parseInt(post_id));
+>>>>>>> origin/kse
 
   if (postIndex_1 !== -1) {
     posts3_1.splice(postIndex_1, 1);
@@ -2003,9 +2501,13 @@ app.delete("/posts3/:post_id", (req, res) => {
 });
 app.delete("/posts5/:post_id", (req, res) => {
   const { post_id } = req.params;
+<<<<<<< HEAD
   const postIndex = posts5.findIndex(
     (post) => post.post_id === parseInt(post_id)
   );
+=======
+  const postIndex = posts5.findIndex((post) => post.post_id === parseInt(post_id));
+>>>>>>> origin/kse
 
   if (postIndex !== -1) {
     posts5.splice(postIndex, 1);
@@ -2016,9 +2518,13 @@ app.delete("/posts5/:post_id", (req, res) => {
 });
 app.delete("/posts6/:post_id", (req, res) => {
   const { post_id } = req.params;
+<<<<<<< HEAD
   const postIndex = posts6.findIndex(
     (post) => post.post_id === parseInt(post_id)
   );
+=======
+  const postIndex = posts6.findIndex((post) => post.post_id === parseInt(post_id));
+>>>>>>> origin/kse
 
   if (postIndex !== -1) {
     posts6.splice(postIndex, 1);
@@ -2029,9 +2535,13 @@ app.delete("/posts6/:post_id", (req, res) => {
 });
 app.delete("/posts7/:post_id", (req, res) => {
   const { post_id } = req.params;
+<<<<<<< HEAD
   const postIndex = posts7.findIndex(
     (post) => post.post_id === parseInt(post_id)
   );
+=======
+  const postIndex = posts7.findIndex((post) => post.post_id === parseInt(post_id));
+>>>>>>> origin/kse
 
   if (postIndex !== -1) {
     posts7.splice(postIndex, 1);
@@ -2042,9 +2552,13 @@ app.delete("/posts7/:post_id", (req, res) => {
 });
 app.delete("/posts8/:post_id", (req, res) => {
   const { post_id } = req.params;
+<<<<<<< HEAD
   const postIndex = posts8.findIndex(
     (post) => post.post_id === parseInt(post_id)
   );
+=======
+  const postIndex = posts8.findIndex((post) => post.post_id === parseInt(post_id));
+>>>>>>> origin/kse
 
   if (postIndex !== -1) {
     posts8.splice(postIndex, 1);
@@ -2055,9 +2569,13 @@ app.delete("/posts8/:post_id", (req, res) => {
 });
 app.delete("/posts9/:post_id", (req, res) => {
   const { post_id } = req.params;
+<<<<<<< HEAD
   const postIndex = posts9.findIndex(
     (post) => post.post_id === parseInt(post_id)
   );
+=======
+  const postIndex = posts9.findIndex((post) => post.post_id === parseInt(post_id));
+>>>>>>> origin/kse
 
   if (postIndex !== -1) {
     posts9.splice(postIndex, 1);
