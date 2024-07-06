@@ -1132,6 +1132,13 @@ let posts5 = [
     comments: [],
   },
 ];
+const posts5_1 = [
+  {
+    title: "드럼 연주영상", 
+    link: "https://www.youtube.com/watch?v=1aaHbB8w29c",
+    user_id:1
+  },
+]
 
 //세션 페이지 - 기타
 const posts6 = [
@@ -1186,7 +1193,13 @@ const posts6 = [
     comments: [],
   },
 ];
-
+const posts6_1 = [
+  {
+    title: "기타 연주영상", 
+    link: "https://www.youtube.com/watch?v=T3jJQdzJ9SE",
+    user_id:1
+  },
+]
 //세션 페이지 - 보컬
 const posts7 = [
   {
@@ -1240,7 +1253,13 @@ const posts7 = [
     comments: [],
   },
 ];
-
+const posts7_1 = [
+  {
+    title: "보컬", 
+    link: "https://www.youtube.com/watch?v=_I5vQ7W_jLU",
+    user_id:1
+  },
+]
 //세션 페이지 - 베이스
 const posts8 = [
   {
@@ -1294,7 +1313,13 @@ const posts8 = [
     comments: [],
   },
 ];
-
+const posts8_1 = [
+  {
+    title: "붐붐베이스", 
+    link: "https://www.youtube.com/watch?v=P8f0x-S1DOo",
+    user_id:1
+  },
+]
 //세션 페이지 - 키보드
 const posts9 = [
   {
@@ -1348,6 +1373,13 @@ const posts9 = [
     comments: [],
   },
 ];
+const posts9_1 = [
+  {
+    title: "베텔기우스 피아노", 
+    link: "https://www.youtube.com/watch?v=rqWhbYMq6pg",
+    user_id:1
+  },
+]
 let posts = [...posts1, ...posts2, ...posts3];
 
 app.use(express.json());
@@ -1463,17 +1495,32 @@ app.get("/posts3", (req, res) => {
 app.get(`/posts5`, (req, res) => {
   res.json({ posts: posts5 });
 });
+app.get(`/posts5_1`, (req, res) => {
+  res.json({ posts: posts5_1 });
+});
 app.get(`/posts6`, (req, res) => {
   res.json({ posts: posts6 });
+});
+app.get(`/posts6_1`, (req, res) => {
+  res.json({ posts: posts6_1 });
 });
 app.get(`/posts7`, (req, res) => {
   res.json({ posts: posts7 });
 });
+app.get(`/posts7_1`, (req, res) => {
+  res.json({ posts: posts6_1 });
+});
 app.get(`/posts8`, (req, res) => {
   res.json({ posts: posts8 });
 });
+app.get(`/posts8_1`, (req, res) => {
+  res.json({ posts: posts6_1 });
+});
 app.get(`/posts9`, (req, res) => {
   res.json({ posts: posts9 });
+});
+app.get(`/posts9_1`, (req, res) => {
+  res.json({ posts: posts6_1 });
 });
 
 //댓글 추가
@@ -1757,12 +1804,124 @@ app.post("/posts5", (req, res) => {
     title: req.body.title,
     content: req.body.content,
     file_url: req.body.file_url,
-    nickname: req.body.nickname || "이름", // Default nickname if not provided
-    created_at: formatDate(new Date()), // Current date
+    nickname: req.body.nickname || "이름", 
+    created_at: formatDate(new Date()), 
     modified_at: new Date().toISOString(),
     comments: [],
   };
   posts5.push(newPost);
+  res.status(201).json(newPost);
+});
+app.post("/posts6", (req, res) => {
+  const newPost = {
+    board_id: 5,
+    post_id: posts6.length + 1,
+    title: req.body.title,
+    content: req.body.content,
+    file_url: req.body.file_url,
+    nickname: req.body.nickname || "이름", 
+    created_at: formatDate(new Date()), 
+    modified_at: new Date().toISOString(),
+    comments: [],
+  };
+  posts6.push(newPost);
+  res.status(201).json(newPost);
+});
+app.post("/posts7", (req, res) => {
+  const newPost = {
+    board_id: 5,
+    post_id: posts7.length + 1,
+    title: req.body.title,
+    content: req.body.content,
+    file_url: req.body.file_url,
+    nickname: req.body.nickname || "이름", 
+    created_at: formatDate(new Date()), 
+    modified_at: new Date().toISOString(),
+    comments: [],
+  };
+  posts7.push(newPost);
+  res.status(201).json(newPost);
+});
+app.post("/posts8", (req, res) => {
+  const newPost = {
+    board_id: 5,
+    post_id: posts8.length + 1,
+    title: req.body.title,
+    content: req.body.content,
+    file_url: req.body.file_url,
+    nickname: req.body.nickname || "이름", 
+    created_at: formatDate(new Date()), 
+    modified_at: new Date().toISOString(),
+    comments: [],
+  };
+  posts8.push(newPost);
+  res.status(201).json(newPost);
+});
+app.post("/posts9", (req, res) => {
+  const newPost = {
+    board_id: 5,
+    post_id: posts9.length + 1,
+    title: req.body.title,
+    content: req.body.content,
+    file_url: req.body.file_url,
+    nickname: req.body.nickname || "이름", 
+    created_at: formatDate(new Date()), 
+    modified_at: new Date().toISOString(),
+    comments: [],
+  };
+  posts9.push(newPost);
+  res.status(201).json(newPost);
+});
+
+//연주 영상
+app.post("/posts5_1", (req, res) => {
+  const newPost = {
+    post_id: posts5_1.length + 1,
+    title: req.body.title,
+    link: req.body.link,
+    user_id: req.body.user_id
+  };
+  posts5_1.push(newPost);
+  res.status(201).json(newPost);
+});
+app.post("/posts6_1", (req, res) => {
+  const newPost = {
+    post_id: posts6_1.length + 1,
+    title: req.body.title,
+    link: req.body.link,
+    user_id: req.body.user_id
+  };
+  posts6_1.push(newPost);
+  res.status(201).json(newPost);
+});
+app.post("/posts7_1", (req, res) => {
+  const newPost = {
+    post_id: posts7_1.length + 1,
+    title: req.body.title,
+    link: req.body.link,
+    user_id: req.body.user_id
+  };
+  posts7_1.push(newPost);
+  res.status(201).json(newPost);
+});
+app.post("/posts8_1", (req, res) => {
+  const newPost = {
+    post_id: posts8_1.length + 1,
+    title: req.body.title,
+    link: req.body.link,
+    user_id: req.body.user_id
+  };
+  posts8_1.push(newPost);
+  res.status(201).json(newPost);
+});
+app.post("/posts9_1", (req, res) => {
+  const newPost = {
+    post_id: posts9_1.length + 1,
+    title: req.body.title,
+    link: req.body.link,
+    user_id: req.body.user_id
+  };
+  posts9_1.push(newPost);
   res.status(201).json(newPost);
 });
 

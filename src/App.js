@@ -1,36 +1,39 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"; 
-import Login from "./routes/Login";
-import Register from "./routes/Register";
-import Home from "./routes/Home";
-import Verify from "./routes/Verify";
-import Complete from "./routes/Complete";
+import Home from "./mainpage/Home";
 
-import Profile from "./routes/Profile";
-import Scrap from "./routes/Scrap"
-import MyPosts from "./routes/MyPosts";
-import MyPerformances from "./routes/MyPerformances";
-import MyReservations from "./routes/MyReservations";
+import Login from "./authentication/Login";
+import Register from "./authentication/Register";
+import Verify from "./authentication/Verify";
+import Complete from "./authentication/Complete";
+import { AuthProvider } from "./authentication/AuthContext";
 
-import Clubs from "./routes/Clubs";
-import PR from "./routes/PR";
-import Performances from "./routes/Performances";
-import ClubsDetail from "./routes/ClubsDetail";
-import PRDetail from "./routes/PRDetail";
-import PerfoDetail from "./routes/PerfoDetail";
-import Drum from "./routes/Drum"
-import DrumDetail from "./routes/DrumDetail";
-import Guitar from "./routes/Guitar"
-import GuitarDetail from "./routes/GuitarDetail";
-import Vocal from "./routes/Vocal"
-import VocalDetail from "./routes/VocalDetail";
-import Bass from "./routes/Bass"
-import BassDetail from "./routes/BassDetail";
-import Keyboard from "./routes/Keyboard"
-import KeyboardDetail from "./routes/KeyboardDetail";
+import Profile from "./mypage/Profile";
+import Scrap from "./mypage/Scrap"
+import MyPosts from "./mypage/MyPosts";
+import MyPerformances from "./mypage/MyPerformances";
+import MyReservations from "./mypage/MyReservations";
 
-import UnionPerformances from "./routes/UnionPerformances";
-import UnionPerformanceDetail from "./routes/UnionPerformanceDetail";
-import { AuthProvider } from "./AuthContext";
+import Clubs from "./post/Clubs";
+import ClubsDetail from "./post/ClubsDetail";
+import PR from "./post/PR";
+import PRDetail from "./post/PRDetail";
+import Matching from "./post/Matching";
+import MatchingDetail from "./post/MatchingDetail";
+
+import Drum from "./session/Drum"
+import DrumDetail from "./session/DrumDetail";
+import Guitar from "./session/Guitar"
+import GuitarDetail from "./session/GuitarDetail";
+import Vocal from "./session/Vocal"
+import VocalDetail from "./session/VocalDetail";
+import Bass from "./session/Bass"
+import BassDetail from "./session/BassDetail";
+import Keyboard from "./session/Keyboard"
+import KeyboardDetail from "./session/KeyboardDetail";
+
+import UnionPerformances from "./performance/UnionPerformances";
+import UnionPerformanceDetail from "./performance/UnionPerformanceDetail";
+
 function App() {
   
   return (
@@ -51,8 +54,8 @@ function App() {
           <Route path="/boards/clubs/:post_id" element={<ClubsDetail />}></Route>
           <Route path="/boards/pr" element={<PR />}></Route>
           <Route path="/boards/pr/:post_id" element={<PRDetail />}></Route>
-          <Route path="/boards/union/performances" element={<Performances />}></Route>
-          <Route path="/boards/union-performances/:post_id" element={<PerfoDetail />}></Route>
+          <Route path="/boards/matching" element={<Matching />}></Route>
+          <Route path="/boards/matching/:post_id" element={<MatchingDetail />}></Route>
           <Route path="/boards/5" element={<Drum />}></Route>
           <Route path="/boards/5/:post_id" element={<DrumDetail />}></Route>
           <Route path="/boards/6" element={<Guitar />}></Route>
