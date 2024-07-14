@@ -3,30 +3,59 @@ import instance from "axios";
 import Header from "../shared/Header";
 import Sidebar from "../shared/Sidebar";
 import "./styles/MyReservations.css";
+import { useAuth } from '../authentication/AuthContext';
 
 function MyReservations() {
-  const user_id = sessionStorage.getItem("userId"); // 세션에서 user_id 가져오기
+  const { currentUser } = useAuth();
   const [reservations, setReservations] = useState([]);
 
   useEffect(() => {
-    const fetchReservations = async () => {
-      try {
-        const response = await instance.get(`/dailband/user/${user_id}/reservations`);
-        setReservations(response.data.reservations);
-      } catch (error) {
-        console.error("Error fetching reservations:", error);
-      }
-    };
+    if (currentUser) {
+      const token = localStorage.getItem("token");
+      const userId = currentUser.user_id; // currentUser에서 user_id 가져오기
 
-    fetchReservations();
-  }, [user_id]);
+      if (!token) {
+        console.error("Invalid or missing token");
+        return;
+      }
+
+      const fetchReservations = async () => {
+        try {
+          const response = await instance.get(`/dailband/user/${userId}/myreservations`, {
+            headers: {
+              "Authorization": `Bearer ${token}`
+            }
+          });
+          setReservations(response.data.reservations);
+        } catch (error) {
+          console.error("Error fetching reservations:", error);
+        }
+      };
+
+      fetchReservations();
+    }
+  }, [currentUser]);
 
   const handleCancel = async (reservation_id) => {
-    try {
-      await instance.delete(`/dailband/user/${user_id}/reservations/${reservation_id}`);
-      setReservations(prevReservations => prevReservations.filter(r => r.reservation_id !== reservation_id));
-    } catch (error) {
-      console.error("Error cancelling reservation:", error);
+    if (currentUser) {
+      const token = localStorage.getItem("token");
+      const userId = currentUser.user_id; // currentUser에서 user_id 가져오기
+
+      if (!token) {
+        console.error("Invalid or missing token");
+        return;
+      }
+
+      try {
+        await instance.delete(`/dailband/user/${userId}/myreservations/${reservation_id}`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+        setReservations(prevReservations => prevReservations.filter(r => r.reservation_id !== reservation_id));
+      } catch (error) {
+        console.error("Error cancelling reservation:", error);
+      }
     }
   };
 
@@ -34,7 +63,7 @@ function MyReservations() {
     <div className="MyReservations">
       <Header />
       <div className="MyReservations-container">
-        <Sidebar nickname="윤영선" /> {/* 예시로 윤영선 사용 */}
+        <Sidebar nickname={currentUser?.username} /> {/* currentUser에서 username 가져오기 */}
         <div className="MyReservations-content">
           <h2 className="MyReservations-title">공연 예약 확인</h2>
           <div className="MyReservations-list">

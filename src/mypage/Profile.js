@@ -3,10 +3,10 @@ import instance from "axios";
 import Header from "../shared/Header";
 import Sidebar from "../shared/Sidebar";
 import "./styles/Profile.css";
-import { useParams } from "react-router-dom";
+import { useAuth } from '../authentication/AuthContext';
 
 function Profile() {
-  const { user_id } = useParams();
+  const { currentUser } = useAuth();
   const [formData, setFormData] = useState({
     nickname: "",
     email: "",
@@ -16,19 +16,28 @@ function Profile() {
   });
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await instance.get(`/dailband/user/${user_id}/profile`, {
-          withCredentials: true // 세션 쿠키를 전달
-        });
-        setFormData(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchData();
-  }, [user_id]);
+    if (currentUser) {
+      const fetchData = async () => {
+        const token = localStorage.getItem("token");
+        try {
+          const userId = currentUser.user_id; // currentUser에서 user_id 가져오기
+          const response = await instance.get(`/dailband/user/${userId}/profile`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          const data = response.data;
+          setFormData({
+            ...formData,
+            nickname: data.nickname,
+            email: data.email,
+            sessions: translateSessionsFromIds(data.sessions || [])
+          });
+        } catch (error) {
+          console.error("Error fetching user profile:", error);
+        }
+      };
+      fetchData();
+    }
+  }, [currentUser]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -38,33 +47,73 @@ function Profile() {
     });
   };
 
+  const sessionMap = {
+    '드럼': 1,
+    '기타': 2,
+    '보컬': 3,
+    '베이스': 4,
+    '키보드': 5
+  };
+
+  const translateSessions = (sessions) => {
+    return sessions.map(session => sessionMap[session] || session);
+  };
+
+  const sessionMapReverse = {
+    1: '드럼',
+    2: '기타',
+    3: '보컬',
+    4: '베이스',
+    5: '키보드'
+  };
+
+  const translateSessionsFromIds = (sessionIds) => {
+    return sessionIds.map(id => sessionMapReverse[id]);
+  };
+
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target;
     setFormData((prevData) => {
-      if (checked) {
-        return {
-          ...prevData,
-          sessions: [...prevData.sessions, { session_info: value }],
-        };
-      } else {
-        return {
-          ...prevData,
-          sessions: prevData.sessions.filter(
-            (session) => session.session_info !== value
-          ),
-        };
-      }
+      const newSessions = checked
+        ? [...prevData.sessions, value]
+        : prevData.sessions.filter(session => session !== value);
+
+      return {
+        ...prevData,
+        sessions: newSessions
+      };
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      console.error("Invalid or missing token");
+      return;
+    }
     if (formData.password !== formData.passwordConfirm) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
     try {
-      await instance.put(`/myposts/${user_id}`, formData);
+      const userId = currentUser.user_id; // currentUser에서 user_id 가져오기
+      const { passwordConfirm, ...dataToSend } = {
+        nickname: formData.nickname,
+        email: formData.email,
+        password: formData.password,
+        sessions: translateSessions(formData.sessions)
+      };
+
+      console.log("Sending data to server: ", dataToSend);
+
+      const response = await instance.put(`/dailband/user/${userId}/profile`, dataToSend, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      console.log("Server response: ", response.data);
       alert("프로필이 성공적으로 업데이트되었습니다.");
     } catch (error) {
       console.error(error);
@@ -76,7 +125,7 @@ function Profile() {
     <div className="Profile">
       <Header />
       <div className="Profile-container">
-        <Sidebar nickname={formData.nickname} />
+        <Sidebar nickname={currentUser?.username} /> {/* currentUser에서 nickname 가져오기 */}
         <div className="Profile-content">
           <h2 className="Profile-title">마이페이지</h2>
           <div className="Profile-picture-large">
@@ -128,9 +177,7 @@ function Profile() {
                       type="checkbox"
                       name="sessions"
                       value={role}
-                      checked={formData.sessions.some(
-                        (session) => session.session_info === role
-                      )}
+                      checked={formData.sessions.includes(role)}
                       onChange={handleCheckboxChange}
                     />
                     {role}
