@@ -5,6 +5,7 @@ import Sidebar from "../shared/Sidebar";
 import "./styles/MyPerformances.css";
 import { useAuth } from '../authentication/AuthContext';
 
+
 function MyPerformances() {
   const { currentUser } = useAuth();
   const [performances, setPerformances] = useState([]);
