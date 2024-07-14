@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const jwt = require('jsonwebtoken');
 const session = require("express-session");
 
 const app = express();
@@ -36,7 +37,6 @@ app.use(
   })
 );
 
-// 로그인 API
 app.post("/dailband/login", (req, res) => {
   const { username, password } = req.body;
   const user = users.find(
@@ -44,13 +44,26 @@ app.post("/dailband/login", (req, res) => {
   );
 
   if (user) {
-    req.session.userId = user.id;
-    res.status(200).json({ message: "Login successful", userId: user.id });
+    const token = jwt.sign({ id: user.id, username: user.username }, secretKey, { expiresIn: '1h' });
+    res.status(200).json({ message: "Login successful", token });
   } else {
-    res
-      .status(401)
-      .json({ message: "Unauthorized: Invalid username or password" });
+    res.status(401).json({ message: "Unauthorized: Invalid username or password" });
   }
+});
+
+app.post("/dailband/logout", (req, res) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).json({ message: "Logout failed" });
+    }
+    res.status(200).json({ message: "Logout successful" });
+  });
+});
+
+
+
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 
 // 프로필 조회 API

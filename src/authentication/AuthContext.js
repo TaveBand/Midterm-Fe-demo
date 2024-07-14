@@ -20,8 +20,7 @@ export function AuthProvider({ children }) {
       
       const token = response.headers['authorization'].split(' ')[1]; // 'Bearer TOKEN' 형식에서 토큰 추출
       localStorage.setItem("token", token);
-      // 여기서 추가적으로 currentUser를 설정할 수 있습니다
-      setCurrentUser({username}); // 예시로 username을 currentUser로 설정
+      setCurrentUser({ username }); // 예시로 username을 currentUser로 설정
 
       return response.data; // 필요하다면 응답 데이터를 반환
     } catch (error) {
