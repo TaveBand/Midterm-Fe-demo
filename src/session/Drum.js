@@ -25,7 +25,7 @@ function Drum() {
   const [searchTerm, setSearchTerm] = useState("");
   const [boardType, setBoardType] = useState("드럼 게시판 게시글");
   const [youtubeLink, setYoutubeLink] = useState("");
-  const handlePageChange = (page) => {
+  const handlePageChange = page => {
     setPage(page);
   };
   const [postPerPage] = useState(2);
@@ -93,15 +93,15 @@ function Drum() {
     setYoutubeLink("");
   };
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = e => {
     setTitle(e.target.value);
   };
 
-  const handleContentChange = (e) => {
+  const handleContentChange = e => {
     setContent(e.target.value);
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = e => {
     const file = e.target.files[0];
     setImage(file);
 
@@ -116,15 +116,15 @@ function Drum() {
     }
   };
 
-  const handleBoardTypeChange = (e) => {
+  const handleBoardTypeChange = e => {
     setBoardType(e.target.value);
   };
 
-  const handleYoutubeLinkChange = (e) => {
+  const handleYoutubeLinkChange = e => {
     setYoutubeLink(e.target.value);
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     console.log({ title, content, imagePreview, youtubeLink });
 
@@ -151,10 +151,8 @@ function Drum() {
         const endpoint =
           boardType === "드럼 게시판 연주영상" ? "/posts5_1" : "/posts5";
         await instance.post(endpoint, newPost);
-        
       }
       await fetchPosts();
-      
     } catch (error) {
       console.error("Error submitting post:", error);
     }
@@ -164,7 +162,7 @@ function Drum() {
   };
 
   // 검색어 입력 시 검색어 받아오기
-  const handleSearchChange = (e) => {
+  const handleSearchChange = e => {
     setSearchTerm(e.target.value);
   };
 
@@ -174,7 +172,7 @@ function Drum() {
       setCurrentPosts(posts.slice(IndexFirstPost, IndexLastPost));
     } else {
       const filteredPosts = posts.filter(
-        (post) =>
+        post =>
           post.title.includes(searchTerm) || post.content.includes(searchTerm)
       ); // 해당 검색어를 title 또는 content에 포함한 게시물 출력
       setCurrentPosts(filteredPosts.slice(IndexFirstPost, IndexLastPost));
@@ -182,7 +180,7 @@ function Drum() {
   };
 
   // 돋보기 버튼 클릭이 아닌 엔터키를 쳐도 검색이 되도록 하는 함수
-  const handleKeyPress = (e) => {
+  const handleKeyPress = e => {
     if (e.key === "Enter") {
       e.preventDefault(); // Enter 키를 눌렀을 때 폼 제출을 방지
       handleSearchClick();
@@ -190,7 +188,7 @@ function Drum() {
   };
 
   //유튜브 영상 미리보기 띄우기
-  const renderYoutubePreview = (link) => {
+  const renderYoutubePreview = link => {
     const videoId = link.split("v=")[1];
     const embedLink = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
     return (
@@ -201,8 +199,7 @@ function Drum() {
         allowFullScreen
         title="YouTube Preview"
         alt="thumbnail"
-        className="YoutubeThumbnail"
-      ></img>
+        className="YoutubeThumbnail"></img>
     );
   };
 
@@ -213,26 +210,23 @@ function Drum() {
         <SessionBtns initialSelectedIndex={0} />
         <div
           className="SessionBoards"
-          style={{ height: isWriting ? "550px" : "850px" }}
-        >
+          style={{ height: isWriting ? "550px" : "850px" }}>
           {!isWriting ? (
             <>
               <div className="TopBoard">
                 <div className="Sessionpost">
                   <h1>WHIPLASH~! 드러머들 모여라!</h1>
-                  {currentPosts.slice(0, 2).map((post) => (
+                  {currentPosts.slice(0, 2).map(post => (
                     <Link
                       to={`/boards/5/${post.post_id}`}
                       style={{ textDecoration: "none" }}
-                      key={post.post_id}
-                    >
+                      key={post.post_id}>
                       <div key={post.id} className="SessionPostbox">
                         <div className="SessionUserbox">
                           <img
                             className="SessionProfile"
                             src="/img/basicprofile.png"
-                            alt="profile"
-                          ></img>
+                            alt="profile"></img>
                           <p style={{ marginTop: "10px" }}>{post.nickname}</p>
                         </div>
                         <div className="SessionContent">
@@ -261,48 +255,52 @@ function Drum() {
               <div className="BottomBoard">
                 <h2>연주 영상</h2>
                 <div className="Videobox">
-                  {videoPosts&&videoPosts.slice(0,4).map((videoPost) => {
-                    const videoId = videoPost.link?.split("v=")[1];
-                    const embedLink = videoId? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`:"/img/videoimg.png";
+                  {videoPosts &&
+                    videoPosts.slice(0, 4).map(videoPost => {
+                      const videoId = videoPost.link?.split("v=")[1];
+                      const embedLink = videoId
+                        ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
+                        : "/img/videoimg.png";
 
-                    return (
-                      <figure className="Videopost" key={videoPost.post_id}>
-                        <img
-                          width="250px"
-                          src={embedLink}
-                          frameBorder="0"
-                          allowFullScreen
-                          title="YouTube Preview"
-                          alt="thumbnail"
-                          className="Thumbnail"
-                        ></img>
-                        <figcaption>
-                          
-                          <a href={videoPost.link} target="_blank" rel="noopener noreferrer">
-                            <h3>클릭해서 이동하기!</h3>
-                          </a>
-                          <p>유튜브 링크로 이동합니다.</p>
-                          <i>
-                            <img src="/img/rightarrow.png" alt="rightarrow"></img>
-                          </i>
-                        </figcaption>
-                        <div className="VideoTitle">{videoPost.title}</div>
-                      </figure>
-                    );
-                  })}
+                      return (
+                        <figure className="Videopost" key={videoPost.post_id}>
+                          <img
+                            width="250px"
+                            src={embedLink}
+                            frameBorder="0"
+                            allowFullScreen
+                            title="YouTube Preview"
+                            alt="thumbnail"
+                            className="Thumbnail"></img>
+                          <figcaption>
+                            <a
+                              href={videoPost.link}
+                              target="_blank"
+                              rel="noopener noreferrer">
+                              <h3>클릭해서 이동하기!</h3>
+                            </a>
+                            <p>유튜브 링크로 이동합니다.</p>
+                            <i>
+                              <img
+                                src="/img/rightarrow.png"
+                                alt="rightarrow"></img>
+                            </i>
+                          </figcaption>
+                          <div className="VideoTitle">{videoPost.title}</div>
+                        </figure>
+                      );
+                    })}
                 </div>
               </div>
               <button
                 className="WriteBtn"
                 onClick={handleWriteClick}
-                style={{ cursor: "pointer" }}
-              >
+                style={{ cursor: "pointer" }}>
                 글쓰기
               </button>
               <div
                 className="Searchbox"
-                style={{ marginTop: "0px", marginLeft: "110px" }}
-              >
+                style={{ marginTop: "0px", marginLeft: "110px" }}>
                 <input
                   placeholder=" 검색어를 입력해주세요!"
                   value={searchTerm} // 검색어 상태 바인딩
@@ -314,8 +312,7 @@ function Drum() {
                     src="/img/searchicon.png"
                     alt="searchicon"
                     onClick={handleSearchClick} // 검색 버튼 클릭 핸들러 추가
-                    style={{ cursor: "pointer" }}
-                  ></img>
+                    style={{ cursor: "pointer" }}></img>
                 </span>
               </div>
             </>
@@ -324,8 +321,7 @@ function Drum() {
               <button
                 type="button"
                 onClick={handleBackClick}
-                className="Backbutton"
-              >
+                className="Backbutton">
                 <img
                   className="Backbutton"
                   alt="Backbutton"
@@ -374,8 +370,7 @@ function Drum() {
                         value={content}
                         onChange={handleContentChange}
                         placeholder="내용을 입력해주세요"
-                        required
-                      ></textarea>
+                        required></textarea>
                     </>
                   ) : (
                     <>

@@ -62,8 +62,8 @@ app.post("/dailband/logout", (req, res) => {
 
 
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
 
 // 프로필 조회 API
@@ -2080,6 +2080,3 @@ app.delete("/posts9/:post_id", (req, res) => {
   }
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
