@@ -89,6 +89,7 @@ function Scrap() {
     }
   };
 
+  
   return (
     <div className="Scrap">
       <Header />

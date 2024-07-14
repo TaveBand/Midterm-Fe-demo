@@ -19,6 +19,7 @@ const boardMap = {
   9: 'keyboard'
 };
 
+
 function MyPosts() {
   const { currentUser } = useAuth();
   const navigate = useNavigate();

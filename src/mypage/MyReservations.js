@@ -5,6 +5,7 @@ import Sidebar from "../shared/Sidebar";
 import "./styles/MyReservations.css";
 import { useAuth } from '../authentication/AuthContext';
 
+
 function MyReservations() {
   const { currentUser } = useAuth();
   const [reservations, setReservations] = useState([]);
