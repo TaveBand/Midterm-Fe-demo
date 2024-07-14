@@ -4,11 +4,12 @@ import Header from "../shared/Header";
 import Sidebar from "../shared/Sidebar";
 import "./styles/MyPerformances.css";
 import { useAuth } from '../authentication/AuthContext';
-
+import { useNavigate } from "react-router-dom";
 
 function MyPerformances() {
   const { currentUser } = useAuth();
   const [performances, setPerformances] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (currentUser) {
@@ -60,6 +61,12 @@ function MyPerformances() {
     }
   };
 
+  // 수정버튼 추가 후 상세보기로 넘어가는 함수
+
+  const handleEdit = (performance_id) => {
+    navigate(`/dailband/boards/performances/${performance_id}`);
+  };
+
   return (
     <div className="MyPerformances">
       <Header />
@@ -75,6 +82,7 @@ function MyPerformances() {
                   <h3>{performance.title}</h3>
                   <p>{performance.date} {performance.time}</p>
                   <p>장소: {performance.venue}</p>
+                  <button onClick={() => handleEdit(performance.performance_id)} className="EditButton">수정</button>
                   <button onClick={() => handleDelete(performance.performance_id)} className="DeleteButton">삭제</button>
                 </div>
               ))
