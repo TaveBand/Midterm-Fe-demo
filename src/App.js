@@ -40,7 +40,8 @@ import Record from "./voiceanalysis/Record";
 import RecordWaiting from "./voiceanalysis/RecordWaiting";
 import RecordResult from "./voiceanalysis/RecordResult";
 import Recommendation from "./voiceanalysis/Recommendation";
-
+import Reservation from "./performance/Reservation";
+import ReservationCompleted from "./performance/ReservationCompleted";
 
 function App() {
   return (
@@ -80,6 +81,8 @@ function App() {
           <Route path="/record_waiting" element={<RecordWaiting />} />
           <Route path="record_result" element={<RecordResult />} />
           <Route path="recommendations" element={<Recommendation />} />
+          <Route path="/reservations/:performance_id" element={<Reservation />} />
+          <Route path="/reservation_completed" element={<ReservationCompleted />} />
         </Routes>
       </AuthProvider>
     </Router>

@@ -57,9 +57,9 @@ function Home() {
     window.location.href = `/boards/clubs/${postId}`;
   };
 
-  const handleConcertClick = (concertId) => {
+  const handleConcertClick = () => {
     // 클릭된 공연에 해당하는 페이지로 이동
-    window.location.href = `/concerts/${concertId}`; 
+    window.location.href = `/boards/performances`; 
   };
   
   const handleAnalysisClick = () => {

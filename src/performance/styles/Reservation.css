@@ -1,0 +1,63 @@
+.reservation-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.seat-map {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.stage {
+  background-color: #ddd;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.seats {
+  display: grid;
+  grid-template-columns: repeat(10, 30px);
+  grid-gap: 5px;
+}
+
+.seat {
+  width: 30px;
+  height: 30px;
+  background-color: #ccc;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.seat.reserved {
+  background-color:  rgb(165, 121, 242);
+  cursor: not-allowed;
+}
+
+.seat.selected {
+  background-color:  rgb(121, 186, 242);
+}
+
+.reservation-info {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.reservation-button {
+  background-color: rgb(121, 186, 242);;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.reservation-button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
