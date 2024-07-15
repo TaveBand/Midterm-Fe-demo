@@ -59,13 +59,14 @@ function Home() {
 
   const handleConcertClick = (concertId) => {
     // 클릭된 공연에 해당하는 페이지로 이동
-    window.location.href = `/concerts/${concertId}`; // 예시 URL, 실제 경로에 맞게 수정해주세요.
+    window.location.href = `/concerts/${concertId}`; 
   };
   
   const handleAnalysisClick = () => {
-    // 분석 페이지로 이동하는 함수 (URL은 필요에 맞게 수정)
-    window.location.href = '/analysis';
+    // 분석 페이지로 이동하는 함수
+    window.location.href = '/voice_analysis';
   };
+
 
   const posts1 = [
     {
