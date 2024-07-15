@@ -47,7 +47,7 @@ function ToVoiceAnalysis() {
         <div className="Logo" onClick={ToHome}>대일밴드</div>
         <div className="Category_right">
           <button className="LoginBtn" onClick={ToLogin}>
-            로그인
+            로그아웃
           </button>
           <button className="MypageBtn" onClick={Mypage}>마이페이지</button>
         </div>

@@ -9,7 +9,7 @@ const RecordWaiting = () => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate('/record_result', { state: { data: [] } });
-    }, 2000); // 2초 후에 결과 페이지로 이동
+    }, 2000); // 5초 후에 결과 페이지로 이동
 
     return () => clearTimeout(timer);
   }, [navigate]);
@@ -17,9 +17,9 @@ const RecordWaiting = () => {
   return (
     <>
       <Header />
-      <div className="loading-page">
-        <h2>분석 중...</h2>
-        <div className="record-icon">
+      <div className="record-waiting-page">
+        <h2 className="record-waiting-text">...분석 중...</h2>
+        <div className="record-waiting-icon">
           <img src="/img/recording.png" alt="Recording" />
         </div>
       </div>

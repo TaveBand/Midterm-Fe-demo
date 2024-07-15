@@ -39,6 +39,8 @@ import VoiceAnalysis from "./voiceanalysis/VoiceAnalysis";
 import Record from "./voiceanalysis/Record";
 import RecordWaiting from "./voiceanalysis/RecordWaiting";
 import RecordResult from "./voiceanalysis/RecordResult";
+import Recommendation from "./voiceanalysis/Recommendation";
+
 
 function App() {
   return (
@@ -77,6 +79,7 @@ function App() {
           <Route path="/record" element={<Record />} />
           <Route path="/record_waiting" element={<RecordWaiting />} />
           <Route path="record_result" element={<RecordResult />} />
+          <Route path="recommendations" element={<Recommendation />} />
         </Routes>
       </AuthProvider>
     </Router>

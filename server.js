@@ -37,7 +37,7 @@ app.use(
   })
 );
 
-app.post("/dailband/login", (req, res) => {
+app.post(`/dailband/login`, (req, res) => {
   const { username, password } = req.body;
   const user = users.find(
     u => u.username === username && u.password === password
@@ -57,7 +57,7 @@ app.post("/dailband/login", (req, res) => {
   }
 });
 
-app.post("/dailband/logout", (req, res) => {
+app.post(`/dailband/logout`, (req, res) => {
   req.session.destroy(err => {
     if (err) {
       return res.status(500).json({ message: "Logout failed" });
@@ -71,7 +71,7 @@ app.listen(port, () => {
 });
 
 // 프로필 조회 API
-app.get("/dailband/user/:user_id/profile", (req, res) => {
+app.get(`/dailband/user/:user_id/profile`, (req, res) => {
   const userId = parseInt(req.params.user_id, 10);
   const user = users.find(u => u.id === userId);
 
@@ -83,7 +83,7 @@ app.get("/dailband/user/:user_id/profile", (req, res) => {
 });
 
 // 프로필 수정 API
-app.put("/dailband/user/:user_id/profile", (req, res) => {
+app.put(`/dailband/user/:user_id/profile`, (req, res) => {
   const userId = parseInt(req.params.user_id, 10);
   const userIndex = users.findIndex(u => u.id === userId);
 
@@ -99,8 +99,8 @@ app.put("/dailband/user/:user_id/profile", (req, res) => {
   }
 });
 
-// 스크랩한 공연 정보 API
-app.get("/dailband/user/:user_id/scraps/myperformances", (req, res) => {
+//스크랩한 공연 정보 API
+app.get('/dailband/user/:user_id/scraps/myperformances', (req, res) => {
   const userId = parseInt(req.params.user_id, 10);
   const user = users.find(u => u.id === userId);
 
@@ -110,22 +110,23 @@ app.get("/dailband/user/:user_id/scraps/myperformances", (req, res) => {
       {
         performance_id: 1,
         title: "블랙테트라",
-        image_path: "path/to/image1.png",
+        image_path: "path/to/image1.png"
       },
       {
         performance_id: 2,
         title: "[서울과기대/개망나니] 개그 공연",
-        image_path: "path/to/image2.jpg",
-      },
+        image_path: "path/to/image2.jpg"
+      }
     ];
     res.status(200).json({ scrap_performance: scrapPerformances });
   } else {
-    res.status(404).json({ message: "User not found" });
+    res.status(404).json({ message: 'User not found' });
   }
 });
 
-// 스크랩한 게시글 정보 API
-app.get("/dailband/user/:user_id/scraps/posts", (req, res) => {
+
+//스크랩한 게시글 정보 API
+app.get('/dailband/user/:user_id/scraps/posts', (req, res) => {
   const userId = parseInt(req.params.user_id, 10);
   const user = users.find(u => u.id === userId);
 
@@ -136,11 +137,10 @@ app.get("/dailband/user/:user_id/scraps/posts", (req, res) => {
         post: {
           post_id: 1,
           title: "세션 게시판",
-          content:
-            "키보드 악보 연주하려고 하는데 중급자를 위한 곡을 추천해주세요",
+          content: "키보드 악보 연주하려고 하는데 중급자를 위한 곡을 추천해주세요",
           nickname: user.nickname,
-          created_at: "2024.05.17",
-        },
+          created_at: "2024.05.17"
+        }
       },
       {
         post: {
@@ -148,13 +148,13 @@ app.get("/dailband/user/:user_id/scraps/posts", (req, res) => {
           title: "세션 게시판",
           content: "보컬 노래 연습 영상입니다",
           nickname: user.nickname,
-          created_at: "2024.05.18",
-        },
-      },
+          created_at: "2024.05.18"
+        }
+      }
     ];
     res.status(200).json({ scrap_post: scrapPosts });
   } else {
-    res.status(404).json({ message: "User not found" });
+    res.status(404).json({ message: 'User not found' });
   }
 });
 
