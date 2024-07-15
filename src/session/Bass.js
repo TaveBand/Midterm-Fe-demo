@@ -33,11 +33,35 @@ function Bass() {
   const IndexLastPost = page * postPerPage;
   const IndexFirstPost = IndexLastPost - postPerPage;
   const [loading, setLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState();
+  const [nickname, setNickname] = useState("");
+
+  useEffect(() => {
+    const fetchUserInfos = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Invalid or missing token");
+        return;
+      }
+
+      try {
+        const response = await instance.get(`/dailband/user/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setNickname(response.data.nickname);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+  });
 
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await instance.get("/posts8");
+      const res = await instance.get(`/posts8`);
+      // const res = await instance.get(`/dailband/boards/${board_id}`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -50,6 +74,7 @@ function Bass() {
   useEffect(() => {
     fetchPosts();
   }, [IndexFirstPost, IndexLastPost, page]);
+
   const fetchVideoPosts = async () => {
     setLoading(true);
     try {
@@ -65,6 +90,7 @@ function Bass() {
 
   useEffect(() => {
     fetchPosts();
+    // fetchUserInfos();
   }, [IndexFirstPost, IndexLastPost, page]);
 
   useEffect(() => {
@@ -111,23 +137,44 @@ function Bass() {
       setImagePreview(null);
     }
   };
+  const handleBoardTypeChange = (e) => {
+    setBoardType(e.target.value);
+  };
+
+  const handleYoutubeLinkChange = (e) => {
+    setYoutubeLink(e.target.value);
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({ title, content, imagePreview });
+    console.log({ title, content, imagePreview, youtubeLink });
 
-    const updatedPost = {
-      title,
-      content,
-      file_url: imagePreview,
-    };
+    let newPost;
+    if (boardType === String("베이스 게시판 연주영상")) {
+      newPost = {
+        title,
+        link: youtubeLink,
+        user_id: "이름",
+      };
+    } else {
+      newPost = {
+        title,
+        content,
+        file_url: imagePreview,
+        nickname: "이름",
+      };
+    }
 
     try {
       if (isEditing) {
-        await instance.put(`/posts8/${editingPostId}`, updatedPost);
+        await instance.put(`/posts8/${editingPostId}`, newPost);
       } else {
-        await instance.post("/posts8", updatedPost);
+        const endpoint =
+          boardType === "베이스 게시판 연주영상" ? "/posts8_1" : "/posts8";
+        await instance.post(endpoint, newPost);
+        
       }
       await fetchPosts();
+      
     } catch (error) {
       console.error("Error submitting post:", error);
     }
@@ -135,7 +182,6 @@ function Bass() {
     setIsWriting(false);
     setIsEditing(false);
   };
-
   // 검색어 입력 시 검색어 받아오기
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
@@ -160,6 +206,22 @@ function Bass() {
       e.preventDefault(); // Enter 키를 눌렀을 때 폼 제출을 방지
       handleSearchClick();
     }
+  };
+  //유튜브 영상 미리보기 띄우기
+  const renderYoutubePreview = (link) => {
+    const videoId = link.split("v=")[1];
+    const embedLink = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+    return (
+      <img
+        width="300"
+        src={embedLink}
+        frameBorder="0"
+        allowFullScreen
+        title="YouTube Preview"
+        alt="thumbnail"
+        className="YoutubeThumbnail"
+      ></img>
+    );
   };
   return (
     <div>
@@ -215,22 +277,35 @@ function Bass() {
               <div className="BottomBoard">
                 <h2>연주 영상</h2>
                 <div className="Videobox">
-                  <div className="Videopost">
-                    <img src="/img/videoimg.png" alt="videoimg"></img>
-                    <p>영상 제목</p>
-                  </div>
-                  <div className="Videopost">
-                    <img src="/img/videoimg.png" alt="videoimg"></img>
-                    <p>영상 제목</p>
-                  </div>
-                  <div className="Videopost">
-                    <img src="/img/videoimg.png" alt="videoimg"></img>
-                    <p>영상 제목</p>
-                  </div>
-                  <div className="Videopost">
-                    <img src="/img/videoimg.png" alt="videoimg"></img>
-                    <p>영상 제목</p>
-                  </div>
+                  {videoPosts&&videoPosts.slice(0,4).map((videoPost) => {
+                    const videoId = videoPost.link?.split("v=")[1];
+                    const embedLink = videoId? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`:"/img/videoimg.png";
+
+                    return (
+                      <figure className="Videopost" key={videoPost.post_id}>
+                        <img
+                          width="250px"
+                          src={embedLink}
+                          frameBorder="0"
+                          allowFullScreen
+                          title="YouTube Preview"
+                          alt="thumbnail"
+                          className="Thumbnail"
+                        ></img>
+                        <figcaption>
+                          
+                          <a href={videoPost.link} target="_blank" rel="noopener noreferrer">
+                            <h3>클릭해서 이동하기!</h3>
+                          </a>
+                          <p>유튜브 링크로 이동합니다.</p>
+                          <i>
+                            <img src="/img/rightarrow.png" alt="rightarrow"></img>
+                          </i>
+                        </figcaption>
+                        <div className="VideoTitle">{videoPost.title}</div>
+                      </figure>
+                    );
+                  })}
                 </div>
               </div>
               <button
@@ -275,44 +350,72 @@ function Bass() {
               </button>
               <form onSubmit={handleSubmit}>
                 <div className="ImgUpload">
-                  {imagePreview && (
+                  {boardType === "베이스 게시판 게시글" && imagePreview && (
                     <img src={imagePreview} alt="ImagePreview" width="300px" />
                   )}
-                  <label>
-                    이미지 업로드:
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                    />
-                  </label>
+                  {boardType === "베이스 게시판 게시글" && (
+                    <label>
+                      이미지 업로드:
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                      />
+                    </label>
+                  )}
                 </div>
 
                 <div className="TextUpload">
                   <div>
                     <label style={{ color: "grey" }}>게시판 종류 :</label>
-                    <select>
+                    <select value={boardType} onChange={handleBoardTypeChange}>
                       <option>베이스 게시판 게시글</option>
                       <option>베이스 게시판 연주영상</option>
                     </select>
                   </div>
 
-                  <input
-                    type="text"
-                    className="SessionInputTitle"
-                    value={title}
-                    onChange={handleTitleChange}
-                    placeholder="제목을 입력해주세요"
-                    required
-                  />
+                  {boardType === "베이스 게시판 게시글" ? (
+                    <>
+                      <input
+                        type="text"
+                        className="SessionInputTitle"
+                        value={title}
+                        onChange={handleTitleChange}
+                        placeholder="제목을 입력해주세요"
+                        required
+                      />
 
-                  <textarea
-                    className="SessionInputContent"
-                    value={content}
-                    onChange={handleContentChange}
-                    placeholder="내용을 입력해주세요"
-                    required
-                  ></textarea>
+                      <textarea
+                        className="SessionInputContent"
+                        value={content}
+                        onChange={handleContentChange}
+                        placeholder="내용을 입력해주세요"
+                        required
+                      ></textarea>
+                    </>
+                  ) : (
+                    <>
+                      <input
+                        type="text"
+                        className="SessionInputTitle"
+                        value={title}
+                        onChange={handleTitleChange}
+                        placeholder="영상 제목을 입력해주세요"
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="SessionInputContent"
+                        value={youtubeLink}
+                        onChange={handleYoutubeLinkChange}
+                        placeholder="유튜브 링크를 입력해주세요"
+                        required
+                        style={{ height: "50px" }}
+                      />
+                      {youtubeLink && renderYoutubePreview(youtubeLink)}
+                    </>
+                  )}
+
                   <div className="EditBtns">
                     <button type="button" onClick={handleBackClick}>
                       취소

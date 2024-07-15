@@ -8,8 +8,8 @@ import "./styles/Drum.css";
 
 function Vocal() {
   const { post_id } = useParams();
+  const { board_id } = useParams();
 
-  //   const { board_id } = useParams();
   const [posts, setPosts] = useState([]);
   const [coverimages, setCoverImages] = useState();
   const [currentPosts, setCurrentPosts] = useState([]);
@@ -23,9 +23,9 @@ function Vocal() {
   const [imagePreview, setImagePreview] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
   const [videoPosts, setVideoPosts] = useState([]);
-  const [boardType, setBoardType] = useState("드럼 게시판 게시글");
+  const [boardType, setBoardType] = useState("보컬 게시판 게시글");
   const [youtubeLink, setYoutubeLink] = useState("");
-  const handlePageChange = (page) => {
+  const handlePageChange = page => {
     setPage(page);
   };
   const [postPerPage] = useState(2);
@@ -34,10 +34,34 @@ function Vocal() {
   const IndexFirstPost = IndexLastPost - postPerPage;
   const [loading, setLoading] = useState(false);
 
+  const [nickname, setNickname] = useState("");
+
+  useEffect(() => {
+    const fetchUserInfos = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Invalid or missing token");
+        return;
+      }
+
+      try {
+        const response = await instance.get(`/dailband/user/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setNickname(response.data.nickname);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+  });
+
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await instance.get("/posts7");
+      const res = await instance.get(`/posts7`);
+      // const res = await instance.get(`/dailband/boards/${board_id}`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -46,6 +70,11 @@ function Vocal() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchPosts();
+  }, [IndexFirstPost, IndexLastPost, page]);
+
   const fetchVideoPosts = async () => {
     setLoading(true);
     try {
@@ -66,9 +95,6 @@ function Vocal() {
   useEffect(() => {
     fetchVideoPosts();
   }, []);
-  useEffect(() => {
-    fetchPosts();
-  }, [IndexFirstPost, IndexLastPost, page]);
 
   const handleWriteClick = () => {
     setIsWriting(true); // 글 작성
@@ -77,6 +103,8 @@ function Vocal() {
     setContent("");
     setImage(null);
     setImagePreview(null);
+    setYoutubeLink("");
+    setBoardType("보컬 게시판 게시글");
   };
   const handleBackClick = () => {
     setIsWriting(false); // 다시 게시판으로
@@ -85,17 +113,18 @@ function Vocal() {
     setContent("");
     setImage(null);
     setImagePreview(null);
+    setYoutubeLink("");
   };
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = e => {
     setTitle(e.target.value);
   };
 
-  const handleContentChange = (e) => {
+  const handleContentChange = e => {
     setContent(e.target.value);
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = e => {
     const file = e.target.files[0];
     setImage(file);
 
@@ -109,21 +138,42 @@ function Vocal() {
       setImagePreview(null);
     }
   };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log({ title, content, imagePreview });
 
-    const updatedPost = {
-      title,
-      content,
-      file_url: imagePreview,
-    };
+  const handleBoardTypeChange = e => {
+    setBoardType(e.target.value);
+  };
+
+  const handleYoutubeLinkChange = e => {
+    setYoutubeLink(e.target.value);
+  };
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    console.log({ title, content, imagePreview, youtubeLink });
+
+    let newPost;
+    if (boardType === String("보컬 게시판 연주영상")) {
+      newPost = {
+        title,
+        link: youtubeLink,
+        user_id: "이름",
+      };
+    } else {
+      newPost = {
+        title,
+        content,
+        file_url: imagePreview,
+        nickname: "이름",
+      };
+    }
 
     try {
       if (isEditing) {
-        await instance.put(`/posts7/${editingPostId}`, updatedPost)
+        await instance.put(`/posts7/${editingPostId}`, newPost);
       } else {
-        await instance.post("/posts7", updatedPost);
+        const endpoint =
+          boardType === "보컬 게시판 연주영상" ? "/posts7_1" : "/posts7";
+        await instance.post(endpoint, newPost);
       }
       await fetchPosts();
     } catch (error) {
@@ -135,7 +185,7 @@ function Vocal() {
   };
 
   // 검색어 입력 시 검색어 받아오기
-  const handleSearchChange = (e) => {
+  const handleSearchChange = e => {
     setSearchTerm(e.target.value);
   };
 
@@ -145,7 +195,7 @@ function Vocal() {
       setCurrentPosts(posts.slice(IndexFirstPost, IndexLastPost));
     } else {
       const filteredPosts = posts.filter(
-        (post) =>
+        post =>
           post.title.includes(searchTerm) || post.content.includes(searchTerm)
       ); // 해당 검색어를 title 또는 content에 포함한 게시물 출력
       setCurrentPosts(filteredPosts.slice(IndexFirstPost, IndexLastPost));
@@ -153,12 +203,29 @@ function Vocal() {
   };
 
   // 돋보기 버튼 클릭이 아닌 엔터키를 쳐도 검색이 되도록 하는 함수
-  const handleKeyPress = (e) => {
+  const handleKeyPress = e => {
     if (e.key === "Enter") {
       e.preventDefault(); // Enter 키를 눌렀을 때 폼 제출을 방지
       handleSearchClick();
     }
   };
+
+  //유튜브 영상 미리보기 띄우기
+  const renderYoutubePreview = link => {
+    const videoId = link.split("v=")[1];
+    const embedLink = `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+    return (
+      <img
+        width="300"
+        src={embedLink}
+        frameBorder="0"
+        allowFullScreen
+        title="YouTube Preview"
+        alt="thumbnail"
+        className="YoutubeThumbnail"></img>
+    );
+  };
+
   return (
     <div>
       <div className="BoardPage">
@@ -166,42 +233,40 @@ function Vocal() {
         <SessionBtns initialSelectedIndex={2} />
         <div
           className="SessionBoards"
-          style={{ height: isWriting ? "550px" : "850px" }}
-        >
+          style={{ height: isWriting ? "550px" : "850px" }}>
           {!isWriting ? (
             <>
               <div className="TopBoard">
                 <div className="Sessionpost">
                   <h1>무대 위의 주인공 보컬 페이지!</h1>
-                  {currentPosts.slice(0, 2).map((post) => (
+                  {currentPosts.slice(0, 2).map(post => (
                     <Link
-                    to={`/boards/7/${post.post_id}`}
-                    style={{ textDecoration: "none" }}
-                    key={post.post_id}
-                  >
-                    <div key={post.id} className="SessionPostbox">
-                      <div className="SessionUserbox">
-                        <img
-                          className="SessionProfile"
-                          src="/img/basicprofile.png"
-                          alt="profile"
-                        ></img>
-                        <p style={{ marginTop: "10px" }}>{post.nickname}</p>
-                      </div>
-                      <div className="SessionContent">
-                        <div className="Boardname">
-                          <h3 style={{ color: "rgb(51, 0, 119)" }}>
-                            세션 게시판
-                          </h3>
+                      to={`/boards/7/${post.post_id}`}
+                      style={{ textDecoration: "none" }}
+                      key={post.post_id}>
+                      <div key={post.id} className="SessionPostbox">
+                        <div className="SessionUserbox">
+                          <img
+                            className="SessionProfile"
+                            src="/img/basicprofile.png"
+                            alt="profile"></img>
+                          <p style={{ marginTop: "10px" }}>{post.nickname}</p>
                         </div>
-                        <h3 style={{ marginTop: "5px" }}>{post.title}</h3>
-                        <p>{post.content}</p>
-                        <p className="Posttime">작성날짜 {post.created_at}</p>
+                        <div className="SessionContent">
+                          <div className="Boardname">
+                            <h3 style={{ color: "rgb(51, 0, 119)" }}>
+                              세션 게시판
+                            </h3>
+                          </div>
+                          <h3 style={{ marginTop: "5px" }}>{post.title}</h3>
+                          <p>{post.content}</p>
+                          <p className="Posttime">작성날짜 {post.created_at}</p>
+                        </div>
                       </div>
-                    </div>
-                  </Link>
+                    </Link>
                   ))}
                 </div>
+                
                 <Pagenumber
                   totalCount={posts.length}
                   page={page}
@@ -213,34 +278,52 @@ function Vocal() {
               <div className="BottomBoard">
                 <h2>연주 영상</h2>
                 <div className="Videobox">
-                  <div className="Videopost">
-                    <img src="/img/videoimg.png" alt="videoimg"></img>
-                    <p>영상 제목</p>
-                  </div>
-                  <div className="Videopost">
-                    <img src="/img/videoimg.png" alt="videoimg"></img>
-                    <p>영상 제목</p>
-                  </div>
-                  <div className="Videopost">
-                    <img src="/img/videoimg.png" alt="videoimg"></img>
-                    <p>영상 제목</p>
-                  </div>
-                  <div className="Videopost">
-                    <img src="/img/videoimg.png" alt="videoimg"></img>
-                    <p>영상 제목</p>
-                  </div>
+                  {videoPosts &&
+                    videoPosts.slice(0, 4).map(videoPost => {
+                      const videoId = videoPost.link?.split("v=")[1];
+                      const embedLink = videoId
+                        ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
+                        : "/img/videoimg.png";
+
+                      return (
+                        <figure className="Videopost" key={videoPost.post_id}>
+                          <img
+                            width="250px"
+                            src={embedLink}
+                            frameBorder="0"
+                            allowFullScreen
+                            title="YouTube Preview"
+                            alt="thumbnail"
+                            className="Thumbnail"></img>
+                          <figcaption>
+                            <a
+                              href={videoPost.link}
+                              target="_blank"
+                              rel="noopener noreferrer">
+                              <h3>클릭해서 이동하기!</h3>
+                            </a>
+                            <p>유튜브 링크로 이동합니다.</p>
+                            <i>
+                              <img
+                                src="/img/rightarrow.png"
+                                alt="rightarrow"></img>
+                            </i>
+                          </figcaption>
+                          <div className="VideoTitle">{videoPost.title}</div>
+                        </figure>
+                      );
+                    })}
                 </div>
-                
-              </div><button
-                  className="WriteBtn"
-                  onClick={handleWriteClick}
-                  style={{ cursor: "pointer" }}
-                >
-                  글쓰기
-                </button><div
+              </div>
+              <button
+                className="WriteBtn"
+                onClick={handleWriteClick}
+                style={{ cursor: "pointer" }}>
+                글쓰기
+              </button>
+              <div
                 className="Searchbox"
-                style={{ marginTop: "0px", marginLeft: "110px" }}
-              >
+                style={{ marginTop: "0px", marginLeft: "110px" }}>
                 <input
                   placeholder=" 검색어를 입력해주세요!"
                   value={searchTerm} // 검색어 상태 바인딩
@@ -252,8 +335,7 @@ function Vocal() {
                     src="/img/searchicon.png"
                     alt="searchicon"
                     onClick={handleSearchClick} // 검색 버튼 클릭 핸들러 추가
-                    style={{ cursor: "pointer" }}
-                  ></img>
+                    style={{ cursor: "pointer" }}></img>
                 </span>
               </div>
             </>
@@ -262,8 +344,7 @@ function Vocal() {
               <button
                 type="button"
                 onClick={handleBackClick}
-                className="Backbutton"
-              >
+                className="Backbutton">
                 <img
                   className="Backbutton"
                   alt="Backbutton"
@@ -272,44 +353,71 @@ function Vocal() {
               </button>
               <form onSubmit={handleSubmit}>
                 <div className="ImgUpload">
-                  {imagePreview && (
+                  {boardType === "보컬 게시판 게시글" && imagePreview && (
                     <img src={imagePreview} alt="ImagePreview" width="300px" />
                   )}
-                  <label>
-                    이미지 업로드:
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                    />
-                  </label>
+                  {boardType === "보컬 게시판 게시글" && (
+                    <label>
+                      이미지 업로드:
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                      />
+                    </label>
+                  )}
                 </div>
 
                 <div className="TextUpload">
                   <div>
-                    <label style={{color: "grey"}}>게시판 종류 :</label>
-                    <select>
-                      <option>드럼 게시판 게시글</option>
-                      <option>드럼 게시판 연주영상</option>
+                    <label style={{ color: "grey" }}>게시판 종류 :</label>
+                    <select value={boardType} onChange={handleBoardTypeChange}>
+                      <option>보컬 게시판 게시글</option>
+                      <option>보컬 게시판 연주영상</option>
                     </select>
                   </div>
 
-                  <input
-                    type="text"
-                    className="SessionInputTitle"
-                    value={title}
-                    onChange={handleTitleChange}
-                    placeholder="제목을 입력해주세요"
-                    required
-                  />
+                  {boardType === "보컬 게시판 게시글" ? (
+                    <>
+                      <input
+                        type="text"
+                        className="SessionInputTitle"
+                        value={title}
+                        onChange={handleTitleChange}
+                        placeholder="제목을 입력해주세요"
+                        required
+                      />
 
-                  <textarea
-                    className="SessionInputContent"
-                    value={content}
-                    onChange={handleContentChange}
-                    placeholder="내용을 입력해주세요"
-                    required
-                  ></textarea>
+                      <textarea
+                        className="SessionInputContent"
+                        value={content}
+                        onChange={handleContentChange}
+                        placeholder="내용을 입력해주세요"
+                        required></textarea>
+                    </>
+                  ) : (
+                    <>
+                      <input
+                        type="text"
+                        className="SessionInputTitle"
+                        value={title}
+                        onChange={handleTitleChange}
+                        placeholder="영상 제목을 입력해주세요"
+                        required
+                      />
+                      <input
+                        type="text"
+                        className="SessionInputContent"
+                        value={youtubeLink}
+                        onChange={handleYoutubeLinkChange}
+                        placeholder="유튜브 링크를 입력해주세요"
+                        required
+                        style={{ height: "50px" }}
+                      />
+                      {youtubeLink && renderYoutubePreview(youtubeLink)}
+                    </>
+                  )}
+
                   <div className="EditBtns">
                     <button type="button" onClick={handleBackClick}>
                       취소

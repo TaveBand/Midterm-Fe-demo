@@ -31,7 +31,13 @@ function Matching() {
 
   const fetchPosts = async () => {
     setLoading(true);
+    const token = localStorage.getItem("token");
     try {
+      // const response = await instance.get(`/dailband/user/profile`, {
+      //   headers: {
+      //     "Authorization": `Bearer ${token}`
+      //   }
+      // })
       const res = await instance.get("/posts2");
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
