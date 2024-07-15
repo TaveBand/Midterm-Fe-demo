@@ -1,77 +1,64 @@
 import React, { useState, useEffect } from "react";
-import instance from "axios";
 import Header from "../shared/Header";
 import Sidebar from "../shared/Sidebar";
 import "./styles/MyPerformances.css";
-import { useAuth } from '../authentication/AuthContext';
 import { useNavigate } from "react-router-dom";
 
+// 정적 데이터
+const samplePerformances = [
+  {
+    performance_id: 1,
+    title: "스튜디오에이 5월 단독 공연",
+    date: "2024.05.24",
+    time: "19:00",
+    venue: "Main Hall",
+    total_seats: 200,
+    current_seats: 150,
+    image_path: "/img/image4.png",
+  },
+  {
+    performance_id: 2,
+    title: "메이데이 : 2024 밴드 연합공연",
+    date: "2024.05.17",
+    time: "18:00",
+    venue: "Grand Theater",
+    total_seats: 150,
+    current_seats: 120,
+    image_path: "/img/image5.png",
+  },
+  {
+    performance_id: 3,
+    title: "2024학년도 1학기 SETTLER 정기 공연",
+    date: "2024.05.25",
+    time: "17:30",
+    venue: "Lecture Art Center",
+    total_seats: 300,
+    current_seats: 300,
+    image_path: "/img/image6.png",
+  },
+];
+
 function MyPerformances() {
-  const { currentUser } = useAuth();
   const [performances, setPerformances] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (currentUser) {
-      const token = localStorage.getItem("token");
-      const userId = currentUser.user_id; // currentUser에서 user_id 가져오기
+    setPerformances(samplePerformances);
+  }, []);
 
-      if (!token) {
-        console.error("Invalid or missing token");
-        return;
-      }
-
-      const fetchPerformances = async () => {
-        try {
-          const response = await instance.get(`/dailband/user/${userId}/myperformances`, {
-            headers: {
-              "Authorization": `Bearer ${token}`
-            }
-          });
-          setPerformances(response.data.performances);
-        } catch (error) {
-          console.error("Error fetching performances:", error);
-        }
-      };
-
-      fetchPerformances();
-    }
-  }, [currentUser]);
-
-  const handleDelete = async (performance_id) => {
-    if (currentUser) {
-      const token = localStorage.getItem("token");
-      const userId = currentUser.user_id; // currentUser에서 user_id 가져오기
-
-      if (!token) {
-        console.error("Invalid or missing token");
-        return;
-      }
-
-      try {
-        await instance.delete(`/dailband/user/${userId}/myperformances/${performance_id}`, {
-          headers: {
-            "Authorization": `Bearer ${token}`
-          }
-        });
-        setPerformances(prevPerformances => prevPerformances.filter(p => p.performance_id !== performance_id));
-      } catch (error) {
-        console.error("Error deleting performance:", error);
-      }
-    }
+  const handleDelete = (performance_id) => {
+    setPerformances(prevPerformances => prevPerformances.filter(p => p.performance_id !== performance_id));
   };
 
-  // 수정버튼 추가 후 상세보기로 넘어가는 함수
-
   const handleEdit = (performance_id) => {
-    navigate(`/dailband/boards/performances/${performance_id}`);
+    navigate(`/boards/performances/${performance_id}`);
   };
 
   return (
     <div className="MyPerformances">
       <Header />
       <div className="MyPerformances-container">
-        <Sidebar nickname={currentUser?.username} /> {/* currentUser에서 username 가져오기 */}
+        <Sidebar userId={1} nickname={"윤영선"} /> {/* 정적 데이터 사용 */}
         <div className="MyPerformances-content">
           <h2 className="MyPerformances-title">내가 작성한 공연 조회</h2>
           <div className="MyPerformances-list">
@@ -82,8 +69,10 @@ function MyPerformances() {
                   <h3>{performance.title}</h3>
                   <p>{performance.date} {performance.time}</p>
                   <p>장소: {performance.venue}</p>
-                  <button onClick={() => handleEdit(performance.performance_id)} className="EditButton">수정</button>
-                  <button onClick={() => handleDelete(performance.performance_id)} className="DeleteButton">삭제</button>
+                  <div className="MyPerformances-buttons">
+                    <button onClick={() => handleEdit(performance.performance_id)} className="EditButton">수정</button>
+                    <button onClick={() => handleDelete(performance.performance_id)} className="DeleteButton">삭제</button>
+                  </div>
                 </div>
               ))
             ) : (

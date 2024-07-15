@@ -8,7 +8,7 @@
   display: flex;
   flex: 1;
   background-color: #f8f9fa;
-  margin-top: 60px; /* 헤더 높이만큼 여백 추가 */
+  margin-top: 60px; 
 }
 
 .Scrap-content {
@@ -19,8 +19,8 @@
   margin: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  max-width: 1000px; /* 최대 너비 조정 */
-  margin: 60px auto; /* 수직 및 수평 중앙 정렬 */
+  max-width: 1000px; 
+  margin: 60px auto; 
 }
 
 .Scrap-title {
@@ -69,6 +69,7 @@
   margin: 10px 0;
   font-size: 16px;
   font-weight: bold;
+  flex-grow: 1;
 }
 
 .Scrap-performance button {
@@ -79,6 +80,7 @@
   padding: 5px 10px;
   cursor: pointer;
   font-size: 14px;
+  margin-top: auto; /* 버튼을 아래쪽으로 밀어내기 */
 }
 
 .Scrap-performance button:hover {
@@ -111,6 +113,7 @@
 .Scrap-post-title {
   font-size: 18px;
   font-weight: bold;
+  flex-grow: 1;
 }
 
 .Scrap-post-content p {

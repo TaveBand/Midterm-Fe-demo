@@ -1,43 +1,53 @@
-// AuthContext.js
-import React, { useContext, useState, createContext } from "react";
-import instance from "axios";
+import React, { createContext, useContext, useState } from "react";
 
-const AuthContext = createContext(null);
-
-export function useAuth() {
-  return useContext(AuthContext);
-}
+const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState(null);
 
-  async function login(username, password) {
-    try {
-      const response = await instance.post("/dailband/login", {
-        username,
-        password,
-      });
+  const login = (username, password) => {
+    const users = [
+      {
+        id: 1,
+        username: "윤영선",
+        password: "0000",
+        nickname: "yys",
+        email: "yys@example.com",
+        sessions: [{ session_info: "드럼" }],
+      },
+      {
+        id: 2,
+        username: "김시은",
+        password: "1111",
+        nickname: "kse",
+        email: "kse@example.com",
+        sessions: [{ session_info: "기타" }],
+      },
+    ];
 
-      const token = response.headers["authorization"].split(" ")[1]; // 'Bearer TOKEN' 형식에서 토큰 추출
-      localStorage.setItem("token", token);
-      setCurrentUser({ username }); // 예시로 username을 currentUser로 설정
+    const user = users.find(
+      (u) => u.username === username && u.password === password
+    );
 
-      return response.data; // 필요하다면 응답 데이터를 반환
-    } catch (error) {
-      throw error;
+    if (user) {
+      setCurrentUser(user);
+      return Promise.resolve();
+    } else {
+      return Promise.reject(new Error("Invalid username or password"));
     }
-  }
-
-  function logout() {
-    localStorage.removeItem("token");
-    setCurrentUser(null);
-  }
-
-  const value = {
-    currentUser,
-    login,
-    logout,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  const logout = () => {
+    setCurrentUser(null);
+  };
+
+  return (
+    <AuthContext.Provider value={{ currentUser, login, logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+
+export function useAuth() {
+  return useContext(AuthContext);
 }

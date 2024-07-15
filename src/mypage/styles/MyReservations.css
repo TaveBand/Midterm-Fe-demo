@@ -39,3 +39,17 @@
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
   text-align: left;
 }
+
+.CancelButton {
+  background-color: #007bff; /* 파란색으로 변경 */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.CancelButton:hover {
+  background-color: #0056b3; /* 호버 시 진한 파란색 */
+}

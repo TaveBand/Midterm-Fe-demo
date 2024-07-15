@@ -1,12 +1,19 @@
-import React, { useState, useEffect } from "react";
-import instance from "axios";
+// src/pages/Profile.js
+import React, { useState, useEffect } from 'react';
 import Header from "../shared/Header";
 import Sidebar from "../shared/Sidebar";
 import "./styles/Profile.css";
-import { useAuth } from '../authentication/AuthContext';
+
+// 정적 데이터
+const userProfile = {
+  id: 1,
+  username: "윤영선",
+  nickname: "yys",
+  email: "yys@example.com",
+  sessions: [{ session_info: "드럼" }],
+};
 
 function Profile() {
-  const { currentUser } = useAuth();
   const [formData, setFormData] = useState({
     nickname: "",
     email: "",
@@ -16,28 +23,17 @@ function Profile() {
   });
 
   useEffect(() => {
-    if (currentUser) {
-      const fetchData = async () => {
-        const token = localStorage.getItem("token");
-        try {
-          const userId = currentUser.user_id; // currentUser에서 user_id 가져오기
-          const response = await instance.get(`/dailband/user/${userId}/profile`, {
-            headers: { Authorization: `Bearer ${token}` }
-          });
-          const data = response.data;
-          setFormData({
-            ...formData,
-            nickname: data.nickname,
-            email: data.email,
-            sessions: translateSessionsFromIds(data.sessions || [])
-          });
-        } catch (error) {
-          console.error("Error fetching user profile:", error);
-        }
-      };
-      fetchData();
-    }
-  }, [currentUser]);
+    const fetchData = async () => {
+      const data = userProfile;
+      setFormData({
+        ...formData,
+        nickname: data.nickname,
+        email: data.email,
+        sessions: translateSessionsFromIds(data.sessions || [])
+      });
+    };
+    fetchData();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -87,49 +83,31 @@ function Profile() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem("token");
-
-    if (!token) {
-      console.error("Invalid or missing token");
-      return;
-    }
     if (formData.password !== formData.passwordConfirm) {
       alert("비밀번호가 일치하지 않습니다.");
       return;
     }
-    try {
-      const userId = currentUser.user_id; // currentUser에서 user_id 가져오기
-      const { passwordConfirm, ...dataToSend } = {
-        nickname: formData.nickname,
-        email: formData.email,
-        password: formData.password,
-        sessions: translateSessions(formData.sessions)
-      };
 
-      console.log("Sending data to server: ", dataToSend);
+    const updatedProfile = {
+      ...userProfile,
+      nickname: formData.nickname,
+      email: formData.email,
+      sessions: translateSessions(formData.sessions),
+    };
 
-      const response = await instance.put(`/dailband/user/${userId}/profile`, dataToSend, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      console.log("Server response: ", response.data);
-      alert("프로필이 성공적으로 업데이트되었습니다.");
-    } catch (error) {
-      console.error(error);
-      alert("프로필 업데이트 중 오류가 발생했습니다.");
-    }
+    console.log("Updated Profile:", updatedProfile);
+    alert("프로필이 성공적으로 업데이트되었습니다.");
   };
 
   return (
     <div className="Profile">
       <Header />
       <div className="Profile-container">
-        <Sidebar nickname={currentUser?.username} /> {/* currentUser에서 nickname 가져오기 */}
+        <Sidebar userId={userProfile.id} nickname={userProfile.username} />
         <div className="Profile-content">
           <h2 className="Profile-title">마이페이지</h2>
           <div className="Profile-picture-large">
-            <img src="/path/to/profile-image" alt="Profile" />
+            <img src="/img/basicprofile.png" alt="Profile" />
           </div>
           <form onSubmit={handleSubmit} className="MypageForm">
             <div className="InputField">

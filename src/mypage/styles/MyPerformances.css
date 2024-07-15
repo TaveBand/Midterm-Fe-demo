@@ -28,8 +28,9 @@
 
 .MyPerformances-list {
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   gap: 20px;
+  justify-content: center; /* 중앙 정렬 */
 }
 
 .MyPerformances-item {
@@ -37,5 +38,55 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  text-align: left;
+  max-width: 250px; /* 아이템 최대 너비 */
+  flex: 1 1 calc(33.33% - 40px); /* 가로로 3개씩 배치 */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.MyPerformances-item img {
+  width: 100%;
+  height: auto;
+  max-width: 200px; /* 이미지의 최대 너비를 설정하여 크기 조정 */
+  border-radius: 10px;
+}
+
+.MyPerformances-item h3 {
+  margin-top: 10px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.MyPerformances-item p {
+  margin: 5px 0;
+}
+
+.MyPerformances-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.EditButton, .DeleteButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 5px 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.DeleteButton {
+  background-color: #007bff;
+}
+
+.EditButton:hover {
+  background-color: #0056b3;
+}
+
+.DeleteButton:hover {
+  background-color: #007bff;
 }

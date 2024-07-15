@@ -6,7 +6,7 @@ const Sidebar = ({ userId, nickname }) => {
   return (
     <div className="sidebar">
       <div className="profile-picture">
-        <img src="/path/to/profile-image" alt="Profile" className="profile-image" />
+        <img src="/img/basicprofile.png" alt="Profile" className="profile-image" />
       </div>
       <h2>{nickname}</h2>
       <ul>
