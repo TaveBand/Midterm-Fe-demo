@@ -35,6 +35,11 @@ import KeyboardDetail from "./session/KeyboardDetail";
 import UnionPerformances from "./performance/UnionPerformances";
 import UnionPerformanceDetail from "./performance/UnionPerformanceDetail";
 
+import VoiceAnalysis from "./voiceanalysis/VoiceAnalysis";
+import Record from "./voiceanalysis/Record";
+import RecordWaiting from "./voiceanalysis/RecordWaiting";
+import RecordResult from "./voiceanalysis/RecordResult";
+
 function App() {
   return (
     <Router>
@@ -68,6 +73,10 @@ function App() {
           <Route path="/boards/9/:post_id" element={<KeyboardDetail />} />
           <Route path="/boards/performances" element={<UnionPerformances />} />
           <Route path="/boards/performances/:performance_id" element={<UnionPerformanceDetail />} />
+          <Route path="/voice_analysis" element={<VoiceAnalysis />} />
+          <Route path="/record" element={<Record />} />
+          <Route path="/record_waiting" element={<RecordWaiting />} />
+          <Route path="record_result" element={<RecordResult />} />
         </Routes>
       </AuthProvider>
     </Router>

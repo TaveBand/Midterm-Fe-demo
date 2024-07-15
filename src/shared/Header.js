@@ -29,6 +29,11 @@ function ToPerformance() {
   navigate("/boards/performances");
   return;
 }
+function ToVoiceAnalysis() {
+  navigate("/voice_analysis");
+  return;
+}
+
 
   return (
     <div className="Headerwidth">
@@ -37,7 +42,7 @@ function ToPerformance() {
           <button onClick={ToSesseion}>세션</button>
           <button onClick={ToBoards}>모집</button>
           <button onClick={ToPerformance}>연합공연</button>
-          <button>음악분석</button>
+          <button onClick={ToVoiceAnalysis}>음악분석</button>
         </div>
         <div className="Logo" onClick={ToHome}>대일밴드</div>
         <div className="Category_right">

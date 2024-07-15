@@ -1,13 +1,14 @@
-const express = require("express");
-const cors = require("cors");
-const bodyParser = require("body-parser");
-const jwt = require('jsonwebtoken');
-const session = require("express-session");
-
+const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const jwt = require('jsonwebtoken'); // 추가
 const app = express();
 const port = 5000;
 
-// 로그인 정보 저장
+const secretKey = 'your-secret-key';
+
+// 사용자 데이터
 const users = [
   {
     id: 1,
@@ -37,6 +38,7 @@ app.use(
   })
 );
 
+// 로그인 API
 app.post("/dailband/login", (req, res) => {
   const { username, password } = req.body;
   const user = users.find(
@@ -45,12 +47,15 @@ app.post("/dailband/login", (req, res) => {
 
   if (user) {
     const token = jwt.sign({ id: user.id, username: user.username }, secretKey, { expiresIn: '1h' });
-    res.status(200).json({ message: "Login successful", token });
+    res.setHeader('authorization', `Bearer ${token}`);
+    console.log('Authorization Header:', `Bearer ${token}`); // 로그 추가
+    res.status(200).json({ message: "Login successful" });
   } else {
     res.status(401).json({ message: "Unauthorized: Invalid username or password" });
   }
 });
 
+// 로그아웃 API
 app.post("/dailband/logout", (req, res) => {
   req.session.destroy(err => {
     if (err) {
@@ -60,10 +65,21 @@ app.post("/dailband/logout", (req, res) => {
   });
 });
 
+// 인증 미들웨어
+function authenticateToken(req, res, next) {
+  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];
+  if (token == null) return res.sendStatus(401);
 
+  jwt.verify(token, secretKey, (err, user) => {
+    if (err) return res.sendStatus(403);
+    req.user = user;
+    next();
+  });
+}
 
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+// 예시로 인증이 필요한 라우트
+app.get("/dailband/protected", authenticateToken, (req, res) => {
+  res.status(200).json({ message: "This is a protected route", user: req.user });
 });
 
 // 프로필 조회 API
