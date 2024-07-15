@@ -1,6 +1,6 @@
 // AuthContext.js
-import React, { useContext, useState, createContext } from 'react';
-import instance from 'axios';
+import React, { useContext, useState, createContext } from "react";
+import instance from "axios";
 
 const AuthContext = createContext(null);
 
@@ -17,8 +17,8 @@ export function AuthProvider({ children }) {
         username,
         password,
       });
-      
-      const token = response.headers['authorization'].split(' ')[1]; // 'Bearer TOKEN' 형식에서 토큰 추출
+
+      const token = response.headers["authorization"].split(" ")[1]; // 'Bearer TOKEN' 형식에서 토큰 추출
       localStorage.setItem("token", token);
       setCurrentUser({ username }); // 예시로 username을 currentUser로 설정
 
@@ -36,12 +36,8 @@ export function AuthProvider({ children }) {
   const value = {
     currentUser,
     login,
-    logout
+    logout,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

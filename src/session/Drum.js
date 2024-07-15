@@ -33,6 +33,27 @@ function Drum() {
   const IndexLastPost = page * postPerPage;
   const IndexFirstPost = IndexLastPost - postPerPage;
   const [loading, setLoading] = useState(false);
+ const [nickname, setNickname] = useState("");
+  useEffect(() => {
+    const fetchUserInfos = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Invalid or missing token");
+        return;
+      }
+
+      try {
+        const response = await instance.get(`/dailband/user/profile`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+        setNickname(response.data.nickname);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    }
+  });
 
   const fetchPosts = async () => {
     setLoading(true);

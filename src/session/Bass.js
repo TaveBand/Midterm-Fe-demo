@@ -33,11 +33,35 @@ function Bass() {
   const IndexLastPost = page * postPerPage;
   const IndexFirstPost = IndexLastPost - postPerPage;
   const [loading, setLoading] = useState(false);
+  const [currentUser, setCurrentUser] = useState();
+  const [nickname, setNickname] = useState("");
+
+  useEffect(() => {
+    const fetchUserInfos = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Invalid or missing token");
+        return;
+      }
+
+      try {
+        const response = await instance.get(`/dailband/user/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setNickname(response.data.nickname);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+  });
 
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await instance.get("/posts8");
+      const res = await instance.get(`/posts8`);
+      // const res = await instance.get(`/dailband/boards/${board_id}`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -50,6 +74,7 @@ function Bass() {
   useEffect(() => {
     fetchPosts();
   }, [IndexFirstPost, IndexLastPost, page]);
+
   const fetchVideoPosts = async () => {
     setLoading(true);
     try {
@@ -65,6 +90,7 @@ function Bass() {
 
   useEffect(() => {
     fetchPosts();
+    // fetchUserInfos();
   }, [IndexFirstPost, IndexLastPost, page]);
 
   useEffect(() => {

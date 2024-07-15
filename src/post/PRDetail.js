@@ -19,7 +19,13 @@ function PRDetail() {
 
   const getDetail = async (post_id) => {
     setLoading(true);
+    const token = localStorage.getItem("token");
     try {
+      // const response = await instance.get(`/dailband/user/profile`, {
+      //   headers: {
+      //     "Authorization": `Bearer ${token}`
+      //   }
+      // })
       const res = await instance.get(`/posts3_1/${post_id}`);
       setDetail(res.data);
       setTitle(res.data.title);

@@ -19,7 +19,7 @@ function Clubs() {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const handlePageChange = (page) => {
+  const handlePageChange = page => {
     setPage(page);
   };
   const [postPerPage] = useState(3);
@@ -28,11 +28,34 @@ function Clubs() {
   const IndexFirstPost = IndexLastPost - postPerPage;
   const [loading, setLoading] = useState(false);
   const { post_id } = useParams();
+  const [nickname, setNickname] = useState("");
+
+  useEffect(() => {
+    const fetchUserInfos = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Invalid or missing token");
+        return;
+      }
+
+      try {
+        const response = await instance.get(`/dailband/user/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setNickname(response.data.nickname);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+  });
 
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await instance.get("/posts");
+      const res = await instance.get(`/posts`);
+      // const res = await instance.get(`/dailband/boards/${board_id}`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -81,15 +104,15 @@ function Clubs() {
     setImagePreview(null);
   };
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = e => {
     setTitle(e.target.value);
   };
 
-  const handleContentChange = (e) => {
+  const handleContentChange = e => {
     setContent(e.target.value);
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = e => {
     const file = e.target.files[0];
     setImage(file);
 
@@ -104,7 +127,7 @@ function Clubs() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     console.log({ title, content, imagePreview });
 
@@ -129,7 +152,7 @@ function Clubs() {
     setIsEditing(false);
   };
 
-  const handleEditClick = (post) => {
+  const handleEditClick = post => {
     setIsEditing(true);
     setIsWriting(true);
     setEditingPostId(post.post_id);
@@ -139,7 +162,7 @@ function Clubs() {
     setImagePreview(post.image_url);
   };
 
-  const handleDeleteClick = async (post) => {
+  const handleDeleteClick = async post => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
         await instance.delete(`/posts/${post.post_id}`);
@@ -153,7 +176,7 @@ function Clubs() {
   };
 
   // 검색어 입력 시 검색어 받아오기
-  const handleSearchChange = (e) => {
+  const handleSearchChange = e => {
     setSearchTerm(e.target.value);
   };
 
@@ -163,7 +186,7 @@ function Clubs() {
       setCurrentPosts(posts.slice(IndexFirstPost, IndexLastPost));
     } else {
       const filteredPosts = posts.filter(
-        (post) =>
+        post =>
           post.title.includes(searchTerm) || post.content.includes(searchTerm)
       ); // 해당 검색어를 title 또는 content에 포함한 게시물 출력
       setCurrentPosts(filteredPosts.slice(IndexFirstPost, IndexLastPost));
@@ -171,7 +194,7 @@ function Clubs() {
   };
 
   // 돋보기 버튼 클릭이 아닌 엔터키를 쳐도 검색이 되도록 하는 함수
-  const handleKeyPress = (e) => {
+  const handleKeyPress = e => {
     if (e.key === "Enter") {
       e.preventDefault(); // Enter 키를 눌렀을 때 폼 제출을 방지
       handleSearchClick();
@@ -188,8 +211,7 @@ function Clubs() {
               <button
                 type="button"
                 onClick={handleBackClick}
-                className="Backbutton"
-              >
+                className="Backbutton">
                 <img
                   className="Backbutton"
                   alt="Backbutton"
@@ -227,8 +249,7 @@ function Clubs() {
                     onChange={handleContentChange}
                     placeholder="학교명, 인원수, 좋아하는 밴드 스타일 등을 적어주시면 좋아요!"
                     required
-                    style={{ height: "280px" }}
-                  ></textarea>
+                    style={{ height: "280px" }}></textarea>
                   <div className="EditBtns">
                     <button type="button" onClick={handleBackClick}>
                       취소
@@ -254,8 +275,7 @@ function Clubs() {
                     src="/img/searchicon.png"
                     alt="searchicon"
                     onClick={handleSearchClick} // 검색 버튼 클릭 핸들러 추가
-                    style={{ cursor: "pointer" }}
-                  ></img>
+                    style={{ cursor: "pointer" }}></img>
                 </span>
               </div>
 
@@ -266,17 +286,15 @@ function Clubs() {
                   marginLeft: "1270px",
                   marginTop: "410px",
                   cursor: "pointer",
-                }}
-              >
+                }}>
                 글쓰기
               </button>
               <div className="Clubpost">
-                {currentPosts.slice(0, 3).map((post) => (
+                {currentPosts.slice(0, 3).map(post => (
                   <Link
                     to={`/boards/clubs/${post.post_id}`}
                     style={{ textDecoration: "none" }}
-                    key={post.post_id}
-                  >
+                    key={post.post_id}>
                     <div className="Postbox">
                       <div>
                         <img
@@ -297,20 +315,18 @@ function Clubs() {
                           <div className="ModifyBtns">
                             <button
                               type="button"
-                              onClick={(e) => {
+                              onClick={e => {
                                 e.preventDefault(); // Link 컴포넌트 링크 이동 방지
                                 handleEditClick(post);
-                              }}
-                            >
+                              }}>
                               <img src="/img/edit.png" alt="edit" />
                             </button>
                             <button
                               type="button"
-                              onClick={(e) => {
+                              onClick={e => {
                                 e.preventDefault();
                                 handleDeleteClick(post);
-                              }}
-                            >
+                              }}>
                               <img src="/img/trash.png" alt="trash" />
                             </button>
                           </div>

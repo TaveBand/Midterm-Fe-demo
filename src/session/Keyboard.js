@@ -34,10 +34,34 @@ function KeyBoard() {
   const IndexFirstPost = IndexLastPost - postPerPage;
   const [loading, setLoading] = useState(false);
 
+  const [nickname, setNickname] = useState("");
+
+  useEffect(() => {
+    const fetchUserInfos = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Invalid or missing token");
+        return;
+      }
+
+      try {
+        const response = await instance.get(`/dailband/user/profile`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setNickname(response.data.nickname);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+  });
+
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await instance.get("/posts9");
+      const res = await instance.get(`/posts9`);
+      // const res = await instance.get(`/dailband/boards/${board_id}`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -46,6 +70,11 @@ function KeyBoard() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchPosts();
+  }, [IndexFirstPost, IndexLastPost, page]);
+
   const fetchVideoPosts = async () => {
     setLoading(true);
     try {
@@ -60,15 +89,8 @@ function KeyBoard() {
   };
 
   useEffect(() => {
-    fetchPosts();
-  }, [IndexFirstPost, IndexLastPost, page]);
-
-  useEffect(() => {
     fetchVideoPosts();
   }, []);
-  useEffect(() => {
-    fetchPosts();
-  }, [IndexFirstPost, IndexLastPost, page]);
 
   const handleWriteClick = () => {
     setIsWriting(true); // 글 작성
@@ -207,7 +229,7 @@ function KeyBoard() {
             <>
               <div className="TopBoard">
                 <div className="Sessionpost">
-                  <h1>키보드 페이지는 뭐라고 하지..</h1>
+                  <h1>아름다운 선율을 연주하는 키보드 페이지!</h1>
                   {currentPosts.slice(0, 2).map(post => (
                     <Link
                       to={`/boards/9/${post.post_id}`}

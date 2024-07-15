@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 const session = require("express-session");
 
 const app = express();
@@ -40,14 +40,20 @@ app.use(
 app.post("/dailband/login", (req, res) => {
   const { username, password } = req.body;
   const user = users.find(
-    (u) => u.username === username && u.password === password
+    u => u.username === username && u.password === password
   );
 
   if (user) {
-    const token = jwt.sign({ id: user.id, username: user.username }, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign(
+      { id: user.id, username: user.username },
+      secretKey,
+      { expiresIn: "1h" }
+    );
     res.status(200).json({ message: "Login successful", token });
   } else {
-    res.status(401).json({ message: "Unauthorized: Invalid username or password" });
+    res
+      .status(401)
+      .json({ message: "Unauthorized: Invalid username or password" });
   }
 });
 
@@ -60,8 +66,6 @@ app.post("/dailband/logout", (req, res) => {
   });
 });
 
-
-
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
@@ -69,7 +73,7 @@ app.listen(port, () => {
 // 프로필 조회 API
 app.get("/dailband/user/:user_id/profile", (req, res) => {
   const userId = parseInt(req.params.user_id, 10);
-  const user = users.find((u) => u.id === userId);
+  const user = users.find(u => u.id === userId);
 
   if (user) {
     res.status(200).json(user);
@@ -81,7 +85,7 @@ app.get("/dailband/user/:user_id/profile", (req, res) => {
 // 프로필 수정 API
 app.put("/dailband/user/:user_id/profile", (req, res) => {
   const userId = parseInt(req.params.user_id, 10);
-  const userIndex = users.findIndex((u) => u.id === userId);
+  const userIndex = users.findIndex(u => u.id === userId);
 
   if (userIndex !== -1) {
     const updatedUser = {
@@ -98,7 +102,7 @@ app.put("/dailband/user/:user_id/profile", (req, res) => {
 // 스크랩한 공연 정보 API
 app.get("/dailband/user/:user_id/scraps/myperformances", (req, res) => {
   const userId = parseInt(req.params.user_id, 10);
-  const user = users.find((u) => u.id === userId);
+  const user = users.find(u => u.id === userId);
 
   if (user) {
     // 예제 데이터
@@ -123,7 +127,7 @@ app.get("/dailband/user/:user_id/scraps/myperformances", (req, res) => {
 // 스크랩한 게시글 정보 API
 app.get("/dailband/user/:user_id/scraps/posts", (req, res) => {
   const userId = parseInt(req.params.user_id, 10);
-  const user = users.find((u) => u.id === userId);
+  const user = users.find(u => u.id === userId);
 
   if (user) {
     // 예제 데이터
@@ -217,7 +221,7 @@ app.delete("/dailband/user/:user_id/posts/:post_id", (req, res) => {
   const userPostList = userPosts[userId];
 
   if (userPostList) {
-    const postIndex = userPostList.findIndex((p) => p.post_id === postId);
+    const postIndex = userPostList.findIndex(p => p.post_id === postId);
     if (postIndex !== -1) {
       userPostList.splice(postIndex, 1);
       res.status(204).send();
@@ -332,7 +336,7 @@ app.delete(
 
     if (userReservationList) {
       const reservationIndex = userReservationList.findIndex(
-        (r) => r.reservation_id === reservationId
+        r => r.reservation_id === reservationId
       );
       if (reservationIndex !== -1) {
         userReservationList.splice(reservationIndex, 1);
@@ -380,9 +384,7 @@ app.get("/boards/performances", (req, res) => {
 // 공연 상세 정보 조회 API
 app.get("/boards/performances/:performance_id", (req, res) => {
   const performanceId = parseInt(req.params.performance_id, 10);
-  const performance = performances.find(
-    (p) => p.performanceId === performanceId
-  );
+  const performance = performances.find(p => p.performanceId === performanceId);
 
   if (performance) {
     res.status(200).json(performance);
@@ -415,7 +417,7 @@ app.post("/boards/performances", (req, res) => {
 app.put("/boards/performances/:performance_id", (req, res) => {
   const performanceId = parseInt(req.params.performance_id, 10);
   const performanceIndex = performances.findIndex(
-    (p) => p.performanceId === performanceId
+    p => p.performanceId === performanceId
   );
 
   if (performanceIndex !== -1) {
@@ -433,7 +435,7 @@ app.put("/boards/performances/:performance_id", (req, res) => {
 app.delete("/boards/performances/:performance_id", (req, res) => {
   const performanceId = parseInt(req.params.performance_id, 10);
   const performanceIndex = performances.findIndex(
-    (p) => p.performanceId === performanceId
+    p => p.performanceId === performanceId
   );
 
   if (performanceIndex !== -1) {
@@ -1405,7 +1407,7 @@ app.get("/posts", (req, res) => {
 app.get("/posts_1/:post_id", (req, res) => {
   const { post_id } = req.params;
   console.log(`Received request for post_id: ${post_id}`);
-  const post = posts1_1.find((post) => post.post_id === parseInt(post_id));
+  const post = posts1_1.find(post => post.post_id === parseInt(post_id));
   if (post) {
     console.log(`Found post: ${JSON.stringify(post)}`);
     res.json(post);
@@ -1416,7 +1418,7 @@ app.get("/posts_1/:post_id", (req, res) => {
 app.get("/posts2_1/:post_id", (req, res) => {
   const { post_id } = req.params;
   console.log(`Received request for post_id: ${post_id}`);
-  const post = posts2_1.find((post) => post.post_id === parseInt(post_id));
+  const post = posts2_1.find(post => post.post_id === parseInt(post_id));
   if (post) {
     console.log(`Found post: ${JSON.stringify(post)}`);
     res.json(post);
@@ -1427,7 +1429,7 @@ app.get("/posts2_1/:post_id", (req, res) => {
 app.get("/posts3_1/:post_id", (req, res) => {
   const { post_id } = req.params;
   console.log(`Received request for post_id: ${post_id}`);
-  const post = posts3_1.find((post) => post.post_id === parseInt(post_id));
+  const post = posts3_1.find(post => post.post_id === parseInt(post_id));
   if (post) {
     console.log(`Found post: ${JSON.stringify(post)}`);
     res.json(post);
@@ -1438,7 +1440,7 @@ app.get("/posts3_1/:post_id", (req, res) => {
 app.get("/posts5/:post_id", (req, res) => {
   const { post_id } = req.params;
   console.log(`Received request for post_id: ${post_id}`);
-  const post = posts5.find((post) => post.post_id === parseInt(post_id));
+  const post = posts5.find(post => post.post_id === parseInt(post_id));
   if (post) {
     console.log(`Found post: ${JSON.stringify(post)}`);
     res.json(post);
@@ -1449,7 +1451,7 @@ app.get("/posts5/:post_id", (req, res) => {
 app.get("/posts6/:post_id", (req, res) => {
   const { post_id } = req.params;
   console.log(`Received request for post_id: ${post_id}`);
-  const post = posts6.find((post) => post.post_id === parseInt(post_id));
+  const post = posts6.find(post => post.post_id === parseInt(post_id));
   if (post) {
     console.log(`Found post: ${JSON.stringify(post)}`);
     res.json(post);
@@ -1460,7 +1462,7 @@ app.get("/posts6/:post_id", (req, res) => {
 app.get("/posts7/:post_id", (req, res) => {
   const { post_id } = req.params;
   console.log(`Received request for post_id: ${post_id}`);
-  const post = posts7.find((post) => post.post_id === parseInt(post_id));
+  const post = posts7.find(post => post.post_id === parseInt(post_id));
   if (post) {
     console.log(`Found post: ${JSON.stringify(post)}`);
     res.json(post);
@@ -1471,7 +1473,7 @@ app.get("/posts7/:post_id", (req, res) => {
 app.get("/posts8/:post_id", (req, res) => {
   const { post_id } = req.params;
   console.log(`Received request for post_id: ${post_id}`);
-  const post = posts8.find((post) => post.post_id === parseInt(post_id));
+  const post = posts8.find(post => post.post_id === parseInt(post_id));
   if (post) {
     console.log(`Found post: ${JSON.stringify(post)}`);
     res.json(post);
@@ -1482,7 +1484,7 @@ app.get("/posts8/:post_id", (req, res) => {
 app.get("/posts9/:post_id", (req, res) => {
   const { post_id } = req.params;
   console.log(`Received request for post_id: ${post_id}`);
-  const post = posts9.find((post) => post.post_id === parseInt(post_id));
+  const post = posts9.find(post => post.post_id === parseInt(post_id));
   if (post) {
     console.log(`Found post: ${JSON.stringify(post)}`);
     res.json(post);
@@ -1521,25 +1523,25 @@ app.get(`/posts7`, (req, res) => {
   res.json({ posts: posts7 });
 });
 app.get(`/posts7_1`, (req, res) => {
-  res.json({ posts: posts6_1 });
+  res.json({ posts: posts7_1 });
 });
 app.get(`/posts8`, (req, res) => {
   res.json({ posts: posts8 });
 });
 app.get(`/posts8_1`, (req, res) => {
-  res.json({ posts: posts6_1 });
+  res.json({ posts: posts8_1 });
 });
 app.get(`/posts9`, (req, res) => {
   res.json({ posts: posts9 });
 });
 app.get(`/posts9_1`, (req, res) => {
-  res.json({ posts: posts6_1 });
+  res.json({ posts: posts9_1 });
 });
 
 // 댓글 추가
 app.post("/posts_1/:post_id/comments", (req, res) => {
   const post_id = parseInt(req.params.post_id, 10);
-  const post = posts1_1.find((post) => post.post_id === post_id);
+  const post = posts1_1.find(post => post.post_id === post_id);
 
   if (post) {
     const newComment = req.body;
@@ -1553,7 +1555,7 @@ app.post("/posts_1/:post_id/comments", (req, res) => {
 });
 app.post("/posts2_1/:post_id/comments", (req, res) => {
   const post_id = parseInt(req.params.post_id, 10);
-  const post = posts2_1.find((post) => post.post_id === post_id);
+  const post = posts2_1.find(post => post.post_id === post_id);
 
   if (post) {
     const newComment = req.body;
@@ -1566,7 +1568,7 @@ app.post("/posts2_1/:post_id/comments", (req, res) => {
 });
 app.post("/posts3_1/:post_id/comments", (req, res) => {
   const post_id = parseInt(req.params.post_id, 10);
-  const post = posts3_1.find((post) => post.post_id === post_id);
+  const post = posts3_1.find(post => post.post_id === post_id);
 
   if (post) {
     const newComment = req.body;
@@ -1579,7 +1581,7 @@ app.post("/posts3_1/:post_id/comments", (req, res) => {
 });
 app.post("/posts5/:post_id/comments", (req, res) => {
   const post_id = parseInt(req.params.post_id, 10);
-  const post = posts5.find((post) => post.post_id === post_id);
+  const post = posts5.find(post => post.post_id === post_id);
 
   if (post) {
     const newComment = req.body;
@@ -1592,7 +1594,7 @@ app.post("/posts5/:post_id/comments", (req, res) => {
 });
 app.post("/posts6/:post_id/comments", (req, res) => {
   const post_id = parseInt(req.params.post_id, 10);
-  const post = posts6.find((post) => post.post_id === post_id);
+  const post = posts6.find(post => post.post_id === post_id);
 
   if (post) {
     const newComment = req.body;
@@ -1605,7 +1607,7 @@ app.post("/posts6/:post_id/comments", (req, res) => {
 });
 app.post("/posts7/:post_id/comments", (req, res) => {
   const post_id = parseInt(req.params.post_id, 10);
-  const post = posts7.find((post) => post.post_id === post_id);
+  const post = posts7.find(post => post.post_id === post_id);
 
   if (post) {
     const newComment = req.body;
@@ -1618,7 +1620,7 @@ app.post("/posts7/:post_id/comments", (req, res) => {
 });
 app.post("/posts8/:post_id/comments", (req, res) => {
   const post_id = parseInt(req.params.post_id, 10);
-  const post = posts8.find((post) => post.post_id === post_id);
+  const post = posts8.find(post => post.post_id === post_id);
 
   if (post) {
     const newComment = req.body;
@@ -1631,7 +1633,7 @@ app.post("/posts8/:post_id/comments", (req, res) => {
 });
 app.post("/posts9/:post_id/comments", (req, res) => {
   const post_id = parseInt(req.params.post_id, 10);
-  const post = posts9.find((post) => post.post_id === post_id);
+  const post = posts9.find(post => post.post_id === post_id);
 
   if (post) {
     const newComment = req.body;
@@ -1649,16 +1651,14 @@ app.put("/posts/:post_id", (req, res) => {
   const { title, content, file_url } = req.body;
   let updatedPost = null;
   // Search for the post in posts1
-  let post1Index = posts1.findIndex(
-    (post) => post.post_id === parseInt(post_id)
-  );
+  let post1Index = posts1.findIndex(post => post.post_id === parseInt(post_id));
   if (post1Index !== -1) {
     posts1[post1Index].title = title;
     posts1[post1Index].content = content;
     updatedPost = posts1[post1Index];
   }
   let post1_1Index = posts1_1.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
   if (post1_1Index !== -1) {
     posts1_1[post1_1Index].title = title;
@@ -1676,16 +1676,14 @@ app.put("/posts2/:post_id", (req, res) => {
   const { post_id } = req.params;
   const { title, content, file_url } = req.body;
   let updatedPost = null;
-  let post2Index = posts2.findIndex(
-    (post) => post.post_id === parseInt(post_id)
-  );
+  let post2Index = posts2.findIndex(post => post.post_id === parseInt(post_id));
   if (post2Index !== -1) {
     posts2[post2Index].title = title;
     posts2[post2Index].content = content;
     updatedPost = posts2[post2Index];
   }
   let post2_1Index = posts2_1.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
   if (post2_1Index !== -1) {
     posts2_1[post2_1Index].title = title;
@@ -1704,16 +1702,14 @@ app.put("/posts3/:post_id", (req, res) => {
   const { title, content, file_url } = req.body;
   let updatedPost = null;
 
-  let post3Index = posts3.findIndex(
-    (post) => post.post_id === parseInt(post_id)
-  );
+  let post3Index = posts3.findIndex(post => post.post_id === parseInt(post_id));
   if (post3Index !== -1) {
     posts3[post3Index].title = title;
     posts3[post3Index].content = content;
     updatedPost = posts3[post3Index];
   }
   let post3_1Index = posts3_1.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
   if (post3_1Index !== -1) {
     posts3_1[post3_1Index].title = title;
@@ -1732,9 +1728,7 @@ app.put("/posts5/:post_id", (req, res) => {
   const { title, content, file_url } = req.body;
   let updatedPost = null;
 
-  let post5Index = posts5.findIndex(
-    (post) => post.post_id === parseInt(post_id)
-  );
+  let post5Index = posts5.findIndex(post => post.post_id === parseInt(post_id));
   if (post5Index !== -1) {
     posts5[post5Index].title = title;
     posts5[post5Index].content = content;
@@ -1749,7 +1743,7 @@ app.put("/posts5/:post_id", (req, res) => {
 });
 
 // 게시글 작성
-const formatDate = (date) => {
+const formatDate = date => {
   const options = { year: "numeric", month: "2-digit", day: "2-digit" };
   return date
     .toLocaleDateString("ko-KR", options)
@@ -1762,7 +1756,7 @@ app.post("/posts1", (req, res) => {
     title: req.body.title,
     content: req.body.content,
     file_url: req.body.file_url,
-    nickname: req.body.nickname || "이름",
+    nickname: "김시은",
     created_at: formatDate(new Date()),
     modified_at: new Date().toISOString(),
     comments: [],
@@ -1778,7 +1772,7 @@ app.post("/posts2", (req, res) => {
     title: req.body.title,
     content: req.body.content,
     file_url: req.body.file_url,
-    nickname: req.body.nickname || "이름",
+    nickname: "김시은",
     created_at: formatDate(new Date()),
     modified_at: new Date().toISOString(),
     comments: [],
@@ -1794,11 +1788,11 @@ app.post("/posts3", (req, res) => {
     content: req.body.content,
     file_url: req.body.file_url,
     nickname: req.body.nickname || `${posts3.length + 1}번`, // Default nickname if not provided
-    email: req.body.email || "이메일",
+    email: req.body.email || "tldms@daeil.ac.kr",
     sessions: [
       {
         session_id: 0,
-        session_info: req.body.session_info || "미지정",
+        session_info: req.body.session_info || "보컬",
       },
     ],
 
@@ -1817,7 +1811,7 @@ app.post("/posts5", (req, res) => {
     title: req.body.title,
     content: req.body.content,
     file_url: req.body.file_url,
-    nickname: req.body.nickname || "이름",
+    nickname: "김시은",
     created_at: formatDate(new Date()),
     modified_at: new Date().toISOString(),
     comments: [],
@@ -1832,7 +1826,7 @@ app.post("/posts6", (req, res) => {
     title: req.body.title,
     content: req.body.content,
     file_url: req.body.file_url,
-    nickname: req.body.nickname || "이름",
+    nickname: "김시은",
     created_at: formatDate(new Date()),
     modified_at: new Date().toISOString(),
     comments: [],
@@ -1847,7 +1841,7 @@ app.post("/posts7", (req, res) => {
     title: req.body.title,
     content: req.body.content,
     file_url: req.body.file_url,
-    nickname: req.body.nickname || "이름",
+    nickname: "김시은",
     created_at: formatDate(new Date()),
     modified_at: new Date().toISOString(),
     comments: [],
@@ -1862,7 +1856,7 @@ app.post("/posts8", (req, res) => {
     title: req.body.title,
     content: req.body.content,
     file_url: req.body.file_url,
-    nickname: req.body.nickname || "이름",
+    nickname: "김시은",
     created_at: formatDate(new Date()),
     modified_at: new Date().toISOString(),
     comments: [],
@@ -1877,7 +1871,7 @@ app.post("/posts9", (req, res) => {
     title: req.body.title,
     content: req.body.content,
     file_url: req.body.file_url,
-    nickname: req.body.nickname || "이름",
+    nickname: "김시은",
     created_at: formatDate(new Date()),
     modified_at: new Date().toISOString(),
     comments: [],
@@ -1943,7 +1937,7 @@ app.delete("/posts/:post_id", (req, res) => {
   const { post_id } = req.params;
   console.log(`Received delete request for post_id: ${post_id}`);
   const postIndex = posts1.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
 
   if (postIndex !== -1) {
@@ -1955,7 +1949,7 @@ app.delete("/posts/:post_id", (req, res) => {
     res.status(404).json({ message: "Post not found" });
   }
   const postIndex_1 = posts1_1.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
 
   if (postIndex_1 !== -1) {
@@ -1970,7 +1964,7 @@ app.delete("/posts2/:post_id", (req, res) => {
   const { post_id } = req.params;
   console.log(`Received delete request for post_id: ${post_id}`);
   const postIndex = posts2.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
 
   if (postIndex !== -1) {
@@ -1980,7 +1974,7 @@ app.delete("/posts2/:post_id", (req, res) => {
     res.status(404).json({ message: "Post not found" });
   }
   const postIndex_1 = posts2_1.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
 
   if (postIndex_1 !== -1) {
@@ -1994,7 +1988,7 @@ app.delete("/posts2/:post_id", (req, res) => {
 app.delete("/posts3/:post_id", (req, res) => {
   const { post_id } = req.params;
   const postIndex = posts3.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
 
   if (postIndex !== -1) {
@@ -2004,7 +1998,7 @@ app.delete("/posts3/:post_id", (req, res) => {
     res.status(404).json({ message: "Post not found" });
   }
   const postIndex_1 = posts3_1.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
 
   if (postIndex_1 !== -1) {
@@ -2017,7 +2011,7 @@ app.delete("/posts3/:post_id", (req, res) => {
 app.delete("/posts5/:post_id", (req, res) => {
   const { post_id } = req.params;
   const postIndex = posts5.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
 
   if (postIndex !== -1) {
@@ -2030,7 +2024,7 @@ app.delete("/posts5/:post_id", (req, res) => {
 app.delete("/posts6/:post_id", (req, res) => {
   const { post_id } = req.params;
   const postIndex = posts6.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
 
   if (postIndex !== -1) {
@@ -2043,7 +2037,7 @@ app.delete("/posts6/:post_id", (req, res) => {
 app.delete("/posts7/:post_id", (req, res) => {
   const { post_id } = req.params;
   const postIndex = posts7.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
 
   if (postIndex !== -1) {
@@ -2056,7 +2050,7 @@ app.delete("/posts7/:post_id", (req, res) => {
 app.delete("/posts8/:post_id", (req, res) => {
   const { post_id } = req.params;
   const postIndex = posts8.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
 
   if (postIndex !== -1) {
@@ -2069,7 +2063,7 @@ app.delete("/posts8/:post_id", (req, res) => {
 app.delete("/posts9/:post_id", (req, res) => {
   const { post_id } = req.params;
   const postIndex = posts9.findIndex(
-    (post) => post.post_id === parseInt(post_id)
+    post => post.post_id === parseInt(post_id)
   );
 
   if (postIndex !== -1) {
@@ -2079,4 +2073,3 @@ app.delete("/posts9/:post_id", (req, res) => {
     res.status(404).json({ message: "Post not found" });
   }
 });
-

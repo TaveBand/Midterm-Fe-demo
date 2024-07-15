@@ -27,7 +27,13 @@ function PR() {
   const IndexFirstPost = IndexLastPost - postPerPage;
   const fetchPosts = async () => {
     setLoading(true);
+    const token = localStorage.getItem("token");
     try {
+      // const response = await instance.get(`/dailband/user/profile`, {
+      //   headers: {
+      //     "Authorization": `Bearer ${token}`
+      //   }
+      // })
       const res = await instance.get("/posts3");
       setPosts(res.data.posts);
     } catch (error) {
