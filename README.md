@@ -229,5 +229,6 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 
 데모영상 Youtube 👇👇👇
 
-## 🖼 노션 링크!
-노션 링크는 **https://astonishing-partridge-ce2.notion.site/2a8082a7f1184d42af85d60da27faf01?pvs=4**입니다!
+## 🖼 관련 링크!
+노션 링크는 https://astonishing-partridge-ce2.notion.site/2a8082a7f1184d42af85d60da27faf01?pvs=4입니다!
+백엔드 링크는 https://github.com/TaveBand/BackEnd.git입니다!
