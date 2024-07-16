@@ -163,6 +163,8 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 ## 📋 ERD
 ![영선이네 밴드부 ](https://github.com/user-attachments/assets/7f407ab5-646b-4a38-bfdb-38eafe6c3d5d)
 ## 🖥 와이어프레임
+![그림1](https://github.com/user-attachments/assets/4fa0cc32-2d77-4387-b137-8032228dd139)
+![그림2](https://github.com/user-attachments/assets/cf767319-71e4-4dc5-9f38-b495edfec109)
 
 ## 💡 주요 기능
 ### 📌주요 기능 1
