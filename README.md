@@ -104,9 +104,13 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 ├── 📂performance
 │   ├── UnionPerformance.js
 │   ├── UnionPerformanceDetail.js
+│   ├── Reservation.js
+│   ├── ReservationCompleted.js
 │   └── 📂styles
 │       └── UnionPerformance.css
 │       └── UnionPerformanceDetail.css
+│       └── Reservation.css
+│       └── ReservationCompleted.css
 │
 ├── 📂session
 │   ├── Bass.js
@@ -122,6 +126,19 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 │   └── 📂styles
 │       └── Drum.css
 │       └── DrumDetail.css
+│
+├── 📂voiceanalysis
+│   ├── VoiceAnalysis.js
+│   ├── Record.js
+│   ├── RecordWaiting.js
+│   ├── RecordResult.js
+│   ├── Recommendation.js
+│   └── 📂styles
+│       └── VoiceAnalysis.css
+│       └── Record.css
+│       └── RecordWaiting.css
+│       └── RecordResult.css
+│       └── Recommendation.css
 │
 ├── 📂shared
 │   ├── BoardBtns.js
@@ -140,6 +157,7 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 │       ├── Sidebar.css
 │       └── Toggle.css
 ```
+
 
 
 ## ERD
