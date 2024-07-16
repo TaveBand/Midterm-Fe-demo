@@ -166,7 +166,12 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 
 ## 주요 기능
 
-## 팀원 소개 & 후기
+## 👩‍💻 팀원 소개 & 후기
+| 고운            | 윤영선   | 김민중   | 김시은  | 정재현  | 
+| ----------------- | -------- | -------- | ------- | ------- |
+|  <img src="https://github.com/ssafy-is-free/free-project/assets/76441040/0c16e0c4-651d-4fd7-90b7-28317af9fbb5" width="100">  |  <img src="https://github.com/ssafy-is-free/free-project/assets/76441040/0c16e0c4-651d-4fd7-90b7-28317af9fbb5" width="100">  |  <img src="https://github.com/ssafy-is-free/free-project/assets/76441040/0c16e0c4-651d-4fd7-90b7-28317af9fbb5" width="100">  |  <img src="https://github.com/ssafy-is-free/free-project/assets/76441040/0c16e0c4-651d-4fd7-90b7-28317af9fbb5" width="100">  |  <img src="https://github.com/ssafy-is-free/free-project/assets/76441040/0c16e0c4-651d-4fd7-90b7-28317af9fbb5" width="100">  |
+| Leader & Backend | Frontend | Backend | Frontend | Backend |
+
 
 ## Demo 영상
 
