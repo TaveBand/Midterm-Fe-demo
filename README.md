@@ -185,7 +185,8 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 
 
 ### 📌 세션 페이지
-| ![글쓰기](https://github.com/user-attachments/assets/9bfa8863-5877-4e35-a182-2eed699752f1) | ![유튜브](https://github.com/user-attachments/assets/65fcb2ae-9c1b-40a5-87e7-cb88b101ecc0) | ![수정](https://github.com/user-attachments/assets/7d30553f-d0a0-4d72-9fee-76f2f98acdb3)
+| ![글쓰기](https://github.com/user-attachments/assets/9a0f2755-2afb-46a1-841a-c24d97968427)
+ | ![유튜브](https://github.com/user-attachments/assets/65fcb2ae-9c1b-40a5-87e7-cb88b101ecc0) | ![수정](https://github.com/user-attachments/assets/7d30553f-d0a0-4d72-9fee-76f2f98acdb3)
  | ![삭제](https://github.com/user-attachments/assets/d3a8d9b9-b5c4-47db-bad6-4da2174927a7)
 ) |
 | ------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | -
