@@ -18,11 +18,11 @@
 ## 🙋‍♀️ 프로젝트 소개
 대일밴드 : 밴드 동아리들을 위한 밴드모집 및 공연예약 서비스와 음성분석을 통해 음역대에 맞는 편곡 서비스
 
-## 주제 선정 배경
+## ✨ 주제 선정 배경
 - 밴드 음악에 대한 늘어나는 관심과 학교, 학과별 밴드 동아리 수가 많아짐에 따라 밴드 동아리를 위한 커뮤니티의 필요성을 느낌
 - 사용자의 음역대를 분석해 밴드 보컬리스트에게 적합한 노래를 자동으로 추천해주기 위함
 
-## 프로젝트 기획 의도
+## ❓ 프로젝트 기획 의도
 - 타학교 **밴드동아리와의 교류**를 돕고, **밴드원 모집을 더 쉽게** 합니다!
 - 같은 세션을 가진 사람들의 **고민과 노하우를 공유**할 수 있어요!
 - 공연 상세 정보를 확인가능한 포스팅과 **해당 페이지에서 예약까지** 가능합니다!
@@ -38,7 +38,7 @@
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 
 
-## 기술 선정 이유
+## 🐱‍💻 기술 선정 이유
 >React와 SpringBoot를 왜 선택하였는가? 
 
 Component를 사용하여 **재사용과 유지보수가 용이**하다는 점과 Virtual DOM으로 인해 *리렌더링* 될 때 **컨텐츠를 좀 더 빠르고 효율적으로 변경**할 수 있다고 생각했습니다.
@@ -47,7 +47,7 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 
 
 
-## 폴더 구조
+## 📂 폴더 구조
  ```
 📂src
 │
