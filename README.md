@@ -191,10 +191,11 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 | 글쓰기                                                                                           | 유튜브 링크                                                                                                | 수정     | 삭제                                                                              |
 
 ### 📌 모집 페이지
-| ![동아리모집](https://github.com/user-attachments/assets/eb986c8a-70a1-42c1-969f-ba235fed270e)
- | ![PR](https://github.com/user-attachments/assets/6790c641-d43c-4657-a35b-f6f9b1be6c31) | ![매칭](https://github.com/user-attachments/assets/132c804e-7bec-4606-8a5e-d136d1834737) | 
-| ---------------- | ------------------ | ------------------ | 
-| 동아리 | 자기PR | 매칭 | 
+
+| ![동아리모집](https://github.com/user-attachments/assets/eb986c8a-70a1-42c1-969f-ba235fed270e) | ![PR](https://github.com/user-attachments/assets/6790c641-d43c-4657-a35b-f6f9b1be6c31) | ![매칭](https://github.com/user-attachments/assets/132c804e-7bec-4606-8a5e-d136d1834737) |
+| ------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| 동아리                                                                                             | 자기PR                                                                                              | 매칭                                                                                                  |
+
 
 ### 📌 연합공연 페이지
 | ![공연홍보게시판](https://github.com/user-attachments/assets/21bee7bc-71cd-47a9-8c68-c30f2f1db0f0) | ![공연예약 상세](https://github.com/user-attachments/assets/eead0a0d-dbf9-49fc-9935-7cdfbfda0dcd) | ![공연예약 좌석](https://github.com/user-attachments/assets/9c326a9b-9b3c-4923-b2fe-f43dfd31a376) | ![공연예약 확정](https://github.com/user-attachments/assets/10262049-781a-4522-bd43-02c8218ccd5b) |
