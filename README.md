@@ -179,13 +179,13 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 > 버튼을 누르면 해당 페이지로 이동!
 
 ### 📌 마이 페이지
-| ![프로필 수정](링크) | ![스크랩](링크) | ![내가 쓴 글](링크) | ![내가 쓴 공연 글](링크) | ![공연 예약 확인](링크) |
+| ![프로필수정](https://github.com/user-attachments/assets/a1433c60-093d-4a65-bb78-4699c69d9e38) | ![스크랩](https://github.com/user-attachments/assets/7b6bba1a-618c-44e9-999a-4ff3681f6cd0) | ![내가쓴글](https://github.com/user-attachments/assets/39a14128-b02d-43ac-9fcb-385015fd4663) | ![내가작성한공연글](https://github.com/user-attachments/assets/ab2ac472-8b04-4228-ab16-0ce0c3fcb2a8) | ![공연예약확인](https://github.com/user-attachments/assets/98255fa5-b98b-41f5-bca7-f42b2319d48c) |
 | -------------------- | ---------------- | -------------------- | ------------------------ | --------- |
 | 프로필 수정     | 스크랩         | 내가 쓴 글          | 내가 쓴 공연 글| 공연 예약 확인          |
 
 
 ### 📌 세션 페이지
-| ![글쓰기](https://github.com/user-attachments/assets/9a0f2755-2afb-46a1-841a-c24d97968427)
+| ![세션글쓰기](https://github.com/user-attachments/assets/604ad41d-5c1a-4aba-8386-0571779913c5)
  | ![유튜브](https://github.com/user-attachments/assets/65fcb2ae-9c1b-40a5-87e7-cb88b101ecc0) | ![수정](https://github.com/user-attachments/assets/7d30553f-d0a0-4d72-9fee-76f2f98acdb3)
  | ![삭제](https://github.com/user-attachments/assets/d3a8d9b9-b5c4-47db-bad6-4da2174927a7)
 ) |
