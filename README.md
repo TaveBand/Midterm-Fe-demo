@@ -172,7 +172,7 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 ## 👩‍💻 팀원 소개 & 후기
 | 고운            | 윤영선   | 김민중   | 김시은  | 정재현  | 
 | ----------------- | -------- | -------- | ------- | ------- |
-|  <img src="https://github.com/ssafy-is-free/free-project/assets/76441040/0c16e0c4-651d-4fd7-90b7-28317af9fbb5" width="100">  |  <img src="https://github.com/ssafy-is-free/free-project/assets/76441040/0c16e0c4-651d-4fd7-90b7-28317af9fbb5" width="100">  |  <img src="https://github.com/ssafy-is-free/free-project/assets/76441040/0c16e0c4-651d-4fd7-90b7-28317af9fbb5" width="100">  |  <img src="https://github.com/ssafy-is-free/free-project/assets/76441040/0c16e0c4-651d-4fd7-90b7-28317af9fbb5" width="100">  |  <img src="https://github.com/ssafy-is-free/free-project/assets/76441040/0c16e0c4-651d-4fd7-90b7-28317af9fbb5" width="100">  |
+|  <img src="https://github.com/user-attachments/assets/e816f12d-7087-422a-9cfb-fb96fdf58835" width="100">  |  <img src="https://github.com/user-attachments/assets/f02f8ebe-d2d8-46f8-8191-2cf077601720" width="100">  |  <img src="https://github.com/user-attachments/assets/62acad61-fedf-4b9b-90b8-565a5e295f5d" width="100">  |  <img src="https://github.com/user-attachments/assets/f757a680-6133-44bb-bd84-0757391f821d" width="100">  |  <img src="https://github.com/ssafy-is-free/free-project/assets/76441040/0c16e0c4-651d-4fd7-90b7-28317af9fbb5" width="100">  |
 | Leader & Backend | Frontend | Backend | Frontend | Backend |
 
 ### 📑 프로젝트 후기
