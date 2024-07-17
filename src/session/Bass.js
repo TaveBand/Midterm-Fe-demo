@@ -57,7 +57,7 @@ function Bass() {
     setLoading(true);
 
     try {
-      const res = await axios.get(`/dailband/boards/$${board_id}`);
+      const res = await axios.get(`/dailband/boards/${board_id}`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -75,9 +75,9 @@ function Bass() {
   const fetchVideoPosts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/dailband/boards/$${board_id}`);
-      setVideoPosts(res.data.posts);
-      console.log(res.data.posts);
+      const res = await axios.get(`/dailband/boards/${board_id}`);
+      setVideoPosts(res.data.youtubes);
+      console.log(res.data.youtubes);
     } catch (error) {
       console.error("Error fetching video posts:", error);
     } finally {

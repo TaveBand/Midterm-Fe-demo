@@ -77,8 +77,8 @@ function KeyBoard() {
     setLoading(true);
     try {
       const res = await axios.get(`/dailband/boards/${board_id}`);
-      setVideoPosts(res.data.posts);
-      console.log(res.data.posts);
+      setVideoPosts(res.data.youtubes);
+      console.log(res.data.youtubes);
     } catch (error) {
       console.error("Error fetching video posts:", error);
     } finally {

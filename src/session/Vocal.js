@@ -60,8 +60,7 @@ function Vocal() {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/posts7`);
-      // const res = await axios.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/${board_id}`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -78,9 +77,9 @@ function Vocal() {
   const fetchVideoPosts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/posts7_1`);
-      setVideoPosts(res.data.posts);
-      console.log(res.data.posts);
+      const res = await axios.get(`/dailband/boards/${board_id}`);
+      setVideoPosts(res.data.youtubes);
+      console.log(res.data.youtubes);
     } catch (error) {
       console.error("Error fetching video posts:", error);
     } finally {
@@ -180,10 +179,10 @@ function Vocal() {
 
     try {
       if (isEditing) {
-        await axios.put(`/posts7/${editingPostId}`, newPost);
+        await axios.put(`/dailband/boards/${board_id}/${editingPostId}`, newPost);
       } else {
         const endpoint =
-          boardType === "보컬 게시판 연주영상" ? "/posts7_1" : "/posts7";
+          boardType === "보컬 게시판 연주영상" ? `/dailband/boards/${board_id}` : `/dailband/boards/${board_id}`;
         await axios.post(endpoint, newPost);
       }
       await fetchPosts();
