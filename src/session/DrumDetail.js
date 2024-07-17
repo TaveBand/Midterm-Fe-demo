@@ -24,18 +24,17 @@ function DrumDetail() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await axios.get(`/dailband/user/profile`, {
+      const res = await axios.get(`/daeilband/boards/5`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`
         },
       });
-      const res = await axios.get(`/dailband//boards/${board_id}/${post_id}`);
+
       setDetail(res.data);
       setTitle(res.data.title);
       setContent(res.data.content);
       setImagePreview(res.data.file_url);
       setLoading(false);
-      setNickname(response.data.nickname);
     } catch (error) {
       console.error("Error fetching post details:", error);
       setLoading(false);
@@ -100,7 +99,7 @@ function DrumDetail() {
     };
 
     try {
-      await axios.put(`/dailband//boards/${board_id}/${post_id}`, updatedPost);
+      await axios.put(`/dailband//boards/5/${post_id}`, updatedPost);
 
       await getDetail(post_id);
       setIsEditing(false);
@@ -111,7 +110,7 @@ function DrumDetail() {
   const handleDeleteClick = async () => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        await axios.delete(`/dailband//boards/${board_id}/${post_id}`);
+        await axios.delete(`/dailband//boards/5/${post_id}`);
 
         window.confirm("게시글이 삭제되었습니다!");
         navigate("/boards/5");

@@ -27,7 +27,7 @@ const board_id = 7
           "Authorization": `Bearer ${token}`
         }
       })
-      const res = await axios.get(`/daeilband/boards/${board_id}/${post_id}`);
+      const res = await axios.get(`/daeilband/boards/7/${post_id}`);
       setDetail(res.data);
       setTitle(res.data.title);
       setContent(res.data.content);
@@ -98,7 +98,7 @@ const board_id = 7
     };
 
     try {
-      await axios.put(`/daeilband/boards/${board_id}/${post_id}`, updatedPost);
+      await axios.put(`/daeilband/boards/7/${post_id}`, updatedPost);
     
       await getDetail(post_id);
       setIsEditing(false);

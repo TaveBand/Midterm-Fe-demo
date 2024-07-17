@@ -22,12 +22,11 @@ function BassDetail() {
     const token = localStorage.getItem("token");
 
     try {
-      const response = await axios.get(`/dailband/user/profile`, {
+      const res = await axios.get(`/daeilband/boards/8`, {
         headers: {
-          Authorization: `Bearer ${token}`,
+          "Authorization": `Bearer ${token}`
         },
       });
-      const res = await axios.get(`/daeilband/boards/${board_id}/${post_id}`);
       setDetail(res.data);
       setTitle(res.data.title);
       setContent(res.data.content);
@@ -87,7 +86,7 @@ function BassDetail() {
     };
 
     try {
-      await axios.put(`/daeilband/boards/${board_id}/${post_id}`, updatedPost);
+      await axios.put(`/daeilband/boards/8/${post_id}`, updatedPost);
 
       await getDetail(post_id);
       setIsEditing(false);
@@ -226,7 +225,7 @@ function BassDetail() {
                   )}
                   <Comment
                     post_id={post_id}
-                    endpoint="/daeilband/boards/${board_id}"
+                    endpoint="/daeilband/boards/8"
                     refreshComments={() => getDetail(post_id)}
                   />
                 </div>

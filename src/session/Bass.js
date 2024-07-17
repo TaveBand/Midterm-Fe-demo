@@ -33,7 +33,7 @@ function Bass() {
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState();
   const [nickname, setNickname] = useState("");
-  const board_id = 8;
+
 
   const fetchUserInfos = async () => {
     const token = localStorage.getItem("token");
@@ -57,7 +57,7 @@ function Bass() {
     setLoading(true);
 
     try {
-      const res = await axios.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/8`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -75,7 +75,7 @@ function Bass() {
   const fetchVideoPosts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/8`);
       setVideoPosts(res.data.youtubes);
       console.log(res.data.youtubes);
     } catch (error) {
@@ -163,10 +163,10 @@ function Bass() {
 
     try {
       if (isEditing) {
-        await axios.put(`/dailband/boards/${board_id}/${editingPostId}`, newPost);
+        await axios.put(`/dailband/boards/8/${editingPostId}`, newPost);
       } else {
         const endpoint =
-          boardType === "베이스 게시판 연주영상" ? `/dailband/boards/${board_id}` : `/dailband/boards/${board_id}`;
+          boardType === "베이스 게시판 연주영상" ? `/dailband/boards/8` : `/dailband/boards/8`;
         await axios.post(endpoint, newPost);
         
       }

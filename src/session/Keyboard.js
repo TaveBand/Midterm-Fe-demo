@@ -58,7 +58,7 @@ function KeyBoard() {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/9`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -76,7 +76,7 @@ function KeyBoard() {
   const fetchVideoPosts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/9`);
       setVideoPosts(res.data.youtubes);
       console.log(res.data.youtubes);
     } catch (error) {
@@ -172,10 +172,10 @@ function KeyBoard() {
 
     try {
       if (isEditing) {
-        await axios.put(`/dailband/boards/${board_id}/${editingPostId}`, newPost);
+        await axios.put(`/dailband/boards/9/${editingPostId}`, newPost);
       } else {
         const endpoint =
-          boardType === "키보드 게시판 연주영상" ? `/dailband/boards/${board_id}` : `/dailband/boards/${board_id}`;
+          boardType === "키보드 게시판 연주영상" ? `/dailband/boards/9` : `/dailband/boards/9`;
         await axios.post(endpoint, newPost);
       }
       await fetchPosts();

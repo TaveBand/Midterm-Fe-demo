@@ -27,7 +27,7 @@ function GuitarDetail() {
           Authorization: `Bearer ${token}`,
         },
       });
-      const res = await axios.get(`/daeilband/boards/${board_id}/${post_id}`);
+      const res = await axios.get(`/daeilband/boards/6/${post_id}`);
       setDetail(res.data);
       setTitle(res.data.title);
       setContent(res.data.content);
@@ -98,7 +98,7 @@ function GuitarDetail() {
     };
 
     try {
-      await axios.put(`/daeilband/boards/${board_id}/${post_id}`, updatedPost);
+      await axios.put(`/daeilband/boards/6/${post_id}`, updatedPost);
 
       await getDetail(post_id);
       setIsEditing(false);
@@ -109,7 +109,7 @@ function GuitarDetail() {
   const handleDeleteClick = async () => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        await axios.delete(`/daeilband/boards/${board_id}/${post_id}`);
+        await axios.delete(`/daeilband/boards/6/${post_id}`);
 
         window.confirm("게시글이 삭제되었습니다!");
         navigate("/boards/6");

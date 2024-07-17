@@ -22,7 +22,7 @@ function ClubsDetail() {
     setLoading(true);
     const token = localStorage.getItem("token");
     try {
-      const res = await axios.get(`/daeilband/boards/pr/${post_id}`, {
+      const res = await axios.get(`/daeilband/boards/club/${post_id}`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }

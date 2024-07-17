@@ -8,7 +8,6 @@ import "./styles/Drum.css";
 
 function Drum() {
   const { post_id } = useParams();
-  const { board_id } = useParams();
 
   const [posts, setPosts] = useState([]);
   const [coverimages, setCoverImages] = useState();
@@ -25,7 +24,7 @@ function Drum() {
   const [searchTerm, setSearchTerm] = useState("");
   const [boardType, setBoardType] = useState("드럼 게시판 게시글");
   const [youtubeLink, setYoutubeLink] = useState("");
-  
+  const board_id = 5;
   const handlePageChange = page => {
     setPage(page);
   };
@@ -57,8 +56,9 @@ function Drum() {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/5`);
       setPosts(res.data.posts);
+      setVideoPosts(res.data.youtubes);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -71,27 +71,19 @@ function Drum() {
     fetchPosts();
   }, [IndexFirstPost, IndexLastPost, page]);
 
-  const fetchVideoPosts = async () => {
-    setLoading(true);
-    try {
-      const res = await axios.get(`/dailband/boards/${board_id}`);
-      setVideoPosts(res.data.youtubes);
-      console.log(res.data.youtubes);
-    } catch (error) {
-      console.error("Error fetching video posts:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  // const fetchVideoPosts = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const res = await axios.get(`/dailband/boards/5`);
+  //     setVideoPosts(res.data.youtubes);
+  //     console.log(res.data.youtubes);
+  //   } catch (error) {
+  //     console.error("Error fetching video posts:", error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchPosts();
-  }, [IndexFirstPost, IndexLastPost, page]);
-
-  useEffect(() => {
-    fetchVideoPosts();
-    fetchUserInfos();
-  }, []);
 
   const handleWriteClick = () => {
     setIsWriting(true); // 글 작성
@@ -174,10 +166,10 @@ function Drum() {
 
     try {
       if (isEditing) {
-        await axios.put(`/dailband//boards/${board_id}/${post_id}/${editingPostId}`, newPost);
+        await axios.put(`/dailband//boards/5/${post_id}/${editingPostId}`, newPost);
       } else {
         const endpoint =
-          boardType === "드럼 게시판 연주영상" ? `/dailband//boards/${board_id}/${post_id}` : `/dailband//boards/${board_id}/${post_id}`;
+          boardType === "드럼 게시판 연주영상" ? `/dailband//boards/5/${post_id}` : `/dailband//boards/5/${post_id}`;
         await axios.post(endpoint, newPost);
       }
       await fetchPosts();

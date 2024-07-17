@@ -60,7 +60,7 @@ function Vocal() {
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/7`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -77,7 +77,7 @@ function Vocal() {
   const fetchVideoPosts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/7`);
       setVideoPosts(res.data.youtubes);
       console.log(res.data.youtubes);
     } catch (error) {
@@ -179,10 +179,10 @@ function Vocal() {
 
     try {
       if (isEditing) {
-        await axios.put(`/dailband/boards/${board_id}/${editingPostId}`, newPost);
+        await axios.put(`/dailband/boards/7/${editingPostId}`, newPost);
       } else {
         const endpoint =
-          boardType === "보컬 게시판 연주영상" ? `/dailband/boards/${board_id}` : `/dailband/boards/${board_id}`;
+          boardType === "보컬 게시판 연주영상" ? `/dailband/boards/7` : `/dailband/boards/7`;
         await axios.post(endpoint, newPost);
       }
       await fetchPosts();

@@ -59,8 +59,8 @@ const board_id = 6
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/dailband/boards/${board_id}`);
-      // const res = await axios.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/6`);
+      // const res = await axios.get(`/dailband/boards/6`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -78,7 +78,7 @@ const board_id = 6
   const fetchVideoPosts = async () => {
     setLoading(true);
     try {
-      const res = await axios.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/6`);
       setVideoPosts(res.data.youtubes);
       console.log(res.data.youtubes);
     } catch (error) {
@@ -175,10 +175,10 @@ const board_id = 6
 
     try {
       if (isEditing) {
-        await axios.put(`/dailband/boards/${board_id}/${editingPostId}`, newPost);
+        await axios.put(`/dailband/boards/6/${editingPostId}`, newPost);
       } else {
         const endpoint =
-          boardType === "기타 게시판 연주영상" ? `/dailband/boards/${board_id}_1` : `/dailband/boards/${board_id}`;
+          boardType === "기타 게시판 연주영상" ? `/dailband/boards/6` : `/dailband/boards/6`;
         await axios.post(endpoint, newPost);
       }
       await fetchPosts();
