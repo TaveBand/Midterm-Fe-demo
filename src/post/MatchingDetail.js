@@ -22,13 +22,11 @@ function MatchingDetail() {
     setLoading(true);
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.get(`/dailband/user/profile`, {
+      const res = await axios.get(`/daeilband/boards/pr/${post_id}`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
       })
-      setNickname(response.data.nickname);
-      const res = await axios.get(`/daeilband/boards/matching/${post_id}`);
       setDetail(res.data);
       console.log(res.data);
       setLoading(false);

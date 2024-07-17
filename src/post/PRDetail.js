@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import instance from "axios";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import BoardBtns from "../shared/BoardBtns";
@@ -22,13 +22,11 @@ function PRDetail() {
     setLoading(true);
     const token = localStorage.getItem("token");
     try {
-      const response = await instance.get(`/dailband/user/profile`, {
+      const res = await axios.get(`/daeilband/boards/pr/${post_id}`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
       })
-      setNickname(response.data.nickname);
-      const res = await instance.get(`/daeilband/boards/pr/${post_id}`);
       setDetail(res.data);
       setTitle(res.data.title);
       setContent(res.data.content);
@@ -97,7 +95,7 @@ function PRDetail() {
     };
 
     try {
-      await instance.put(`/daeilband/boards/pr/${post_id}`, updatedPost);
+      await axios.put(`/daeilband/boards/pr/${post_id}`, updatedPost);
       // Refresh details after update
       await getDetail(post_id);
       setIsEditing(false);
@@ -108,7 +106,7 @@ function PRDetail() {
   const handleDeleteClick = async (post) => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        await instance.delete(`/daeilband/boards/pr/${post.post_id}`);
+        await axios.delete(`/daeilband/boards/pr/${post_id}`);
         navigate("/boards/pr")
         window.confirm("게시글이 삭제되었습니다!")
       } catch (error) {

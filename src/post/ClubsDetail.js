@@ -22,13 +22,11 @@ function ClubsDetail() {
     setLoading(true);
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.get(`/dailband/user/profile`, {
+      const res = await axios.get(`/daeilband/boards/pr/${post_id}`, {
         headers: {
           "Authorization": `Bearer ${token}`
         }
       })
-      setNickname(response.data.nickname);
-      const res = await axios.get(`/dailband/boards/clubs/${post_id}`);
       setDetail(res.data);
       setTitle(res.data.title);
       setContent(res.data.content);
