@@ -54,11 +54,6 @@ function Matching() {
     fetchPosts();
   }, [IndexFirstPost, IndexLastPost, page]);
 
-  const [selectedPost, setSelectedPost] = useState(null);
-  const handlePostClick = (postId) => {
-    setSelectedPost(postId);
-    window.location.href = `/matching/${postId}`;
-  };
   const handleWriteClick = () => {
     setIsWriting(true); // 글 작성
   };

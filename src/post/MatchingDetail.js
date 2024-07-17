@@ -78,12 +78,22 @@ function MatchingDetail() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const formatDate = date => {
+      const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+      return date
+        .toLocaleDateString("ko-KR", options)
+        .replace(/\./g, "")
+        .replace(/ /g, ".");
+    };
     const updatedPost = {
+      post_id,
       title,
       content,
       file_url: imagePreview,
-      user_id:nickname
+      nickname: nickname,
+      created_at: formatDate(new Date()),
+      modified_at: new Date().toISOString(),
+      sessions: [],
     };
 
     try {
