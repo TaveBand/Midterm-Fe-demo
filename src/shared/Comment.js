@@ -23,7 +23,7 @@ function Comment(props) {
       const newComment = {
         comment_id: "",
         content: input,
-        nickname: "string",
+        nickname: "김시은",
         created_at: timestamp,
       };
 

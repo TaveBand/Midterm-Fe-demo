@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Pagenumber from "../shared/Pagenumber";
 import "./styles/Matching.css";
-import instance from "axios";
+import axios from "axios";
 
 function Matching() {
   const navigate = useNavigate();
@@ -20,6 +20,7 @@ function Matching() {
   const [image, setImage] = useState(null);
   const [imagePreview, setImagePreview] = useState(null); // 사진 미리보기
   const [searchTerm, setSearchTerm] = useState("");
+  const [nickname, setNickname] = useState("");
   const handlePageChange = (page) => {
     setPage(page);
   };
@@ -33,12 +34,13 @@ function Matching() {
     setLoading(true);
     const token = localStorage.getItem("token");
     try {
-      // const response = await instance.get(`/dailband/user/profile`, {
-      //   headers: {
-      //     "Authorization": `Bearer ${token}`
-      //   }
-      // })
-      const res = await instance.get("/posts2");
+      const response = await axios.get(`/dailband/user/profile`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+      setNickname(response.data.nickname);
+      const res = await axios.get("/dailband/boards/matching");
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -96,13 +98,14 @@ function Matching() {
       title,
       content,
       file_url: imagePreview,
+      user_id:nickname
     };
 
     try {
       if (isEditing) {
-        await instance.put(`/posts2/${editingPostId}`, updatedPost);
+        await axios.put(`/dailband/boards/matching/${editingPostId}`, updatedPost);
       } else {
-        await instance.post("/posts2", updatedPost);
+        await axios.post("/dailband/boards/matching", updatedPost);
       }
       await fetchPosts();
     } catch (error) {
@@ -127,7 +130,7 @@ function Matching() {
   const handleDeleteClick = async (post) => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        await instance.delete(`/posts2/${post.post_id}`);
+        await axios.delete(`/dailband/boards/matching/${post.post_id}`);
         await fetchPosts();
   
         window.confirm("게시글이 삭제되었습니다!")

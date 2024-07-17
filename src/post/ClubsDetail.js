@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import instance from "axios";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import BoardBtns from "../shared/BoardBtns";
@@ -16,17 +16,19 @@ function ClubsDetail() {
   const [content, setContent] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const { post_id } = useParams();
+  const [nickname, setNickname] = useState("");
 
   const getDetail = async (post_id) => {
     setLoading(true);
     const token = localStorage.getItem("token");
     try {
-      // const response = await instance.get(`/dailband/user/profile`, {
-      //   headers: {
-      //     "Authorization": `Bearer ${token}`
-      //   }
-      // })
-      const res = await instance.get(`/posts_1/${post_id}`);
+      const response = await axios.get(`/dailband/user/profile`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+      setNickname(response.data.nickname);
+      const res = await axios.get(`/dailband/boards/clubs/${post_id}`);
       setDetail(res.data);
       setTitle(res.data.title);
       setContent(res.data.content);
@@ -81,10 +83,11 @@ function ClubsDetail() {
       title,
       content,
       file_url: imagePreview,
+      user_id:nickname
     };
 
     try {
-      await instance.put(`/posts/${post_id}`, updatedPost);
+      await axios.put(`/posts/${post_id}`, updatedPost);
       // Refresh details after update
       await getDetail(post_id);
       setIsEditing(false);
@@ -95,7 +98,7 @@ function ClubsDetail() {
   const handleDeleteClick = async (post) => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        await instance.delete(`/posts/${post.post_id}`);
+        await axios.delete(`/posts/${post.post_id}`);
         await getDetail();
         navigate("/boards/clubs")
         window.confirm("게시글이 삭제되었습니다!")
@@ -239,7 +242,7 @@ function ClubsDetail() {
             )}
             <Comment
               post_id={post_id}
-              endpoint="/posts_1"
+              endpoint="/dailband/boards/clubs/{post_id}"
               refreshComments={() => getDetail(post_id)}
             />
           </div>

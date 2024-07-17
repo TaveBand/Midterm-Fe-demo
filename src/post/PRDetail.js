@@ -16,17 +16,19 @@ function PRDetail() {
   const [content, setContent] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const { post_id } = useParams();
+  const [nickname, setNickname] = useState("");
 
   const getDetail = async (post_id) => {
     setLoading(true);
     const token = localStorage.getItem("token");
     try {
-      // const response = await instance.get(`/dailband/user/profile`, {
-      //   headers: {
-      //     "Authorization": `Bearer ${token}`
-      //   }
-      // })
-      const res = await instance.get(`/posts3_1/${post_id}`);
+      const response = await instance.get(`/dailband/user/profile`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+      setNickname(response.data.nickname);
+      const res = await instance.get(`/daeilband/boards/pr/${post_id}`);
       setDetail(res.data);
       setTitle(res.data.title);
       setContent(res.data.content);
@@ -81,10 +83,11 @@ function PRDetail() {
       title,
       content,
       file_url: imagePreview,
+      user_id:nickname
     };
 
     try {
-      await instance.put(`/posts3/${post_id}`, updatedPost);
+      await instance.put(`/daeilband/boards/pr/${post_id}`, updatedPost);
       // Refresh details after update
       await getDetail(post_id);
       setIsEditing(false);
@@ -95,8 +98,7 @@ function PRDetail() {
   const handleDeleteClick = async (post) => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        await instance.delete(`/posts3/${post.post_id}`);
-        await getDetail();
+        await instance.delete(`/daeilband/boards/pr/${post.post_id}`);
         navigate("/boards/pr")
         window.confirm("게시글이 삭제되었습니다!")
       } catch (error) {
@@ -251,7 +253,7 @@ function PRDetail() {
             {!isEditing && (
               <Comment
                 post_id={post_id}
-                endpoint="/posts3_1"
+                endpoint="/daeilband/boards/pr"
                 refreshComments={() => getDetail(post_id)}
               />
             )}

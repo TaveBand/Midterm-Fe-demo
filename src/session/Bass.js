@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import instance from "axios";
+import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import Header from "../shared/Header";
 import Pagenumber from "../shared/Pagenumber";
@@ -8,8 +8,6 @@ import "./styles/Drum.css";
 
 function Bass() {
   const { post_id } = useParams();
-
-  //   const { board_id } = useParams();
   const [posts, setPosts] = useState([]);
   const [coverimages, setCoverImages] = useState();
   const [currentPosts, setCurrentPosts] = useState([]);
@@ -35,33 +33,31 @@ function Bass() {
   const [loading, setLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState();
   const [nickname, setNickname] = useState("");
+  const board_id = 8;
 
-  useEffect(() => {
-    const fetchUserInfos = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("Invalid or missing token");
-        return;
-      }
+  const fetchUserInfos = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Invalid or missing token");
+      return;
+    }
 
-      try {
-        const response = await instance.get(`/dailband/user/profile`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setNickname(response.data.nickname);
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-      }
-    };
-  });
-
+    try {
+      const response = await axios.get(`/dailband/user/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setNickname(response.data.nickname);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
   const fetchPosts = async () => {
     setLoading(true);
+
     try {
-      const res = await instance.get(`/posts8`);
-      // const res = await instance.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/$${board_id}`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -73,12 +69,13 @@ function Bass() {
 
   useEffect(() => {
     fetchPosts();
+    fetchUserInfos();
   }, [IndexFirstPost, IndexLastPost, page]);
 
   const fetchVideoPosts = async () => {
     setLoading(true);
     try {
-      const res = await instance.get(`/posts8_1`);
+      const res = await axios.get(`/dailband/boards/$${board_id}`);
       setVideoPosts(res.data.posts);
       console.log(res.data.posts);
     } catch (error) {
@@ -153,24 +150,24 @@ function Bass() {
       newPost = {
         title,
         link: youtubeLink,
-        user_id: "이름",
+        user_id: nickname,
       };
     } else {
       newPost = {
         title,
         content,
         file_url: imagePreview,
-        nickname: "이름",
+        nickname: nickname,
       };
     }
 
     try {
       if (isEditing) {
-        await instance.put(`/posts8/${editingPostId}`, newPost);
+        await axios.put(`/dailband/boards/${board_id}/${editingPostId}`, newPost);
       } else {
         const endpoint =
-          boardType === "베이스 게시판 연주영상" ? "/posts8_1" : "/posts8";
-        await instance.post(endpoint, newPost);
+          boardType === "베이스 게시판 연주영상" ? `/dailband/boards/${board_id}` : `/dailband/boards/${board_id}`;
+        await axios.post(endpoint, newPost);
         
       }
       await fetchPosts();

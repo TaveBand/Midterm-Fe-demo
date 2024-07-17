@@ -80,7 +80,7 @@ function Profile() {
         <div className="Profile-content">
           <h2 className="Profile-title">마이페이지</h2>
           <div className="Profile-picture-large">
-            <img src="/path/to/profile-image" alt="Profile" />
+            <img src="../basicprofile.png" alt="Profile" />
           </div>
           <form onSubmit={handleSubmit} className="MypageForm">
             <div className="InputField">

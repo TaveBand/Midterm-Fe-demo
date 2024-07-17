@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import instance from "axios";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Header from "../shared/Header";
@@ -15,23 +15,25 @@ function VocalDetail() {
   const [content, setContent] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const { post_id } = useParams();
-
+  const [nickname, setNickname] = useState("");
+const board_id = 7
   const getDetail = async (post_id) => {
     setLoading(true);
     const token = localStorage.getItem("token");
 
     try {
-      // const response = await instance.get(`/dailband/user/profile`, {
-      //   headers: {
-      //     "Authorization": `Bearer ${token}`
-      //   }
-      // })
-      const res = await instance.get(`/posts7/${post_id}`);
+      const response = await axios.get(`/dailband/user/profile`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+      const res = await axios.get(`/daeilband/boards/${board_id}/${post_id}`);
       setDetail(res.data);
       setTitle(res.data.title);
       setContent(res.data.content);
       setImagePreview(res.data.file_url);
       setLoading(false);
+      setNickname(response.data.nickname)
     } catch (error) {
       console.error("Error fetching post details:", error);
       setLoading(false);
@@ -77,15 +79,26 @@ function VocalDetail() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const formatDate = date => {
+      const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+      return date
+        .toLocaleDateString("ko-KR", options)
+        .replace(/\./g, "")
+        .replace(/ /g, ".");
+    };
     const updatedPost = {
+      post_id,
       title,
       content,
       file_url: imagePreview,
+      nickname: nickname,
+      created_at: formatDate(new Date()),
+      modified_at: new Date().toISOString(),
+      comments: [],
     };
 
     try {
-      await instance.put(`/posts7/${post_id}`, updatedPost);
+      await axios.put(`/daeilband/boards/${board_id}/${post_id}`, updatedPost);
     
       await getDetail(post_id);
       setIsEditing(false);
@@ -223,7 +236,7 @@ function VocalDetail() {
             )}
             <Comment
               post_id={post_id}
-              endpoint="/posts7"
+              endpoint="/daeilband/boards/7"
               refreshComments={() => getDetail(post_id)}
             />
           </div>

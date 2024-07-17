@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import instance from "axios";
+import axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Header from "../shared/Header";
 import BoardBtns from "../shared/BoardBtns";
@@ -30,32 +30,28 @@ function Clubs() {
   const { post_id } = useParams();
   const [nickname, setNickname] = useState("");
 
-  useEffect(() => {
-    const fetchUserInfos = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("Invalid or missing token");
-        return;
-      }
+  const fetchUserInfos = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Invalid or missing token");
+      return;
+    }
 
-      try {
-        const response = await instance.get(`/dailband/user/profile`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setNickname(response.data.nickname);
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-      }
-    };
-  });
-
+    try {
+      const response = await axios.get(`/dailband/user/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setNickname(response.data.nickname);
+    } catch (error) {
+      console.error("Error fetching user info:", error);
+    }
+  };
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await instance.get(`/posts`);
-      // const res = await instance.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/clubs`);
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -67,6 +63,7 @@ function Clubs() {
 
   useEffect(() => {
     fetchPosts();
+    fetchUserInfos();
   }, [IndexFirstPost, IndexLastPost, page]);
 
   useEffect(() => {
@@ -74,7 +71,7 @@ function Clubs() {
       async function getcoverimages(post_id) {
         setLoading(true);
         try {
-          const res = await instance.get(`/posts/${post_id}`);
+          const res = await axios.get(`/daeilband/boards/clubs/${post_id}`);
           setCoverImages(res.data);
           setLoading(false);
         } catch (error) {
@@ -135,13 +132,14 @@ function Clubs() {
       title,
       content,
       file_url: "",
+      user_id:nickname
     };
 
     try {
       if (isEditing) {
-        await instance.put(`/posts/${editingPostId}`, updatedPost);
+        await axios.put(`/daeilband/boards/clubs/${editingPostId}`, updatedPost);
       } else {
-        await instance.post("/posts1", updatedPost);
+        await axios.post("/daeilband/boards/clubs", updatedPost);
       }
       await fetchPosts();
     } catch (error) {
@@ -165,7 +163,7 @@ function Clubs() {
   const handleDeleteClick = async post => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        await instance.delete(`/posts/${post.post_id}`);
+        await axios.delete(`/daeilband/boards/clubs/${post.post_id}`);
         await fetchPosts();
 
         window.confirm("게시글이 삭제되었습니다!");
