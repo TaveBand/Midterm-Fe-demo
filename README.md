@@ -212,9 +212,9 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 ## 🎞 Demo 영상
 데모영상 Youtube 👇👇👇
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/PQyi8Ga0gWE?si=n2YeNaUeEIygnHBH" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![데모 영상](http://img.youtube.com/vi/PQyi8Ga0gWE/0.jpg)](https://youtu.be/PQyi8Ga0gWE)  
 
-[데모영상](https://youtu.be/PQyi8Ga0gWE)   
+ 
 ## 🖼 관련 링크!
 - 노션 링크는 https://astonishing-partridge-ce2.notion.site/2a8082a7f1184d42af85d60da27faf01?pvs=4입니다!
 - 백엔드 링크는 [https://github.com/TaveBand/BackEnd.git](https://github.com/TaveBand/BackEnd.git)입니다!
