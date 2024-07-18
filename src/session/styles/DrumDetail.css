@@ -1,0 +1,14 @@
+
+
+.SessionDetail{
+    background-color: white;
+    width: 1330px;
+    margin: auto;
+    margin-top: 20px;
+    border-radius: 20px;
+    height: 500px;
+}
+
+.SessionCommentbox{
+    margin-top: 10px;
+}

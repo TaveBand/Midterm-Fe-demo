@@ -1,0 +1,95 @@
+@import url("https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Gothic+A1&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+}
+.Headerwidth {
+  width: 100vw;
+  background-color: white;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
+}
+.Container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 120px;
+  width: 1500px;
+  margin: auto;
+  background-color: white;
+  
+}
+.Category_left {
+  width: 500px;
+  text-align: center;
+  background-color: white;
+  
+}
+.Category_left button {
+  font-family: "Gothic A1", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  background-color: rgb(255, 255, 255);
+  margin: 0 40px;
+  cursor: pointer;
+  text-transform:uppercase;
+}
+.Category_left button:after {
+  display:block;
+  content: '';
+  border-bottom: solid 3px rgb(121, 186, 242);  
+  transform: scaleX(0);  
+  transition: transform 250ms ease-in-out;
+}
+.Category_left button:hover:after { transform: scaleX(1); }
+.Logo {
+  font-family: "Gothic A1", sans-serif;
+  font-size: 48px;
+  font-weight: 900;
+  cursor: pointer;
+  background-color: white;
+}
+
+.Category_right {
+  width: 500px;
+  text-align: center;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.Category_right button {
+  border: none;
+  border-radius: 8px;
+  font-family: "Gothic A1", sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  background-color: rgb(121, 186, 242);
+  color: white;
+  height: 35px;
+  margin: 0 10px;
+  cursor: pointer;
+}
+.Search {
+  border-width: 1px;
+  border-color: rgb(189, 189, 189);
+  border-radius: 8px;
+  height: 30px;
+  margin: 0 10px;
+  width: 170px;
+  background-color: white;
+}
+.Search:focus {
+  outline: none;
+}
+.Search::placeholder {
+  font-size: 12px;
+  font-weight: 100;
+  color: rgb(192, 192, 192);
+}
+.LoginBtn {
+  width: 80px;
+}
+.MypageBtn {
+  width: 100px;
+}

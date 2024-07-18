@@ -1,0 +1,17 @@
+
+
+.Backbutton {
+  cursor: pointer;
+  border: none;
+  background: none;
+  /* padding: 10px; */
+  /* position: absolute; */
+  left: 20px;
+  top: 20px;
+}
+
+.BackIcon {
+  width: 30px;
+  height: 30px;
+}
+
