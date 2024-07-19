@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import instance from "axios";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import BoardBtns from "../shared/BoardBtns";
@@ -8,6 +8,7 @@ import Comment from "../shared/Comment";
 import "./styles/MatchingDetail.css";
 
 function MatchingDetail() {
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState([]);
@@ -16,17 +17,17 @@ function MatchingDetail() {
   const [content, setContent] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const { post_id } = useParams();
+  const [nickname, setNickname] = useState("");
 
   const getDetail = async (post_id) => {
     setLoading(true);
-    const token = localStorage.getItem("token");
+
     try {
-      // const response = await instance.get(`/dailband/user/profile`, {
-      //   headers: {
-      //     "Authorization": `Bearer ${token}`
-      //   }
-      // })
-      const res = await instance.get(`/posts2_1/${post_id}`);
+      const res = await axios.get(`/dailband/boards/matching/${post_id}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
       setDetail(res.data);
       console.log(res.data);
       setLoading(false);
@@ -76,16 +77,30 @@ function MatchingDetail() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const formatDate = date => {
+      const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+      return date
+        .toLocaleDateString("ko-KR", options)
+        .replace(/\./g, "")
+        .replace(/ /g, ".");
+    };
     const updatedPost = {
+      post_id,
       title,
       content,
       file_url: imagePreview,
+      nickname: nickname,
+      created_at: formatDate(new Date()),
+      modified_at: new Date().toISOString(),
+      sessions: [],
     };
 
     try {
-      await instance.put(`/posts2/${post_id}`, updatedPost);
-      // Refresh details after update
+      await axios.put(`/dailband/boards/matching/${post_id}`, updatedPost, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       await getDetail(post_id);
       setIsEditing(false);
     } catch (error) {
@@ -95,7 +110,11 @@ function MatchingDetail() {
   const handleDeleteClick = async (post) => {
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        await instance.delete(`/posts2/${post.post_id}`);
+        await axios.delete(`/dailband/boards/matching/${post.post_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         await getDetail();
         navigate("/boards/matching")
         window.confirm("게시글이 삭제되었습니다!")
@@ -246,5 +265,4 @@ function MatchingDetail() {
 }
 
 export default MatchingDetail;
-
 
