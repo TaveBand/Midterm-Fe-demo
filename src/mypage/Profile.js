@@ -120,7 +120,7 @@ function Profile() {
     <div className="Profile">
       <Header />
       <div className="Profile-container">
-        <Sidebar nickname={nickname} /> {/* nickname prop 전달 */}
+        <Sidebar nickname={nickname} />
         <div className="Profile-content">
           <h2 className="Profile-title">마이페이지</h2>
           <div className="Profile-picture-large">

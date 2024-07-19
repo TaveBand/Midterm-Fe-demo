@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import instance from "axios"; // axios instance 사용
+import instance from "axios"; 
 import Header from "../shared/Header";
 import Sidebar from "../shared/Sidebar";
 import "./styles/MyPerformances.css";

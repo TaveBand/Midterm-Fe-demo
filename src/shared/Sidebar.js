@@ -39,3 +39,6 @@ const Sidebar = () => {
 export default Sidebar;
 
 
+
+
+//user_id 들어간 링크 다 수정해야함!!!

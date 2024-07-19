@@ -8,13 +8,13 @@
 }
 
 .record-waiting-text {
-  color: #007bff; /* 파란색 */
-  font-size: 3em; /* 글씨 크기 조정 */
-  margin-bottom: 20px; /* 이미지와의 간격 조정 */
+  color: #007bff; 
+  font-size: 3em; 
+  margin-bottom: 20px; 
 }
 
 .record-waiting-icon img {
-  width: 1200px; /* 이미지 크기 조정 */
+  width: 1200px; 
   height: auto;
 }
 

@@ -5,7 +5,8 @@ import "./styles/Complete.css";
 function Complete() {
   const navigate = useNavigate();
 
-  // 로그인 페이지로 이동하는 함수
+  
+  
   function goToLogin() {
     navigate("/login");
   }

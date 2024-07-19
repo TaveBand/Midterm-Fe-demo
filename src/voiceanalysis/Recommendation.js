@@ -66,3 +66,7 @@ const Recommendation = () => {
 };
 
 export default Recommendation;
+
+
+//정적 데이터 부분 동적으로만 구성하게 바꿔야 !
+//다만 녹음파일이 녹음이 안되서 그런거지 녹음이 되도록 수정해보자!
