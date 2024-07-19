@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import instance from "axios";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Header from "../shared/Header";
@@ -7,6 +7,7 @@ import SessionBtns from "../shared/SessionBtns";
 import Comment from "../shared/Comment";
 
 function VocalDetail() {
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState({ comments: [] });
@@ -15,18 +16,18 @@ function VocalDetail() {
   const [content, setContent] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const { post_id } = useParams();
-
+  const [nickname, setNickname] = useState("");
+const board_id = 7
   const getDetail = async (post_id) => {
     setLoading(true);
-    const token = localStorage.getItem("token");
 
     try {
-      // const response = await instance.get(`/dailband/user/profile`, {
-      //   headers: {
-      //     "Authorization": `Bearer ${token}`
-      //   }
-      // })
-      const res = await instance.get(`/posts7/${post_id}`);
+      const res = await axios.get(`/dailband/boards/7/${post_id}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+      
       setDetail(res.data);
       setTitle(res.data.title);
       setContent(res.data.content);
@@ -77,20 +78,51 @@ function VocalDetail() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    const formatDate = date => {
+      const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+      return date
+        .toLocaleDateString("ko-KR", options)
+        .replace(/\./g, "")
+        .replace(/ /g, ".");
+    };
     const updatedPost = {
+      post_id,
       title,
       content,
       file_url: imagePreview,
+      nickname: nickname,
+      created_at: formatDate(new Date()),
+      modified_at: new Date().toISOString(),
+      comments: [],
     };
 
     try {
-      await instance.put(`/posts7/${post_id}`, updatedPost);
+      await axios.put(`/dailband/boards/7/${post_id}`, updatedPost, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     
       await getDetail(post_id);
       setIsEditing(false);
     } catch (error) {
       console.error("Error submitting post:", error);
+    }
+  };
+  const handleDeleteClick = async () => {
+    if (window.confirm("게시글을 삭제하시겠습니까?")) {
+      try {
+        await axios.delete(`/dailband//boards/7/${post_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        window.confirm("게시글이 삭제되었습니다!");
+        navigate("/boards/7");
+      } catch (error) {
+        console.error("Error deleting post:", error);
+      }
     }
   };
 
@@ -172,7 +204,7 @@ function VocalDetail() {
                       <img src="/img/edit.png" alt="edit" onClick={handleEditClick}/>
                     </button>
                     <button>
-                      <img src="/img/trash.png" alt="trash" />
+                      <img src="/img/trash.png" alt="trash" onClick={handleDeleteClick}/>
                     </button>
                   </div>
                 </div>
@@ -223,7 +255,7 @@ function VocalDetail() {
             )}
             <Comment
               post_id={post_id}
-              endpoint="/posts7"
+              endpoint="/dailband/boards/7"
               refreshComments={() => getDetail(post_id)}
             />
           </div>
