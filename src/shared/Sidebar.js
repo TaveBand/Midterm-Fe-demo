@@ -1,14 +1,20 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../authentication/AuthContext';
 import './styles/Sidebar.css';
 
-const Sidebar = ({ userId, nickname }) => {
+const Sidebar = () => {
+  const { user } = useAuth();
+
+  const displayName = user?.nickname || "사용자";
+  const userId = user?.id || "default";
+
   return (
     <div className="sidebar">
       <div className="profile-picture">
         <img src="/img/basicprofile.png" alt="Profile" className="profile-image" />
       </div>
-      <h2>{nickname}</h2>
+      <h2>{displayName}</h2>
       <ul>
         <li>
           <Link to={`/profile/edit/${userId}`} className="profile-link">프로필 수정</Link>
@@ -31,3 +37,5 @@ const Sidebar = ({ userId, nickname }) => {
 };
 
 export default Sidebar;
+
+

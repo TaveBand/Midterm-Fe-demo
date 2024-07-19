@@ -1,16 +1,32 @@
 // src/pages/Profile.js
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Header from "../shared/Header";
 import Sidebar from "../shared/Sidebar";
 import "./styles/Profile.css";
 
-// 정적 데이터
-const userProfile = {
-  id: 1,
-  username: "윤영선",
-  nickname: "yys",
-  email: "yys@example.com",
-  sessions: [{ session_info: "드럼" }],
+const sessionMap = {
+  '드럼': 1,
+  '기타': 2,
+  '보컬': 3,
+  '베이스': 4,
+  '키보드': 5
+};
+
+const sessionMapReverse = {
+  1: '드럼',
+  2: '기타',
+  3: '보컬',
+  4: '베이스',
+  5: '키보드'
+};
+
+const translateSessions = (sessions) => {
+  return sessions.map(session => sessionMap[session] || session);
+};
+
+const translateSessionsFromIds = (sessionIds) => {
+  return sessionIds.map(id => sessionMapReverse[id.session_id] || id.session_info);
 };
 
 function Profile() {
@@ -24,13 +40,24 @@ function Profile() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = userProfile;
-      setFormData({
-        ...formData,
-        nickname: data.nickname,
-        email: data.email,
-        sessions: translateSessionsFromIds(data.sessions || [])
-      });
+      try {
+        const token = localStorage.getItem('token');
+        const response = await axios.get('/dailband/user/profile', {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+        const data = response.data;
+        setFormData({
+          nickname: data.nickname,
+          email: data.email,
+          password: "",
+          passwordConfirm: "",
+          sessions: translateSessionsFromIds(data.sessions || [])
+        });
+      } catch (error) {
+        console.error('Failed to fetch profile data:', error);
+      }
     };
     fetchData();
   }, []);
@@ -41,30 +68,6 @@ function Profile() {
       ...formData,
       [name]: value,
     });
-  };
-
-  const sessionMap = {
-    '드럼': 1,
-    '기타': 2,
-    '보컬': 3,
-    '베이스': 4,
-    '키보드': 5
-  };
-
-  const translateSessions = (sessions) => {
-    return sessions.map(session => sessionMap[session] || session);
-  };
-
-  const sessionMapReverse = {
-    1: '드럼',
-    2: '기타',
-    3: '보컬',
-    4: '베이스',
-    5: '키보드'
-  };
-
-  const translateSessionsFromIds = (sessionIds) => {
-    return sessionIds.map(id => sessionMapReverse[id]);
   };
 
   const handleCheckboxChange = (e) => {
@@ -89,21 +92,34 @@ function Profile() {
     }
 
     const updatedProfile = {
-      ...userProfile,
       nickname: formData.nickname,
+      password: formData.password,
       email: formData.email,
-      sessions: translateSessions(formData.sessions),
+      sessions: formData.sessions.map(session => ({
+        session_id: sessionMap[session],
+        session_info: session
+      }))
     };
 
-    console.log("Updated Profile:", updatedProfile);
-    alert("프로필이 성공적으로 업데이트되었습니다.");
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put('/dailband/user/profile', updatedProfile, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      });
+      alert("프로필이 성공적으로 업데이트되었습니다.");
+    } catch (error) {
+      console.error('Failed to update profile:', error);
+      alert("프로필 업데이트에 실패했습니다.");
+    }
   };
 
   return (
     <div className="Profile">
       <Header />
       <div className="Profile-container">
-        <Sidebar userId={userProfile.id} nickname={userProfile.username} />
+        <Sidebar userId={1} nickname="사용자 이름" />
         <div className="Profile-content">
           <h2 className="Profile-title">마이페이지</h2>
           <div className="Profile-picture-large">

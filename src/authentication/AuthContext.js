@@ -1,48 +1,44 @@
 import React, { createContext, useContext, useState } from "react";
+import axios from "axios";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [currentUser, setCurrentUser] = useState(null);
+  const [user, setUser] = useState(null);
 
-  const login = (username, password) => {
-    const users = [
-      {
-        id: 1,
-        username: "윤영선",
-        password: "0000",
-        nickname: "yys",
-        email: "yys@example.com",
-        sessions: [{ session_info: "드럼" }],
-      },
-      {
-        id: 2,
-        username: "김시은",
-        password: "1111",
-        nickname: "kse",
-        email: "kse@example.com",
-        sessions: [{ session_info: "기타" }],
-      },
-    ];
+  const login = async (username, password) => {
+    try {
+      const response = await axios.post("/dailband/login", { username, password });
+      const token = response.data.token;
+      localStorage.setItem("token", token);
 
-    const user = users.find(
-      (u) => u.username === username && u.password === password
-    );
-
-    if (user) {
-      setCurrentUser(user);
-      return Promise.resolve();
-    } else {
-      return Promise.reject(new Error("Invalid username or password"));
+      
+      const user = response.data.user;
+      setUser(user);
+    } catch (error) {
+      return Promise.reject(error);
     }
   };
 
-  const logout = () => {
-    setCurrentUser(null);
+  const logout = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await axios.post("/dailband/logout", {}, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+        localStorage.removeItem("token");
+        setUser(null);
+      }
+    } catch (error) {
+      console.error("Error logging out:", error);
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ currentUser, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

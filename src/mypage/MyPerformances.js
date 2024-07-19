@@ -1,53 +1,75 @@
 import React, { useState, useEffect } from "react";
+import instance from "axios"; // axios instance 사용
 import Header from "../shared/Header";
 import Sidebar from "../shared/Sidebar";
 import "./styles/MyPerformances.css";
 import { useNavigate } from "react-router-dom";
 
-// 정적 데이터
-const samplePerformances = [
-  {
-    performance_id: 1,
-    title: "스튜디오에이 5월 단독 공연",
-    date: "2024.05.24",
-    time: "19:00",
-    venue: "Main Hall",
-    total_seats: 200,
-    current_seats: 150,
-    image_path: "/img/image4.png",
-  },
-  {
-    performance_id: 2,
-    title: "메이데이 : 2024 밴드 연합공연",
-    date: "2024.05.17",
-    time: "18:00",
-    venue: "Grand Theater",
-    total_seats: 150,
-    current_seats: 120,
-    image_path: "/img/image5.png",
-  },
-  {
-    performance_id: 3,
-    title: "2024학년도 1학기 SETTLER 정기 공연",
-    date: "2024.05.25",
-    time: "17:30",
-    venue: "Lecture Art Center",
-    total_seats: 300,
-    current_seats: 300,
-    image_path: "/img/image6.png",
-  },
-];
-
 function MyPerformances() {
   const [performances, setPerformances] = useState([]);
+  const [nickname, setNickname] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    setPerformances(samplePerformances);
+    const fetchUserInfos = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Invalid or missing token");
+        return;
+      }
+
+      try {
+        const response = await instance.get(`/dailband/user/profile`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+        setNickname(response.data.nickname);
+      } catch (error) {
+        console.error("Error fetching user info:", error);
+      }
+    };
+
+    const fetchPerformances = async () => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        console.error("Invalid or missing token");
+        return;
+      }
+
+      try {
+        const response = await instance.get(`/dailband/user/myperformances`, {
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+        setPerformances(response.data.performances);
+      } catch (error) {
+        console.error("Error fetching performances:", error);
+      }
+    };
+
+    fetchUserInfos();
+    fetchPerformances();
   }, []);
 
-  const handleDelete = (performance_id) => {
-    setPerformances(prevPerformances => prevPerformances.filter(p => p.performance_id !== performance_id));
+  const handleDelete = async (performance_id) => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      console.error("Invalid or missing token");
+      return;
+    }
+
+    try {
+      await instance.delete(`/dailband/user/myperformances/${performance_id}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
+      setPerformances(performances.filter(p => p.performance_id !== performance_id));
+    } catch (error) {
+      console.error("Error deleting performance:", error);
+    }
   };
 
   const handleEdit = (performance_id) => {
@@ -58,7 +80,7 @@ function MyPerformances() {
     <div className="MyPerformances">
       <Header />
       <div className="MyPerformances-container">
-        <Sidebar userId={1} nickname={"윤영선"} /> {/* 정적 데이터 사용 */}
+        <Sidebar nickname={nickname} /> 
         <div className="MyPerformances-content">
           <h2 className="MyPerformances-title">내가 작성한 공연 조회</h2>
           <div className="MyPerformances-list">
