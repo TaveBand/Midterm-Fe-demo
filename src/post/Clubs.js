@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import instance from "axios";
+import axios from "axios";
 import { Link, useParams, useNavigate } from "react-router-dom";
 import Header from "../shared/Header";
 import BoardBtns from "../shared/BoardBtns";
@@ -30,32 +30,19 @@ function Clubs() {
   const { post_id } = useParams();
   const [nickname, setNickname] = useState("");
 
-  useEffect(() => {
-    const fetchUserInfos = async () => {
+  const fetchPosts = async () => {
+    setLoading(true);
+    try {
       const token = localStorage.getItem("token");
       if (!token) {
         console.error("Invalid or missing token");
         return;
       }
-
-      try {
-        const response = await instance.get(`/dailband/user/profile`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        setNickname(response.data.nickname);
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-      }
-    };
-  });
-
-  const fetchPosts = async () => {
-    setLoading(true);
-    try {
-      const res = await instance.get(`/posts`);
-      // const res = await instance.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/clubs`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setPosts(res.data.posts);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
@@ -73,8 +60,13 @@ function Clubs() {
     if (post_id) {
       async function getcoverimages(post_id) {
         setLoading(true);
+        const token = localStorage.getItem("token");
         try {
-          const res = await instance.get(`/posts/${post_id}`);
+          const res = await axios.get(`/dailband/boards/clubs/${post_id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
           setCoverImages(res.data);
           setLoading(false);
         } catch (error) {
@@ -135,13 +127,26 @@ function Clubs() {
       title,
       content,
       file_url: "",
+      user_id: nickname,
     };
-
+    const token = localStorage.getItem("token");
     try {
       if (isEditing) {
-        await instance.put(`/posts/${editingPostId}`, updatedPost);
+        await axios.put(
+          `/dailband/boards/clubs/${editingPostId}`,
+          updatedPost,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
       } else {
-        await instance.post("/posts1", updatedPost);
+        await axios.post("/dailband/boards/clubs", updatedPost, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       }
       await fetchPosts();
     } catch (error) {
@@ -163,9 +168,14 @@ function Clubs() {
   };
 
   const handleDeleteClick = async post => {
+    const token = localStorage.getItem("token");
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        await instance.delete(`/posts/${post.post_id}`);
+        await axios.delete(`/dailband/boards/clubs/${post.post_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         await fetchPosts();
 
         window.confirm("게시글이 삭제되었습니다!");
