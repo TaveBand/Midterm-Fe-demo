@@ -1,4 +1,3 @@
-// src/pages/Profile.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from "../shared/Header";
@@ -37,6 +36,7 @@ function Profile() {
     passwordConfirm: "",
     sessions: [],
   });
+  const [nickname, setNickname] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -55,6 +55,7 @@ function Profile() {
           passwordConfirm: "",
           sessions: translateSessionsFromIds(data.sessions || [])
         });
+        setNickname(data.nickname);
       } catch (error) {
         console.error('Failed to fetch profile data:', error);
       }
@@ -119,7 +120,7 @@ function Profile() {
     <div className="Profile">
       <Header />
       <div className="Profile-container">
-        <Sidebar userId={1} nickname="사용자 이름" />
+        <Sidebar nickname={nickname} /> {/* nickname prop 전달 */}
         <div className="Profile-content">
           <h2 className="Profile-title">마이페이지</h2>
           <div className="Profile-picture-large">

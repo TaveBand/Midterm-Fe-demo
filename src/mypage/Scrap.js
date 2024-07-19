@@ -1,4 +1,3 @@
-// src/pages/Scrap.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Header from "../shared/Header";
@@ -7,14 +6,13 @@ import "./styles/Scrap.css";
 import { useAuth } from '../authentication/AuthContext';
 
 function Scrap() {
-  const { currentUser } = useAuth();
+  const { user } = useAuth();
   const [scrapPerformances, setScrapPerformances] = useState([]);
   const [scrapPosts, setScrapPosts] = useState([]);
 
   useEffect(() => {
-    if (currentUser) {
+    if (user) {
       const token = localStorage.getItem("token");
-      const userId = currentUser.user_id; // currentUser에서 user_id 가져오기
 
       if (!token) {
         console.error("Invalid or missing token");
@@ -23,7 +21,7 @@ function Scrap() {
 
       const fetchScrapPerformances = async () => {
         try {
-          const response = await axios.get(`/dailband/user/${userId}/scraps/myperformances`, {
+          const response = await axios.get(`/dailband/user/scraps/myperformances`, {
             headers: {
               "Authorization": `Bearer ${token}`
             }
@@ -36,7 +34,7 @@ function Scrap() {
 
       const fetchScrapPosts = async () => {
         try {
-          const response = await axios.get(`/dailband/user/${userId}/scraps/posts`, {
+          const response = await axios.get(`/dailband/user/scraps/posts`, {
             headers: {
               "Authorization": `Bearer ${token}`
             }
@@ -50,15 +48,14 @@ function Scrap() {
       fetchScrapPerformances();
       fetchScrapPosts();
     }
-  }, [currentUser]);
+  }, [user]);
 
   const handleDeletePerformance = async (performance_id) => {
-    if (currentUser) {
+    if (user) {
       const token = localStorage.getItem("token");
-      const userId = currentUser.user_id;
 
       try {
-        await axios.delete(`/dailband/user/${userId}/scraps/myperformances/${performance_id}`, {
+        await axios.delete(`/dailband/user/scraps/myperformances/${performance_id}`, {
           headers: {
             "Authorization": `Bearer ${token}`
           }
@@ -71,16 +68,15 @@ function Scrap() {
   };
 
   const handleDeletePost = async (post_id) => {
-    if (currentUser) {
+    if (user) {
       const token = localStorage.getItem("token");
-      const userId = currentUser.user_id;
 
       try {
-        await axios.delete(`/dailband/user/${userId}/scraps/posts/${post_id}`, {
-          headers: {
-            "Authorization": `Bearer ${token}`
-          }
-        });
+        await axios.delete(`/dailband/user/scraps/posts/${post_id}`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      });
         setScrapPosts(scrapPosts.filter(post => post.post_id !== post_id));
       } catch (error) {
         console.error("Error deleting post:", error);
@@ -92,7 +88,7 @@ function Scrap() {
     <div className="Scrap">
       <Header />
       <div className="Scrap-container">
-        <Sidebar nickname={currentUser?.username} /> {/* currentUser에서 nickname 가져오기 */}
+        <Sidebar />
         <div className="Scrap-content">
           <h2 className="Scrap-title">스크랩</h2>
 
