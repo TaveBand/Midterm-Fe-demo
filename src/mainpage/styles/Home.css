@@ -2,28 +2,28 @@
   font-family: "Gothic A1", sans-serif;
 }
 
-/* 배너 스타일 */
+
 .banner {
   position: relative;
   height: 50vh;
-  overflow: hidden; /* 부모 요소를 넘치는 자식 요소를 가리기 위해 추가 */
+  overflow: hidden; 
 }
 
 .banner img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* 이미지 비율 유지하면서 크기 맞추기 위해 추가 */
+  object-fit: cover; 
   position: absolute;
   top: 0;
   left: 0;
   z-index: -1;
-  /* opacity: 1; 이 기본 값이므로 이 줄은 생략해도 됩니다 */
+ 
 }
 
 .banner-text {
   position: absolute;
-  bottom: 0; /* 오른쪽 아래에 위치시키기 위해 추가 */
-  right: 0; /* 오른쪽 아래에 위치시키기 위해 추가 */
+  bottom: 0;
+  right: 0; 
   color: white;
   font-size: 40px;
   font-weight: bold;
@@ -32,7 +32,7 @@
   border-radius: 10px;
 }
 
-/* 각 섹션 스타일 */
+
 .features, .home, .concerts, .analysis {
   padding: 40px 20px;
   max-width: 1200px;
@@ -64,9 +64,9 @@
   justify-content: center;
   align-items: center;
   background-color: #f0f0f0;
-  width: 180px; /* 너비 조정 */
-  height: 180px; /* 높이 조정 */
-  font-size: 80px; /* 이모티콘 크기를 키웁니다. */
+  width: 180px; 
+  height: 180px; 
+  font-size: 80px; 
   box-sizing: border-box;
   border-radius: 10px;
   margin: 30px;
@@ -74,7 +74,7 @@
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   transition: background-color 0.3s;
-  overflow: hidden; /* 버튼 바깥으로 나가는 텍스트를 숨깁니다. */
+  overflow: hidden;
 }
 
 .icon:hover {
@@ -83,12 +83,12 @@
 }
 
 .icon span {
-  font-size: 60px; /* 이모티콘 크기를 더 키웁니다. */
+  font-size: 60px; 
 }
 
 .icon-label {
   margin-top: 5px;
-  font-size: 20px; /* 텍스트 크기를 줄입니다. */
+  font-size: 20px; 
   font-weight: bold;
   color: #333;
 }
@@ -112,7 +112,7 @@
   color: #fff;
 }
 
-/* 최근 개인 소개글 보기 버튼에 대한 스타일 */
+
 .home .introduction-button {
   padding: 10px 20px;
   border: none;
@@ -134,23 +134,23 @@
 
 .post-list {
   display: flex;
-  flex-wrap: wrap; /* 너비를 벗어나면 줄바꿈 */
-  gap: 20px; /* 박스 사이 간격 */
-  margin-left: -10px; /* 왼쪽 여백 보정 */
-  margin-right: -10px; /* 오른쪽 여백 보정 */
+  flex-wrap: wrap; 
+  gap: 20px; 
+  margin-left: -10px; 
+  margin-right: -10px; 
 }
 
 .post-item {
-  flex: 1 0 calc(33.33% - 20px); /* 박스의 너비를 설정합니다. 33.33%로 고정되며, 여유 공간이 있을 경우 자동으로 너비가 조정됩니다. */
+  flex: 1 0 calc(33.33% - 20px); 
   padding: 20px;
   border: 1px solid rgb(121, 186, 242);;
   border-radius: 5px;
-  text-align: center; /* 가운데 정렬 */
-  height: 200px; /* 높이를 2배로 설정합니다. */
+  text-align: center; 
+  height: 200px; 
 }
   
 .recruitment-button, .introduction-button {
-  margin-right: 10px; /* 버튼 간격 조정 */
+  margin-right: 10px; 
 }
 
 .post-item:hover {
@@ -158,11 +158,11 @@
 }
 
 .post-box h3 {
-  margin-bottom: 20px; /* 타이틀과 디테일 간의 아래 여백 설정 */
+  margin-bottom: 20px; 
 }
 
 .post-box p {
-  margin-top: 20px; /* 타이틀과 디테일 간의 위 여백 설정 */
+  margin-top: 20px; 
 }
 .post-details {
   margin-top: 20px;
@@ -187,7 +187,7 @@
 
 .concert-cards {
   display: flex;
-  flex-direction: row; /* 이 부분을 추가하여 수평으로 정렬됩니다. */
+  flex-direction: row; /* 이 부분을 추가하여 수평으로 정렬시킴! */
   flex-wrap: wrap;
   gap: 20px;
 }
@@ -221,7 +221,7 @@
 
 .analysis {
   display: flex;
-  align-items: center; /* 요소들을 세로로 정렬합니다. */
+  align-items: center; /* 요소들을 세로로 정렬 */
 }
 
 .analysis p {
@@ -245,11 +245,11 @@
 }
 
 .images {
-  margin-left: auto; /* 이미지와 텍스트 사이 간격 조정 */
+  margin-left: auto;
 }
 
 .images img {
-  max-width: 100%; /* 이미지가 부모 요소를 넘어가지 않도록 설정 */
+  max-width: 100%; 
 }
 
 .footer {
@@ -266,7 +266,7 @@
 
 .posts button,
 .concerts button {
-  display: inline-block; /* 버튼을 인라인 블록 요소로 설정하여 한 줄에 표시 */
+  display: inline-block; 
   padding: 10px 20px;
   font-size: 16px;
   background-color: #4CAF50;
@@ -274,17 +274,11 @@
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin-right: 10px; /* 버튼 간격 조정 */
-  margin-bottom: 10px; /* 버튼 아래 여백 조정 */
+  margin-right: 10px;
+  margin-bottom: 10px; 
 }
 
 .posts button:hover,
 .concerts button:hover {
   background-color: #45a049;
 }
-/* 
-.SessionBtn:hover {
-    box-shadow: 0 5px 10px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
-  }
-
-} */

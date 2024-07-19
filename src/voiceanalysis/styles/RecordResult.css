@@ -40,7 +40,7 @@
 }
 
 .voice-image {
-  width: 150px; /* 이미지 크기 조정 */
+  width: 150px; 
   height: auto;
 }
 
@@ -67,7 +67,7 @@
 
 .record-result-graph img {
   width: 100%;
-  max-width: 1500px; /* 그래프 이미지 최대 크기 설정 */
+  max-width: 1500px; 
   height: auto;
   margin: 0 auto;
 }

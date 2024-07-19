@@ -30,7 +30,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: center; /* 중앙 정렬 */
+  justify-content: center; 
 }
 
 .MyPerformances-item {
@@ -38,8 +38,8 @@
   padding: 20px;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  max-width: 250px; /* 아이템 최대 너비 */
-  flex: 1 1 calc(33.33% - 40px); /* 가로로 3개씩 배치 */
+  max-width: 250px; 
+  flex: 1 1 calc(33.33% - 40px); 
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,7 +48,7 @@
 .MyPerformances-item img {
   width: 100%;
   height: auto;
-  max-width: 200px; /* 이미지의 최대 너비를 설정하여 크기 조정 */
+  max-width: 200px; 
   border-radius: 10px;
 }
 

@@ -9,7 +9,7 @@
 
 .union-performances-search-bar {
   width: 1000px; 
-  max-width: 1200px; /* 최대 너비를 설정하여 지나치게 커지는 것을 방지 */
+  max-width: 1200px; 
   padding: 10px;
   margin-bottom: 20px;
   font-size: 16px;
@@ -76,7 +76,7 @@
   padding: 5px 10px;
   cursor: pointer;
   width: 100%; /* 삭제 버튼을 콘텐츠 아래에 위치시키기 위해 추가 */
-  margin-top: 10px; /* 콘텐츠와 삭제 버튼 사이에 간격 추가 */
+  margin-top: 10px; 
 }
 
 .union-performances-delete-button:hover {

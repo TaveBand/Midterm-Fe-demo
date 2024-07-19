@@ -19,7 +19,7 @@ function UnionPerformanceDetail() {
     content: ''
   });
 
-  const token = localStorage.getItem('token'); // localStorage에서 토큰 가져오기
+  const token = localStorage.getItem('token'); 
 
   useEffect(() => {
     axios.get(`/dailband/boards/performances/${performance_id}`, {

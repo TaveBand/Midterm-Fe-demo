@@ -7,7 +7,7 @@ import "./styles/Home.css";
 function Home() {
   const [posts, setPosts] = useState([]);
   const handleIconClick = (session) => {
-    // 세션 페이지로 이동하는 함수 (URL은 필요에 맞게 수정)
+  
     window.location.href = `/${session}`;
   };
   const [currentPosts, setCurrentPosts] = useState([]);
@@ -214,3 +214,7 @@ function Home() {
 
 
 export default Home;
+
+
+
+//밑에 경로 수정해야 하는 부분 존재! 공연 부분 링크 연결 수정!
