@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import instance from "axios";
+import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import Header from "../shared/Header";
 import Pagenumber from "../shared/Pagenumber";
@@ -7,9 +7,8 @@ import SessionBtns from "../shared/SessionBtns";
 import "./styles/Drum.css";
 
 function Drum() {
+  const token = localStorage.getItem("token");
   const { post_id } = useParams();
-  const { board_id } = useParams();
-
   const [posts, setPosts] = useState([]);
   const [coverimages, setCoverImages] = useState();
   const [currentPosts, setCurrentPosts] = useState([]);
@@ -25,6 +24,7 @@ function Drum() {
   const [searchTerm, setSearchTerm] = useState("");
   const [boardType, setBoardType] = useState("드럼 게시판 게시글");
   const [youtubeLink, setYoutubeLink] = useState("");
+  const board_id = 5;
   const handlePageChange = page => {
     setPage(page);
   };
@@ -34,33 +34,17 @@ function Drum() {
   const IndexFirstPost = IndexLastPost - postPerPage;
   const [loading, setLoading] = useState(false);
  const [nickname, setNickname] = useState("");
-  useEffect(() => {
-    const fetchUserInfos = async () => {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        console.error("Invalid or missing token");
-        return;
-      }
-
-      try {
-        const response = await instance.get(`/dailband/user/profile`, {
-          headers: {
-            "Authorization": `Bearer ${token}`
-          }
-        });
-        setNickname(response.data.nickname);
-      } catch (error) {
-        console.error("Error fetching user info:", error);
-      }
-    }
-  });
-
+ 
   const fetchPosts = async () => {
     setLoading(true);
     try {
-      const res = await instance.get(`/posts5`);
-      // const res = await instance.get(`/dailband/boards/${board_id}`);
+      const res = await axios.get(`/dailband/boards/5`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setPosts(res.data.posts);
+      setVideoPosts(res.data.youtubes);
       setCurrentPosts(res.data.posts.slice(IndexFirstPost, IndexLastPost));
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -73,26 +57,6 @@ function Drum() {
     fetchPosts();
   }, [IndexFirstPost, IndexLastPost, page]);
 
-  const fetchVideoPosts = async () => {
-    setLoading(true);
-    try {
-      const res = await instance.get(`/posts5_1`);
-      setVideoPosts(res.data.posts);
-      console.log(res.data.posts);
-    } catch (error) {
-      console.error("Error fetching video posts:", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchPosts();
-  }, [IndexFirstPost, IndexLastPost, page]);
-
-  useEffect(() => {
-    fetchVideoPosts();
-  }, []);
 
   const handleWriteClick = () => {
     setIsWriting(true); // 글 작성
@@ -146,6 +110,13 @@ function Drum() {
   };
 
   const handleSubmit = async e => {
+    const formatDate = date => {
+      const options = { year: "numeric", month: "2-digit", day: "2-digit" };
+      return date
+        .toLocaleDateString("ko-KR", options)
+        .replace(/\./g, "")
+        .replace(/ /g, ".");
+    };
     e.preventDefault();
     console.log({ title, content, imagePreview, youtubeLink });
 
@@ -154,24 +125,29 @@ function Drum() {
       newPost = {
         title,
         link: youtubeLink,
-        user_id: "이름",
+        user_id: nickname,
       };
     } else {
       newPost = {
+        post_id,
         title,
         content,
         file_url: imagePreview,
-        nickname: "이름",
+        created_at: formatDate(new Date()),
       };
     }
 
     try {
       if (isEditing) {
-        await instance.put(`/posts5/${editingPostId}`, newPost);
+        await axios.put(`/dailband//boards/5/${post_id}/${editingPostId}`, newPost, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       } else {
         const endpoint =
-          boardType === "드럼 게시판 연주영상" ? "/posts5_1" : "/posts5";
-        await instance.post(endpoint, newPost);
+          boardType === "드럼 게시판 연주영상" ? `/dailband//boards/5/${post_id}` : `/dailband//boards/5/${post_id}`;
+        await axios.post(endpoint, newPost);
       }
       await fetchPosts();
     } catch (error) {
