@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import instance from "axios";
+import axios from "axios";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import BoardBtns from "../shared/BoardBtns";
@@ -8,6 +8,7 @@ import Comment from "../shared/Comment";
 import "./styles/ClubsDetail.css";
 
 function ClubsDetail() {
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [detail, setDetail] = useState({ comments: [] });
@@ -16,17 +17,16 @@ function ClubsDetail() {
   const [content, setContent] = useState("");
   const [imagePreview, setImagePreview] = useState("");
   const { post_id } = useParams();
+  const [nickname, setNickname] = useState("");
 
-  const getDetail = async (post_id) => {
+  const getDetail = async post_id => {
     setLoading(true);
-    const token = localStorage.getItem("token");
     try {
-      // const response = await instance.get(`/dailband/user/profile`, {
-      //   headers: {
-      //     "Authorization": `Bearer ${token}`
-      //   }
-      // })
-      const res = await instance.get(`/posts_1/${post_id}`);
+      const res = await axios.get(`/dailband/boards/club/${post_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setDetail(res.data);
       setTitle(res.data.title);
       setContent(res.data.content);
@@ -53,15 +53,15 @@ function ClubsDetail() {
     setImagePreview(detail.file_url);
   };
 
-  const handleTitleChange = (e) => {
+  const handleTitleChange = e => {
     setTitle(e.target.value);
   };
 
-  const handleContentChange = (e) => {
+  const handleContentChange = e => {
     setContent(e.target.value);
   };
 
-  const handleImageChange = (e) => {
+  const handleImageChange = e => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
@@ -74,37 +74,48 @@ function ClubsDetail() {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
 
     const updatedPost = {
       title,
       content,
       file_url: imagePreview,
+      user_id: nickname,
     };
-
     try {
-      await instance.put(`/posts/${post_id}`, updatedPost);
-      // Refresh details after update
+      await axios.put(`/posts/${post_id}`, updatedPost, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       await getDetail(post_id);
       setIsEditing(false);
     } catch (error) {
-      console.error("Error submitting post:", error);
+      console.error("Error submitting post:", error, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
     }
   };
-  const handleDeleteClick = async (post) => {
+  const handleDeleteClick = async post => {
+    
     if (window.confirm("게시글을 삭제하시겠습니까?")) {
       try {
-        await instance.delete(`/posts/${post.post_id}`);
+        await axios.delete(`/posts/${post.post_id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         await getDetail();
-        navigate("/boards/clubs")
-        window.confirm("게시글이 삭제되었습니다!")
+        navigate("/boards/clubs");
+        window.confirm("게시글이 삭제되었습니다!");
       } catch (error) {
         console.error("Error deleting post:", error);
       }
     }
   };
-
 
   return (
     <div className="BoardPage">
@@ -113,8 +124,7 @@ function ClubsDetail() {
       <div className="Detailboard">
         <button
           className="Backbutton"
-          onClick={() => navigate("/boards/clubs")}
-        >
+          onClick={() => navigate("/boards/clubs")}>
           <img className="Backbutton" alt="Backbutton" src="/img/arrow.png" />
         </button>
         <div className="Detailbox">
@@ -151,10 +161,8 @@ function ClubsDetail() {
                       onChange={handleContentChange}
                       placeholder="학교명, 인원수, 좋아하는 밴드 스타일 등을 적어주시면 좋아요!"
                       required
-                      style={{ height: "280px" }}
-                    ></textarea>
+                      style={{ height: "280px" }}></textarea>
 
-                   
                     <div className="EditBtns">
                       <button type="button" onClick={handleBackClick}>
                         취소
@@ -181,11 +189,12 @@ function ClubsDetail() {
                     <button onClick={handleEditClick}>
                       <img src="/img/edit.png" alt="edit" />
                     </button>
-                    <button type="button"
-                              onClick={(e) => {
-                                e.preventDefault();
-                                handleDeleteClick(detail.post_id);
-                              }}>
+                    <button
+                      type="button"
+                      onClick={e => {
+                        e.preventDefault();
+                        handleDeleteClick(detail.post_id);
+                      }}>
                       <img src="/img/trash.png" alt="trash" />
                     </button>
                   </div>
@@ -208,8 +217,7 @@ function ClubsDetail() {
               detail.comments.map((comment, index) => (
                 <div
                   key={comment.comment_id || index}
-                  className="CommentContent"
-                >
+                  className="CommentContent">
                   <img
                     src="/img/basicprofile.png"
                     className="Profileimg"
@@ -232,14 +240,13 @@ function ClubsDetail() {
                   marginTop: "10px",
                   marginBottom: "10px",
                   color: "grey",
-                }}
-              >
+                }}>
                 작성된 댓글이 없습니다
               </p>
             )}
             <Comment
               post_id={post_id}
-              endpoint="/posts_1"
+              endpoint="/dailband/boards/clubs/{post_id}"
               refreshComments={() => getDetail(post_id)}
             />
           </div>
