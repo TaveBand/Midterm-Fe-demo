@@ -24,8 +24,10 @@
 - 노래 부르는 사람의 **음역대를 분석**해주고 **맞춤형 노래를 추천**해드립니다!
 ## 🛠 기술 스택
 **프론트엔드**
+
 <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black">&nbsp;<img src="https://img.shields.io/badge/axios-5A29E4?style=for-the-badge&logo=axios&logoColor=white">&nbsp;
 **백엔드**
+
 <img src="https://img.shields.io/badge/java-007396?style=for-the-badge&logo=java&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/springboot-6DB33F?style=for-the-badge&logo=springboot&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/springsecurity-6DB33F?style=for-the-badge&logo=springsecurity&logoColor=white">&nbsp;<img src="https://img.shields.io/badge/mysql-4479A1?style=for-the-badge&logo=mysql&logoColor=white">
 ## 🐱‍💻 기술 선정 이유
 >React와 SpringBoot를 왜 선택하였는가? 
@@ -202,14 +204,17 @@ Component를 사용하여 **재사용과 유지보수가 용이**하다는 점�
 
 - **김민중** : 이번 프로젝트를 통해 Git과 같은 협업툴을 이용하여 컨벤션을 정하고 git flow방식같이 깃관리 방법을 선택해 체계적으로 프로젝트를 진행해야 할 필요성을 느꼈습니다. 나의 작업만이 아닌 팀원 모두의 코드를 합치면서 merge conflict를 해결하고 PR을 통해 다른사람의 코드를 보고 이해하는 과정에서 혼자서 작성할때마다 효율적인 코드 작성에 도움이 되었습니다. 짧은 기간내에 열심히 참여해준 팀원들에게 정말 감사하고, 많이 배웠습니다. 좋은 경험을 가지게 되어 기쁩니다. 이번 프로젝트를 계기로 깃에 대해 깊게 공부해보고 싶다고 느꼈습니다!😊😊
   
-- **김시은** : 처음으로 백엔드와의 연합 프로젝트를 진행하면서 새롭게 배우는 점이 많았습니다! 협업 방식에 대해 많이 공부할 수 있는 기회가 되어 많은 도움이 되었습니다. 밴드 동아리 커뮤니티라는 주제로 여러가지 기능도 넣어보고 팀원들과 소통하면서 재밌게 프로젝트 진행해서 좋았습니다 ❤️❤️ 다음번에 또 다른 방식으로 협업 프로젝트를 진행해보며 협업 방식에 대한 공부를 더 해보고 싶습니다!! 팀원들, 팀장님 너무너무 고생 많으셨고 프로젝트 마무리 =하느라 수고하셨습니다 !! 🌟🌟
+- **김시은** : 처음으로 백엔드와의 연합 프로젝트를 진행하면서 새롭게 배우는 점이 많았습니다! 협업 방식에 대해 많이 공부할 수 있는 기회가 되어 많은 도움이 되었습니다. 밴드 동아리 커뮤니티라는 주제로 여러가지 기능도 넣어보고 팀원들과 소통하면서 재밌게 프로젝트 진행해서 좋았습니다 ❤️❤️ 다음번에 또 다른 방식으로 협업 프로젝트를 진행해보며 협업 방식에 대한 공부를 더 해보고 싶습니다!! 팀원들, 팀장님 너무너무 고생 많으셨고 프로젝트 마무리 하느라 수고하셨습니다 !! 🌟🌟
 
 - **정재현** : 이번 프로젝트로 잘 다루지 못했던 깃과 같은 협업툴에 대해 익숙해질 수 있었고, 프로젝트의 기획, 설계 단계부터 꼼꼼히 배울 수 있었습니다! 좋은 팀원들과 함께여서 더 잘 배우고 다 많이 배울 수 있었고, 개발 역량이 늘어난 것 뿐만 아니라 좋은 사람들을 남길 수 있었던 프로젝트여서 더 행복했습니다. 다들 열심히 프로젝트에 참여해주셔서 감사합니다!!
 
 
 ## 🎞 Demo 영상
 데모영상 Youtube 👇👇👇
-[데모영상](https://youtu.be/yKv8DGWh3W4)   
+
+[![데모 영상](http://img.youtube.com/vi/PQyi8Ga0gWE/0.jpg)](https://youtu.be/PQyi8Ga0gWE)  
+
+ 
 ## 🖼 관련 링크!
 - 노션 링크는 https://astonishing-partridge-ce2.notion.site/2a8082a7f1184d42af85d60da27faf01?pvs=4입니다!
 - 백엔드 링크는 [https://github.com/TaveBand/BackEnd.git](https://github.com/TaveBand/BackEnd.git)입니다!
