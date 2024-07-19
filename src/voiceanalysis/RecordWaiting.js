@@ -1,18 +1,40 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from "../shared/Header";
+import axios from 'axios';
 import './styles/RecordWaiting.css';
 
 const RecordWaiting = () => {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { file } = location.state;
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      navigate('/record_result', { state: { data: [] } });
-    }, 2000); // 5초 후에 결과 페이지로 이동
+    const uploadFileToServer = (file) => {
+      const formData = new FormData();
+      formData.append('audioFile', file, 'recording.wav');
 
-    return () => clearTimeout(timer);
-  }, [navigate]);
+      axios.post('/dailband/song', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+      .then(response => {
+        navigate('/record_result', { state: { data: response.data } });
+      })
+      .catch(error => {
+        console.error('파일 전송 중 오류 발생:', error);
+        navigate('/record_result', { state: { data: null } });
+      });
+    };
+
+    if (file) {
+      uploadFileToServer(file);
+    } else {
+      console.error('분석할 파일이 없습니다.');
+      navigate('/record_result', { state: { data: null } });
+    }
+  }, [file, navigate]);
 
   return (
     <>

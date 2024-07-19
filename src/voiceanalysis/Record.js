@@ -53,32 +53,10 @@ const Record = () => {
 
   const handleAnalyze = () => {
     if (wavBlob) {
-      navigate('/record_waiting');
-      setTimeout(() => {
-        uploadFileToServer(wavBlob);
-      }, 2000); // 2초 대기
+      navigate('/record_waiting', { state: { file: wavBlob } });
     } else {
       console.error('분석할 파일이 없습니다.');
     }
-  };
-
-  const uploadFileToServer = (file) => {
-    console.log('Uploading file to server:', file);
-    const formData = new FormData();
-    formData.append('audioFile', file, 'recording.wav');
-
-    axios.post('/dailband/song', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    })
-    .then(response => {
-      console.log('서버 응답:', response.data.message);
-      navigate('/results', { state: { data: response.data } });
-    })
-    .catch(error => {
-      console.error('파일 전송 중 오류 발생:', error);
-    });
   };
 
   return (
