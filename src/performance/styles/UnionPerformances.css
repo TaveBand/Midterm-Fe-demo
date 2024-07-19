@@ -15,6 +15,27 @@
   font-size: 16px;
 }
 
+.union-performances-search {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.union-performances-search-button {
+  background-color: rgb(121, 186, 242);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.union-performances-search-button:hover {
+  background-color: darkblue;
+}
+
 .union-performances-cards {
   display: flex;
   flex-wrap: wrap;
@@ -49,7 +70,6 @@
 
 .union-performances-delete-button {
   background-color: rgb(121, 186, 242);
-  ;
   color: white;
   border: none;
   border-radius: 4px;
@@ -80,7 +100,7 @@
 }
 
 .union-performances-write-button {
-  background-color: rgb(121, 186, 242);;
+  background-color: rgb(121, 186, 242);
   color: white;
   border: none;
   border-radius: 4px;
