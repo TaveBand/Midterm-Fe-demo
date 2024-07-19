@@ -12,7 +12,7 @@ export function AuthProvider({ children }) {
       const token = response.data.token;
       localStorage.setItem("token", token);
 
-      
+
       const user = response.data.user;
       setUser(user);
     } catch (error) {
@@ -47,3 +47,7 @@ export function AuthProvider({ children }) {
 export function useAuth() {
   return useContext(AuthContext);
 }
+
+
+
+//user_id를 가져오는 코드 추가하거나 모든 경로에 라우팅 경로에 user_id 삭제하는게 방법!!! 
