@@ -4,7 +4,7 @@ import "./styles/Header.css";
 
 function Header() {
   const navigate = useNavigate();
-  const { currentUser, logout } = useAuth();
+  const { user, logout } = useAuth();
 
   function ToLogin() {
     navigate("/login");
@@ -23,7 +23,7 @@ function Header() {
   }
 
   function ToMypage() {
-    navigate(`/profile/edit/${currentUser?.id}`);
+    navigate(`/profile/edit/${user?.id}`);
   }
 
   function ToPerformance() {
@@ -50,7 +50,7 @@ function Header() {
         </div>
         <div className="Logo" onClick={ToHome}>대일밴드</div>
         <div className="Category_right">
-          {currentUser ? (
+          {user ? (
             <>
               <button className="LogoutBtn" onClick={handleLogout}>
                 로그아웃

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Header from "../shared/Header";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./styles/Register.css";
 
 function Register() {
@@ -12,7 +13,6 @@ function Register() {
   const [verificationCode, setVerificationCode] = useState("");
   const [isVerified, setIsVerified] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [generatedCode, setGeneratedCode] = useState("");
   const navigate = useNavigate();
 
   const handleUsernameChange = (e) => {
@@ -40,22 +40,52 @@ function Register() {
   };
 
   // 이메일 인증 요청 함수
-  const handleEmailVerification = () => {
-    const code = Math.random().toString(36).substr(2, 6).toUpperCase();
-    setGeneratedCode(code);
-    alert(`인증번호가 발송되었습니다. 인증번호: ${code}`);
+  const handleEmailVerification = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "/dailband/send-verification-code",
+        { email },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log("Verification code sent:", response.data);
+      alert("인증번호가 발송되었습니다.");
+    } catch (error) {
+      console.error("Error sending verification code:", error);
+      alert("인증번호 발송 중 오류가 발생했습니다.");
+    }
   };
 
   // 코드 확인 함수
-  const handleCodeVerification = () => {
-    if (verificationCode === generatedCode) {
-      setIsVerified(true);
-      setErrorMessage("성공했습니다");
-      alert("인증번호 확인: 성공");
-    } else {
+  const handleCodeVerification = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.post(
+        "/dailband/verify-code",
+        { email, code: verificationCode },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      if (response.status === 200) {
+        setIsVerified(true);
+        setErrorMessage("성공했습니다");
+        console.log("인증번호 확인: 성공");
+      } else {
+        setIsVerified(false);
+        setErrorMessage("인증번호가 일치하지 않습니다. 다시 시도해주세요.");
+        console.log("인증번호 확인: 실패");
+      }
+    } catch (error) {
       setIsVerified(false);
       setErrorMessage("인증번호가 일치하지 않습니다. 다시 시도해주세요.");
-      alert("인증번호 확인: 실패");
+      console.error("Error verifying code:", error);
     }
   };
 
@@ -75,11 +105,17 @@ function Register() {
       username,
       nickname,
       password,
-      email
+      email,
     };
 
     try {
-      console.log("User info submitted:", userinfo);
+      const token = localStorage.getItem("token");
+      const response = await axios.post("/dailband/register", userinfo, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log("User info submitted:", response.data);
       alert("회원가입이 완료되었습니다.");
       navigate("/register/complete"); // 회원가입 완료 후 완료 페이지로 이동
     } catch (error) {
