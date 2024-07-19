@@ -4,10 +4,11 @@ import Header from "../shared/Header";
 import BoardBtns from "../shared/BoardBtns";
 import Pagenumber from "../shared/Pagenumber";
 import Toggle from "../shared/Toggle";
-import instance from "axios";
+import axios from "axios";
 import "./styles/PR.css";
 
 function PR() {
+  const token = localStorage.getItem("token");
   const [posts, setPosts] = useState([]);
   const [currentPosts, setCurrentPosts] = useState([]);
   const [page, setPage] = useState(1);
@@ -23,18 +24,21 @@ function PR() {
   const [name, setName] = useState("");
   const [session, setSession] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [nickname, setNickname] = useState("");
+
   const IndexLastPost = page * postPerPage;
   const IndexFirstPost = IndexLastPost - postPerPage;
   const fetchPosts = async () => {
     setLoading(true);
-    const token = localStorage.getItem("token");
+
     try {
-      // const response = await instance.get(`/dailband/user/profile`, {
-      //   headers: {
-      //     "Authorization": `Bearer ${token}`
-      //   }
-      // })
-      const res = await instance.get("/posts3");
+      const response = await axios.get(`/dailband/user/profile`, {
+        headers: {
+          "Authorization": `Bearer ${token}`
+        }
+      })
+      setNickname(response.data.nickname);
+      const res = await axios.get("/dailband/boards/pr");
       setPosts(res.data.posts);
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -118,9 +122,14 @@ function PR() {
       title,
       content,
       file_url: imagePreview,
+      user_id:nickname
     };
 
-    await instance.post("/posts3", updatedPost);
+    await axios.post("/dailband/boards/pr", updatedPost, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     await fetchPosts();
     setIsWriting(false);
   };
